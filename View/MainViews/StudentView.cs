@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElektronicznyKonsolowy.View
+namespace ElektronicznyKonsolowy.View.MainViews
 {
     public class StudentView
     {
@@ -18,7 +18,7 @@ namespace ElektronicznyKonsolowy.View
                 "Przegladaj swoje oceny",
                 "Wyloguj"
             };
-            var selectedOption =AnsiConsole.Prompt(
+            var selectedOption = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Co chcesz wykonać?")
                     .PageSize(10)

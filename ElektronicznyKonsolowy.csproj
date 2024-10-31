@@ -17,6 +17,10 @@
     <Folder Include="Controller\TeachersController\" />
     <Folder Include="Controller\StudentControllers\" />
     <Folder Include="Controller\ParentsControllers\" />
+    <Folder Include="View\AdminViews\" />
+    <Folder Include="View\ParentViews\" />
+    <Folder Include="View\TeacherViews\" />
+    <Folder Include="View\StudentViews\" />
   </ItemGroup>
 
 </Project>

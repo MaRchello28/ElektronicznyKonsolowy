@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElektronicznyKonsolowy.View
+namespace ElektronicznyKonsolowy.View.MainViews
 {
     public class AdminView
     {
-        public AdminView() 
-        { 
-            
+        public AdminView()
+        {
+
         }
         public int ShowMainMenu()
         {

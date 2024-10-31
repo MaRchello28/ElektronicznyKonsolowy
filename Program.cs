@@ -1,8 +1,8 @@
 ﻿using ElektronicznyKonsolowy.Controller.MainsControllers;
 using ElektronicznyKonsolowy.Models;
-using ElektronicznyKonsolowy.View;
 using System;
 using Spectre.Console;
+using ElektronicznyKonsolowy.View.MainViews;
 class Program
 {
     static void Main(string[] args)

@@ -1,6 +1,6 @@
 ﻿using ElektronicznyKonsolowy.Controller.AdminsControllers;
 using ElektronicznyKonsolowy.Models;
-using ElektronicznyKonsolowy.View;
+using ElektronicznyKonsolowy.View.MainViews;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spectre.Console;
-namespace ElektronicznyKonsolowy.View
+namespace ElektronicznyKonsolowy.View.MainViews
 {
     public class MainView
     {

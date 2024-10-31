@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElektronicznyKonsolowy.Controller.AdminsControllers
 {
-    public class manageAccounts
+    public class manageAccountsController
     {
-        public manageAccounts() { }
+        public manageAccountsController() 
+        { 
+            
+        }
+
     }
 }
