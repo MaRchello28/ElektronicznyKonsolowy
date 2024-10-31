@@ -362,5 +362,3 @@ FodyWeavers.xsd
 
 # Ignorowanie konfigu dla prywatnych danych
 App.config
-AppData/*.mdf
-AppData/*.ldf
