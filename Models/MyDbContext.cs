@@ -26,6 +26,7 @@ namespace ElektronicznyKonsolowy.Models
         public DbSet<Teacher> Teachers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
         }
     }

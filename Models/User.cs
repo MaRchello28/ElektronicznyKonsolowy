@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElektronicznyKonsolowy.Models
 {
-    [NotMapped]
+    [ComplexType]
     public class User
     {
         public string name { get; set; }
@@ -15,6 +15,7 @@ namespace ElektronicznyKonsolowy.Models
         public string login { get; set; }
         public string password { get; set; }
         public ICollection<Mail> messages { get; set; }
+        public User() { }
         public User(string name, string surname, string login, string password)
         {
             this.name = name; this.surname=surname; this.login = login; this.password = password;

@@ -12,6 +12,7 @@ namespace ElektronicznyKonsolowy.Models
         public string email { get; set; }
         public User user { get; set; }
         public virtual ICollection<Subject> subjects { get; set; }
+        public Teacher() { }
         public Teacher(string email, User user)
         {
             this.email = email; this.user = user;

@@ -10,11 +10,12 @@ namespace ElektronicznyKonsolowy.Models
     {
         public int subjectId {  get; set; }
         public string name { get; set; }
-        public virtual ICollection<Teacher> teachers { get; set; }
-        public virtual ICollection<Subject> subjects { get; set; }
-        public Subject(string name) 
+        public Teacher teacher { get; set; }
+        public virtual ICollection<Lesson> lessons { get; set; }
+        public Subject(string name, Teacher t) 
         { 
-            this.name = name; teachers = new List<Teacher>();
+            this.name = name; this.teacher = t;
+            this.lessons = new List<Lesson>();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ElektronicznyKonsolowy.Models
         public string phoneNumber { get; set; }
         public User user { get; set; }
         public ICollection<Student> children { get; set; }
+        public Parent() { }
         public Parent(string email, string phoneNumber, User user)
         {
             this.email = email; this.phoneNumber = phoneNumber;

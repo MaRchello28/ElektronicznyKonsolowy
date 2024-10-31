@@ -9,9 +9,14 @@ namespace ElektronicznyKonsolowy.Models
     public class Student
     {
         public int studentId { get; set; }
-        public User user { get; set; }
+        public virtual User user { get; set; }
+        public string name => user?.name;
+        public string surname => user?.surname;
+        public string login => user?.login;
+        public string password => user?.password;
         public virtual ICollection<Grade> grades { get; set; }
         public int studentClassId { get; set; }
+        public Student() { }
         public Student(User user) 
         { 
             this.user = user; grades = new List<Grade>();

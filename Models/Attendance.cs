@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElektronicznyKonsolowy.Models
 {
-    public class Admin
+    public class Attendance
     {
-        public int adminId {  get; set; }
+        public int attendanceId {  get; set; }
+        public bool present {  get; set; }
         public User user { get; set; }
-        public Admin() { }
-        public Admin(User user)
-        {
-            this.user = user;
-        }
+        public Subject subject { get; set; }
+        public int lessonId { get; set; }
     }
 }
