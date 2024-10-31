@@ -13,6 +13,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     public class AdminController
     {
         AdminView adminView = new AdminView();
+        manageAccountsController manageAccountsController = new manageAccountsController();
         public AdminController()
         {
 
@@ -27,7 +28,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                 {
                     case 0:
                         {
-                            break;
+                            manageAccountsController.ShowManageWindow(); break;
                         }
                     case 1:
                         {
