@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ElektronicznyKonsolowy.Controller
+namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class TeacherController
     {

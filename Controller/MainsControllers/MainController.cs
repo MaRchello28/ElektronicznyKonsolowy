@@ -6,38 +6,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElektronicznyKonsolowy.Controller
+namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class MainController
     {
         MyDbContext db; MainView mainView;
-        AdminController adminController = new AdminController(); StudentController studentController = new StudentController(); 
+        AdminController adminController = new AdminController(); StudentController studentController = new StudentController();
         TeacherController teacherController = new TeacherController(); ParentController parentController = new ParentController();
         public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; }
         public void Run()
         {
             bool run = true; int userType = 5;
-            while(run)
+            while (run)
             {
                 userType = Login();
                 switch (userType)
                 {
                     case 1:
-                    {
-                        adminController.Run(); break;
-                    }
+                        {
+                            adminController.Run(); break;
+                        }
                     case 2:
-                    {
-                        studentController.Run(); break;
-                    }
+                        {
+                            studentController.Run(); break;
+                        }
                     case 3:
-                    {
-                        teacherController.Run(); break;
-                    }
+                        {
+                            teacherController.Run(); break;
+                        }
                     case 4:
-                    {
-                        parentController.Run(); break;
-                    }
+                        {
+                            parentController.Run(); break;
+                        }
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace ElektronicznyKonsolowy.Controller
         {
             string login = mainView.GetLogin();
             string password = mainView.GetPassword();
-            foreach(var u in db.Admins)
+            foreach (var u in db.Admins)
             {
                 if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj adminie"); return 1; }
             }

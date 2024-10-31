@@ -8,19 +8,22 @@ namespace ElektronicznyKonsolowy.View
 {
     public class MainView
     {
-        public void ProgramRun()
+        public MainView()
         {
 
         }
         public string GetLogin()
         {
-            Console.Write("Podaj login: ");
-            return Console.ReadLine();
+            var login = AnsiConsole.Prompt(
+            new TextPrompt<string>("Podaj login:"));
+            return login;
         }
         public string GetPassword()
         {
-            Console.Write("Podaj haslo: ");
-            return Console.ReadLine();
+            var password = AnsiConsole.Prompt(
+            new TextPrompt<string>("Podaj haslo:")
+            .Secret('*'));
+            return password;
         }
     }
 }

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElektronicznyKonsolowy.Controller
+namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class StudentController
     {
         StudentView studentView = new StudentView();
         public StudentController() { }
-        public void Run() 
+        public void Run()
         {
             bool run = true; int choose;
             while (run)
