@@ -9,9 +9,7 @@ namespace ElektronicznyKonsolowy.Models
 {
     public class MyDbContext:DbContext
     {
-        public MyDbContext():base("Data Source=(LocalDB)\\MSSQLLocalDB;" +
-            "AttachDbFilename=D:\\Programy\\Studia\\Semestr 5\\ElektronicznyKonsolowy\\ElektronicznyKonsolowy\\AppData\\Database1.mdf;" +
-            "Integrated Security=True;Connect Timeout=30")
+        public MyDbContext():base("name=MyDbContext")
         {
 
         }

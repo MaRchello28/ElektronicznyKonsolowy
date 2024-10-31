@@ -262,8 +262,6 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
-*.mdf
-*.ldf
 *.ndf
 
 # Business Intelligence projects
@@ -361,3 +359,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignorowanie konfigu dla prywatnych danych
+App.config
+AppData/*.mdf
+AppData/*.ldf
