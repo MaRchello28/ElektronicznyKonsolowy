@@ -16,10 +16,10 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
     public class manageAccountsController
     {
         manageAccountsView manageAccountsView = new manageAccountsView(); MyDbContext db;
-        ShowStudentsController show; ShowStudentsView view;
+        ShowStudentsController show; ShowStudentsView view; AddStudentController addStudentController;
         public manageAccountsController(MyDbContext db) 
         { 
-            this.db = db; show = new ShowStudentsController(db); view = new ShowStudentsView(db);
+            this.db = db; show = new ShowStudentsController(db); view = new ShowStudentsView(db); addStudentController = new AddStudentController(db);
         }
         public void ShowManageWindow()
         {
@@ -31,7 +31,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
                 {
                     case 0:
                         {
-                            view.Show(); break;
+                            addStudentController.CreateStudent(); break;
                         }
                     case 1:
                         {
@@ -43,7 +43,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
                         }
                     case 3:
                         {
-                            break;
+                            view.Show(); break;
                         }
                     case 4:
                         {

@@ -1,5 +1,6 @@
 ﻿using ElektronicznyKonsolowy.Models;
 using Spectre.Console;
+using System.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
 
             var students = db.Students.ToList();
 
-            foreach(var student in students)
+            foreach (var student in students)
             {
-                table.AddRow(student.studentId.ToString(), student.studentClassId.ToString(),student.name, student.surname, student.login, student.password);
+                table.AddRow(student.studentId.ToString(),student.studentClassId.ToString(),student.studentClassId.ToString(),student.name, student.surname, student.login, student.password);
             }
 
             AnsiConsole.Render(table);

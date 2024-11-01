@@ -16,10 +16,11 @@ namespace ElektronicznyKonsolowy.Models
         public string password => user?.password;
         public virtual ICollection<Grade> grades { get; set; }
         public int studentClassId { get; set; }
+        public int parentId { get; set; }
         public Student() { }
-        public Student(User user) 
+        public Student(User user, int studentClassId, int studentParentId) 
         { 
-            this.user = user; grades = new List<Grade>();
+            this.user = user; grades = new List<Grade>(); this.studentClassId = studentClassId; this.parentId = studentParentId;
         }
     }
 }

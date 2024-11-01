@@ -20,6 +20,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             bool run = true; int userType = 5;
             while (run)
             {
+                mainView.OnProgramStart();
                 userType = Login();
                 switch (userType)
                 {
