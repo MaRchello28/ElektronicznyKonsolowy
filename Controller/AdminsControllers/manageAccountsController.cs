@@ -17,11 +17,11 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
     {
         manageAccountsView manageAccountsView = new manageAccountsView(); MyDbContext db;
         ShowStudentsController show; ShowStudentsView view; AddStudentController addStudentController;
-        EditStudentController EditStudentController;
+        EditStudentController EditStudentController; DeleteStudentController deleteStudentController;
         public manageAccountsController(MyDbContext db) 
         { 
             this.db = db; show = new ShowStudentsController(db); view = new ShowStudentsView(db); addStudentController = new AddStudentController(db);
-            EditStudentController = new EditStudentController(db);
+            EditStudentController = new EditStudentController(db); deleteStudentController = new DeleteStudentController(db);
         }
         public void ShowManageWindow()
         {
@@ -37,7 +37,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
                         }
                     case 1:
                         {
-                            break;
+                            deleteStudentController.Run(); break;
                         }
                     case 2:
                         {

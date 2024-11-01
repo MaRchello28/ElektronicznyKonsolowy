@@ -27,7 +27,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             .Title("[green]Wybierz opcje do edycji: [/]")
             .NotRequired()
             .PageSize(10)
-            .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
             .InstructionsText(
             "[grey](Naciśnij [red]<space>[/], żeby zaznaczyć zmienną, a " +
             "[green]<enter>[/], żeby zaakceptować)[/]")

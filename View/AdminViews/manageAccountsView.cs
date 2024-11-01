@@ -18,7 +18,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews
             "Edytuj ucznia",
             "Wyswietl uczniow",
             "Cofnij"
-    };
+            };
             var selectedOption = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Co chcesz wykonać?")
