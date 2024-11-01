@@ -42,7 +42,18 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
                     }
                 case 1:
                     {
-                        this.view2 = new DeleteStudentView2(); break;
+                        this.view2 = new DeleteStudentView2(db);
+                        int idToDelete = view2.PutIndex();
+                        foreach(var student in db.Students)
+                        {
+                            if(student.studentId==idToDelete)
+                            {
+                                if(view1.Agree() == 0) { db.Students.Remove(student); }
+                                break;
+                            }
+                        }
+                        db.SaveChanges();
+                        break;
                     }
             }
         }
