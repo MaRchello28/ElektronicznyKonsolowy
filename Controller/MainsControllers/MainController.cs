@@ -12,9 +12,9 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     public class MainController
     {
         MyDbContext db; MainView mainView;
-        AdminController adminController = new AdminController(); StudentController studentController = new StudentController();
+        AdminController adminController; StudentController studentController = new StudentController();
         TeacherController teacherController = new TeacherController(); ParentController parentController = new ParentController();
-        public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; }
+        public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; adminController = new AdminController(db); }
         public void Run()
         {
             bool run = true; int userType = 5;

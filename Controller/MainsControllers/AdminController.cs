@@ -12,11 +12,11 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class AdminController
     {
-        AdminView adminView = new AdminView();
-        manageAccountsController manageAccountsController = new manageAccountsController();
-        public AdminController()
+        AdminView adminView = new AdminView(); MyDbContext db;
+        manageAccountsController manageAccountsController;
+        public AdminController(MyDbContext db)
         {
-
+            this.db = db; manageAccountsController = new manageAccountsController(db);
         }
         public void Run()
         {

@@ -1,5 +1,8 @@
-﻿using ElektronicznyKonsolowy.View;
+﻿using ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsController;
+using ElektronicznyKonsolowy.Models;
+using ElektronicznyKonsolowy.View;
 using ElektronicznyKonsolowy.View.AdminViews;
+using ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews;
 using ElektronicznyKonsolowy.View.MainViews;
 using Spectre.Console;
 using System;
@@ -12,10 +15,11 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
 {
     public class manageAccountsController
     {
-        manageAccountsView manageAccountsView = new manageAccountsView();
-        public manageAccountsController() 
+        manageAccountsView manageAccountsView = new manageAccountsView(); MyDbContext db;
+        ShowStudentsController show; ShowStudentsView view;
+        public manageAccountsController(MyDbContext db) 
         { 
-            
+            this.db = db; show = new ShowStudentsController(db); view = new ShowStudentsView(db);
         }
         public void ShowManageWindow()
         {
@@ -27,7 +31,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
                 {
                     case 0:
                         {
-                            break;
+                            view.Show(); break;
                         }
                     case 1:
                         {
