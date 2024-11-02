@@ -14,9 +14,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     {
         AdminView adminView = new AdminView(); MyDbContext db;
         manageAccountsController manageAccountsController;
+        manageParentsController manageParentsController;
         public AdminController(MyDbContext db)
         {
-            this.db = db; manageAccountsController = new manageAccountsController(db);
+            this.db = db; manageAccountsController = new manageAccountsController(db); manageParentsController = new manageParentsController(db);
         }
         public void Run()
         {
@@ -32,10 +33,12 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 1:
                         {
+                            
                             break;
                         }
                     case 2:
                         {
+                            manageParentsController.ShowManageWindow();
                             break;
                         }
                     case 3:

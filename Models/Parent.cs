@@ -13,6 +13,10 @@ namespace ElektronicznyKonsolowy.Models
         public string email { get; set; }
         public string phoneNumber { get; set; }
         public User user { get; set; }
+        public string name => user?.name;
+        public string surname => user?.surname;
+        public string login => user?.login;
+        public string password => user?.password;
         public ICollection<Student> children { get; set; }
         public Parent() { }
         public Parent(string email, string phoneNumber, User user)
