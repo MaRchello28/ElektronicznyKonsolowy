@@ -16,6 +16,7 @@ namespace ElektronicznyKonsolowy.Models
         public string letter { get; set; }
         public ICollection <Student> students { get; set; }
         public int teacherId { get; set; }
+        public StudentClass() { }
         public StudentClass(string number, string letter, int teacherId) 
         { 
             students = new List<Student>(); this.number = number; this.letter = letter; this.teacherId = teacherId;
