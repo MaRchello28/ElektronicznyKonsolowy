@@ -16,11 +16,11 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers
     public class manageAccountsController
     {
         manageAccountsView manageAccountsView = new manageAccountsView(); MyDbContext db;
-        ShowStudentsController show; ShowStudentsView view; AddStudentController addStudentController;
+        ShowStudentsView view; AddStudentController addStudentController;
         EditStudentController EditStudentController; DeleteStudentController deleteStudentController;
         public manageAccountsController(MyDbContext db) 
         { 
-            this.db = db; show = new ShowStudentsController(db); view = new ShowStudentsView(db); addStudentController = new AddStudentController(db);
+            this.db = db; view = new ShowStudentsView(db); addStudentController = new AddStudentController(db);
             EditStudentController = new EditStudentController(db); deleteStudentController = new DeleteStudentController(db);
         }
         public void ShowManageWindow()

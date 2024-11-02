@@ -24,7 +24,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             List<bool> result = new List<bool> { false, false, false, false, false, false };
             var options = AnsiConsole.Prompt(
             new MultiSelectionPrompt<string>()
-            .Title("[green]Wybierz opcje do edycji: [/]")
+            .Title("Wybierz opcje do edycji: ")
             .NotRequired()
             .PageSize(10)
             .InstructionsText(
