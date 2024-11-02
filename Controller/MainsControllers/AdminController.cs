@@ -13,12 +13,12 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     public class AdminController
     {
         AdminView adminView = new AdminView(); MyDbContext db;
-        manageAccountsController manageAccountsController;
-        manageTeacherAccountsController mTAC;
+        manageAccountsController manageAccountsController; manageParentsController manageParentsController;
+        manageTeacherAccountsController manageTeacherAccountsController;
         public AdminController(MyDbContext db)
         {
             this.db = db; manageAccountsController = new manageAccountsController(db);
-            mTAC = new manageTeacherAccountsController(db);
+            manageParentsController = new manageParentsController(db); manageTeacherAccountsController = new manageTeacherAccountsController(db);
         }
         public void Run()
         {
@@ -34,10 +34,11 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 1:
                         {
-                            mTAC.Run(); break;
+                            manageTeacherAccountsController.Run(); break;
                         }
                     case 2:
                         {
+                            manageParentsController.ShowManageWindow();
                             break;
                         }
                     case 3:
