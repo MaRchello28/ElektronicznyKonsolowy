@@ -12,16 +12,19 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     public class MainController
     {
         MyDbContext db; MainView mainView;
-        AdminController adminController; StudentController studentController = new StudentController();
-        TeacherController teacherController = new TeacherController(); ParentController parentController = new ParentController();
-        public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; adminController = new AdminController(db); }
+        AdminController adminController; StudentController studentController;
+        TeacherController teacherController; ParentController parentController;
+        public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; adminController = new AdminController(db);
+        }
         public void Run()
         {
             bool run = true; int userType = 5;
             while (run)
             {
                 mainView.OnProgramStart();
-                userType = Login();
+                string login = mainView.GetLogin();
+                string password = mainView.GetPassword();
+                userType = Login(login, password);
                 switch (userType)
                 {
                     case 1:
@@ -30,23 +33,27 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 2:
                         {
-                            studentController.Run(); break;
+                            Student student = db.Students.FirstOrDefault(a => a.user.login == login);
+                            studentController = new StudentController(student, db);
+                            studentController.Run(student); break;
                         }
                     case 3:
                         {
-                            teacherController.Run(); break;
+                            Teacher teacher = db.Teachers.FirstOrDefault(a => a.user.login == login);
+                            teacherController = new TeacherController(teacher, db);
+                            teacherController.Run(teacher); break;
                         }
                     case 4:
                         {
-                            parentController.Run(); break;
+                            Parent parent = db.Parents.FirstOrDefault(a => a.user.login == login);
+                            parentController = new ParentController(parent, db);
+                            parentController.Run(parent); break;
                         }
                 }
             }
         }
-        public int Login()
+        public int Login(string login, string password)
         {
-            string login = mainView.GetLogin();
-            string password = mainView.GetPassword();
             foreach (var u in db.Admins)
             {
                 if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj adminie"); return 1; }
