@@ -14,11 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controller\AdditionalOptionsController\" />
     <Folder Include="Controller\TeachersController\" />
     <Folder Include="Controller\StudentControllers\" />
     <Folder Include="Controller\ParentsControllers\" />
-    <Folder Include="View\AdditionalOptionsView\" />
     <Folder Include="View\ParentViews\" />
     <Folder Include="View\TeacherViews\" />
     <Folder Include="View\StudentViews\" />
