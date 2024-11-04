@@ -10,8 +10,10 @@ namespace ElektronicznyKonsolowy.Models
     {
         public int attendanceId {  get; set; }
         public bool present {  get; set; }
-        public User user { get; set; }
-        public Subject subject { get; set; }
+        public int studentId { get; set; }
         public int lessonId { get; set; }
+        public Attendance(bool present, int studentId, int lessonId) { 
+            this.present = present; this.studentId = studentId; this.lessonId = lessonId;
+        }
     }
 }
