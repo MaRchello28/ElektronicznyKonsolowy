@@ -15,12 +15,13 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         AdminView adminView = new AdminView(); MyDbContext db;
         manageAccountsController manageAccountsController; manageParentsController manageParentsController;
         manageTeacherAccountsController manageTeacherAccountsController; manageClassController manageClassController;
-        AddStudentToClassController addStudentToClassController;
+        AddStudentToClassController addStudentToClassController; manageSubjectController manageSubjectController;
         public AdminController(MyDbContext db)
         {
             this.db = db; manageAccountsController = new manageAccountsController(db);
             manageParentsController = new manageParentsController(db); manageTeacherAccountsController = new manageTeacherAccountsController(db);
             manageClassController = new manageClassController(db); addStudentToClassController = new AddStudentToClassController(db);
+            manageSubjectController = new manageSubjectController(db);
         }
         public void Run()
         {
@@ -53,6 +54,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 5:
                         {
+                            manageSubjectController.ShowManageWindow();
                             break;
                         }
                     case 6:
