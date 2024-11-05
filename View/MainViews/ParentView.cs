@@ -16,7 +16,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
             {
                 "Edytuj swoje dane",
                 "Przegladaj swoje oceny",
-                "Wyslij maila do nauczyciela",
+                "Wyslij maila",
                 "Wyloguj"
             };
             var selectedOption = AnsiConsole.Prompt(
