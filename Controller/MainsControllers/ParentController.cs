@@ -11,9 +11,12 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class ParentController
     {
-        ParentView parentView = new ParentView(); EditYourDataController edit; MyDbContext db; MailController mailController;
+        ParentView parentView = new ParentView(); 
+        EditYourDataController edit; 
+        MyDbContext db; 
+        MailController mailController;
         public ParentController(Parent parent, MyDbContext db) { this.db = db; edit = new EditYourDataController(parent, db); 
-            mailController = new MailController(db);
+            mailController = new MailController(db, parent.user.login);
         }
         public void Run(Parent parent)
         {
@@ -33,7 +36,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 2:
                         {
-                            mailController.SendMail(parent.user.login); break;
+                            mailController.ChooseOption(); break;
                         }
                     case 3:
                         {

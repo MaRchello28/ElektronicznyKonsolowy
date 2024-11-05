@@ -11,7 +11,7 @@ namespace ElektronicznyKonsolowy.Models
     {
         public MyDbContext():base("name=MyDbContext")
         {
-
+            this.Configuration.LazyLoadingEnabled = true;
         }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Grade> Grades { get; set; }

@@ -15,15 +15,30 @@ namespace ElektronicznyKonsolowy.Controller
         SendMailView sendMailView;
         ShowMailView showMailView;
         DeleteMailView deleteMailView;
+        ChooseMailOptionsView chooseMailOptionsView;
+        string loginFrom;
 
-        public MailController(MyDbContext db)
+        public MailController(MyDbContext db, string loginFrom)
         {
-            this.db = db;
+            this.db = db; this.loginFrom=loginFrom;
             sendMailView = new SendMailView(db);
+            chooseMailOptionsView = new ChooseMailOptionsView();
+            showMailView = new ShowMailView(db);
         }
         public void ChooseOption()
         {
-
+            int choose = chooseMailOptionsView.ShowOptions();
+            switch(choose)
+            {
+                case 0:
+                    {
+                        SendMail(loginFrom); break;
+                    }
+                case 1:
+                    {
+                        ShowMails(); break;
+                    }
+            }
         }
 
         public void SendMail(string loginFrom)
@@ -178,6 +193,39 @@ namespace ElektronicznyKonsolowy.Controller
                 if (Equals(login, u.user.login)) { return 4; }
             }
             return 0;
+        }
+        public void ShowMails()
+        {
+            ICollection<Mail> messages = GetMails(loginFrom);
+            showMailView.ShowMails(messages);
+        }
+        public ICollection<Mail> GetMails(string loginFrom)
+        {
+            int userType=FindCorrectUser(loginFrom);
+            switch (userType)
+            {
+                case 0:
+                    throw new Exception("Error 404 - User not found");
+
+                case 1:
+                    var admin = db.Admins.FirstOrDefault(a => a.user.login == loginFrom);
+                    return admin.user.messages;
+
+                case 2:
+                    var student = db.Students.FirstOrDefault(s => s.user.login == loginFrom);
+                    return student.user.messages;
+
+                case 3:
+                    var teacher = db.Teachers.FirstOrDefault(t => t.user.login == loginFrom);
+                    return teacher.user.messages;
+
+                case 4:
+                    var parent = db.Parents.FirstOrDefault(p => p.user.login == loginFrom);
+                    return parent.user.messages;
+
+                default:
+                    throw new Exception("Invalid user type");
+            }
         }
     }
 }

@@ -4,74 +4,117 @@ using ElektronicznyKonsolowy.View.MainViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class MainController
     {
-        MyDbContext db; MainView mainView;
-        AdminController adminController; StudentController studentController;
-        TeacherController teacherController; ParentController parentController;
-        public MainController(MyDbContext db, MainView mainView) { this.db = db; this.mainView = mainView; adminController = new AdminController(db);
+        private readonly MyDbContext db;
+        private readonly MainView mainView;
+        private AdminController adminController;
+        private StudentController studentController;
+        private TeacherController teacherController;
+        private ParentController parentController;
+
+        private const int AdminUserType = 1;
+        private const int StudentUserType = 2;
+        private const int TeacherUserType = 3;
+        private const int ParentUserType = 4;
+
+        public MainController(MyDbContext db, MainView mainView)
+        {
+            this.db = db;
+            this.mainView = mainView;
+            this.adminController = new AdminController(db);
         }
+
         public void Run()
         {
-            bool run = true; int userType = 5;
+            bool run = true;
+
             while (run)
             {
                 mainView.OnProgramStart();
                 string login = mainView.GetLogin();
                 string password = mainView.GetPassword();
-                userType = Login(login, password);
+                int userType = Login(login, password);
+
                 switch (userType)
                 {
-                    case 1:
+                    case AdminUserType:
+                        adminController.Run();
+                        break;
+                    case StudentUserType:
+                        var student = db.Students.FirstOrDefault(a => a.user.login == login);
+                        if (student != null)
                         {
-                            adminController.Run(); break;
-                        }
-                    case 2:
-                        {
-                            Student student = db.Students.FirstOrDefault(a => a.user.login == login);
                             studentController = new StudentController(student, db);
-                            studentController.Run(student); break;
+                            studentController.Run(student);
                         }
-                    case 3:
+                        break;
+                    case TeacherUserType:
+                        var teacher = db.Teachers.FirstOrDefault(a => a.user.login == login);
+                        if (teacher != null)
                         {
-                            Teacher teacher = db.Teachers.FirstOrDefault(a => a.user.login == login);
                             teacherController = new TeacherController(teacher, db);
-                            teacherController.Run(teacher); break;
+                            teacherController.Run(teacher);
                         }
-                    case 4:
+                        break;
+                    case ParentUserType:
+                        var parent = db.Parents.FirstOrDefault(a => a.user.login == login);
+                        if (parent != null)
                         {
-                            Parent parent = db.Parents.FirstOrDefault(a => a.user.login == login);
                             parentController = new ParentController(parent, db);
-                            parentController.Run(parent); break;
+                            parentController.Run(parent);
                         }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
+
         public int Login(string login, string password)
         {
-            foreach (var u in db.Admins)
+            var admin = db.Admins.FirstOrDefault(a => a.user.login == login && a.user.password == password);
+            if (admin != null)
             {
-                if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj adminie"); return 1; }
+                admin.user.messages = LoadMessages(login);
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj adminie");
+                return AdminUserType;
             }
-            foreach (var u in db.Students)
+
+            var student = db.Students.FirstOrDefault(s => s.user.login == login && s.user.password == password);
+            if (student != null)
             {
-                if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj uczniu"); return 2; }
+                student.user.messages = LoadMessages(login);
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj uczniu");
+                return StudentUserType;
             }
-            foreach (var u in db.Teachers)
+
+            var teacher = db.Teachers.FirstOrDefault(t => t.user.login == login && t.user.password == password);
+            if (teacher != null)
             {
-                if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj nauczycielu"); return 3; }
+                teacher.user.messages = LoadMessages(login);
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj nauczycielu");
+                return TeacherUserType;
             }
-            foreach (var u in db.Parents)
+
+            var parent = db.Parents.FirstOrDefault(p => p.user.login == login && p.user.password == password);
+            if (parent != null)
             {
-                if (Equals(login, u.user.login) && Equals(password, u.user.password)) { SuccesAndErrorsView.ShowSuccesMessage("Witaj rodzicu"); return 4; }
+                parent.user.messages = LoadMessages(login);
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj rodzicu");
+                return ParentUserType;
             }
-            SuccesAndErrorsView.ShowErrorMessage("Cos poszlo nie tak :(");
-            return 5;
+
+            SuccesAndErrorsView.ShowErrorMessage("Coś poszło nie tak :(");
+            return 0;
+        }
+
+        public ICollection<Mail> LoadMessages(string login)
+        {
+            return db.Mails.Where(m => m.from == login || m.to == login).ToList();
         }
     }
 }

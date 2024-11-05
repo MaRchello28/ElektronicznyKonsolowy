@@ -14,7 +14,7 @@ namespace ElektronicznyKonsolowy.Models
         public string surname { get; set; }
         public string login { get; set; }
         public string password { get; set; }
-        public ICollection<Mail> messages { get; set; } = new List<Mail>();
+        public virtual ICollection<Mail> messages { get; set; } = new List<Mail>();
         public User() { }
         public User(string name, string surname, string login, string password)
         {
