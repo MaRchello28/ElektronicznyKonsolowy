@@ -12,16 +12,18 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class AdminController
     {
-        AdminView adminView = new AdminView(); MyDbContext db;
+        AdminView adminView = new AdminView(); MyDbContext db; Admin admin;
         manageAccountsController manageAccountsController; manageParentsController manageParentsController;
         manageTeacherAccountsController manageTeacherAccountsController; manageClassController manageClassController;
         AddStudentToClassController addStudentToClassController; manageSubjectController manageSubjectController;
-        public AdminController(MyDbContext db)
+        MailController mailController;
+        public AdminController(Admin admin, MyDbContext db)
         {
-            this.db = db; manageAccountsController = new manageAccountsController(db);
+            this.db = db; manageAccountsController = new manageAccountsController(db); this.admin = admin;
             manageParentsController = new manageParentsController(db); manageTeacherAccountsController = new manageTeacherAccountsController(db);
             manageClassController = new manageClassController(db); addStudentToClassController = new AddStudentToClassController(db);
             manageSubjectController = new manageSubjectController(db);
+            mailController = new MailController(db, admin.user.login);
         }
         public void Run()
         {
@@ -62,6 +64,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                             break;
                         }
                     case 7:
+                        {
+                            mailController.ChooseOption(); break;
+                        }
+                    case 8:
                         {
                             run = false; break;
                         }

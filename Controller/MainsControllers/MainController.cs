@@ -25,7 +25,6 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         {
             this.db = db;
             this.mainView = mainView;
-            this.adminController = new AdminController(db);
         }
 
         public void Run()
@@ -42,7 +41,12 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                 switch (userType)
                 {
                     case AdminUserType:
-                        adminController.Run();
+                        var admin = db.Admins.FirstOrDefault(a => a.user.login == login);
+                        if (admin != null)
+                        {
+                            adminController = new AdminController(admin, db);
+                            adminController.Run();
+                        }
                         break;
                     case StudentUserType:
                         var student = db.Students.FirstOrDefault(a => a.user.login == login);

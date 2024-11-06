@@ -14,7 +14,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     {
         MyDbContext db;
         TeacherView teacherView = new TeacherView(); EditYourDataController edit;
-        public TeacherController(Teacher teacher, MyDbContext db) { this.db = db; edit = new EditYourDataController(teacher, db); }
+        MailController mailController;
+        public TeacherController(Teacher teacher, MyDbContext db) { this.db = db; edit = new EditYourDataController(teacher, db);
+            mailController = new MailController(db, teacher.user.login);
+        }
         public void Run(Teacher teacher) 
         {
             bool run = true; int choose;
@@ -33,7 +36,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 2:
                         {
-                            break;
+                            mailController.ChooseOption(); break;
                         }
                     case 3:
                         {

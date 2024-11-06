@@ -13,7 +13,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     {
         MyDbContext db;
         StudentView studentView = new StudentView(); EditYourDataController edit;
-        public StudentController(Student student, MyDbContext db) { this.db = db; edit = new EditYourDataController(student, db); }
+        MailController mailController;
+        public StudentController(Student student, MyDbContext db) { this.db = db; edit = new EditYourDataController(student, db);
+            mailController = new MailController(db, student.user.login);
+        }
         public void Run(Student student)
         {
             bool run = true; int choose;
@@ -31,6 +34,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                             break;
                         }
                     case 2:
+                        {
+                            mailController.ChooseOption(); break;
+                        }
+                    case 3:
                         {
                             run = false; break;
                         }

@@ -16,7 +16,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
             {
                 "Edytuj swoje dane",
                 "Zarzadzaj ocenami",
-                "Wyslij maila/ogloszenie do rodzica/ucznia",
+                "Otwórz skrzynkę pocztową",
                 "Dodawanie plikow do poszczegolnych lekcji",
                 "Tworzenie lekcji z tresciami ksztalcenia",
                 "Tworzenie quizu",

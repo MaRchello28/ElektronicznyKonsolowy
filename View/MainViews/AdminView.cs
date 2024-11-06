@@ -23,6 +23,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Przypisz uczniów do odpowiedniej klasy",
             "Zarządzaj przedmiotami",
             "Przypisz przedmioty do klasy",
+            "Otwórz skrzynkę pocztową",
             "Wyloguj"
     };
             var selectedOption = AnsiConsole.Prompt(

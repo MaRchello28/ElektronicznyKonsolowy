@@ -64,6 +64,8 @@ namespace ElektronicznyKonsolowy.Controller
                     case ConsoleKey.Enter:
                         sendMailView.PressEnter(selectedIndex, labels, inputs);
                         break;
+                    case ConsoleKey.Escape:
+                        return;
                 }
             } while (key != ConsoleKey.Spacebar);
 
@@ -72,6 +74,8 @@ namespace ElektronicznyKonsolowy.Controller
             string content = inputs[2];
 
             message = new Mail(subject, content, loginFrom, recipientLogin);
+
+            message.send = DateTime.Now;
 
             int userType = FindCorrectUser(loginFrom);
             switch (userType)
@@ -197,7 +201,15 @@ namespace ElektronicznyKonsolowy.Controller
         public void ShowMails()
         {
             ICollection<Mail> messages = GetMails(loginFrom);
-            showMailView.ShowMails(messages);
+            int choose = showMailView.ShowMails(messages, loginFrom);
+            if (choose >= 0 && choose < messages.Count)
+            {
+                var message = messages.ElementAt(choose);
+                MessageRead(message.mailId);
+                showMailView.ShowMailBody(message);
+                db.SaveChanges();
+            }
+            else { return; }
         }
         public ICollection<Mail> GetMails(string loginFrom)
         {
@@ -225,6 +237,25 @@ namespace ElektronicznyKonsolowy.Controller
 
                 default:
                     throw new Exception("Invalid user type");
+            }
+        }
+        public void MessageRead(int messageId)
+        {
+            var message = db.Mails.FirstOrDefault(m => m.mailId == messageId);
+
+            if (message != null)
+            {
+                message.read = true;
+
+                db.Mails.Attach(message);
+                db.Entry(message).Property(m => m.read).IsModified = true;
+
+                db.SaveChanges();
+                Console.WriteLine($"Wiadomość {messageId} została oznaczona jako przeczytana: {message.read}");
+            }
+            else
+            {
+                Console.WriteLine("Nie znaleziono wiadomości o podanym ID.");
             }
         }
     }
