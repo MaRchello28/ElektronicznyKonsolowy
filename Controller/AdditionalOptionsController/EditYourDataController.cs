@@ -52,7 +52,11 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
                 if (choices[i])
                 {
                     value = view.EditOption(i);
-                    if (i == 0) { student.user.login = value; }
+                    if (i == 0) 
+                    {
+                        if (StaticFunctions.LoginExists(value, db)) { return; }
+                        student.user.login = value;
+                    }
                     else if (i == 1) { student.user.password = value; }
                 }
             }
@@ -66,7 +70,7 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
                 if (choices[i])
                 {
                     value = view.EditOption(i);
-                    if (i == 0) { parent.user.login = value; }
+                    if (i == 0) { if (StaticFunctions.LoginExists(value, db)) { return; } parent.user.login = value; }
                     else if (i == 1) { parent.user.password = value; }
                     else if (i == 2) { parent.email = value; }
                     else if (i == 3) { parent.phoneNumber = value; }
@@ -82,7 +86,7 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
                 if (choices[i])
                 {
                     value = view.EditOption(i);
-                    if (i == 0) { teacher.user.login = value; }
+                    if (i == 0) { if (StaticFunctions.LoginExists(value, db)) { return; } teacher.user.login = value; }
                     else if (i == 1) { teacher.user.password = value; }
                     else if (i == 2) { teacher.email = value; }
                 }

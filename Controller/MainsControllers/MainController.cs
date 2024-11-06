@@ -80,7 +80,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
 
         public int Login(string login, string password)
         {
-            var admin = db.Admins.FirstOrDefault(a => a.user.login == login && a.user.password == password);
+            var admin = db.Admins.FirstOrDefault(a => Equals(a.user.login,login) && Equals(a.user.password,password));
             if (admin != null)
             {
                 admin.user.messages = LoadMessages(login);
@@ -88,7 +88,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                 return AdminUserType;
             }
 
-            var student = db.Students.FirstOrDefault(s => s.user.login == login && s.user.password == password);
+            var student = db.Students.FirstOrDefault(a => Equals(a.user.login, login) && Equals(a.user.password, password));
             if (student != null)
             {
                 student.user.messages = LoadMessages(login);
@@ -96,7 +96,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                 return StudentUserType;
             }
 
-            var teacher = db.Teachers.FirstOrDefault(t => t.user.login == login && t.user.password == password);
+            var teacher = db.Teachers.FirstOrDefault(a => Equals(a.user.login, login) && Equals(a.user.password, password));
             if (teacher != null)
             {
                 teacher.user.messages = LoadMessages(login);
@@ -104,7 +104,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                 return TeacherUserType;
             }
 
-            var parent = db.Parents.FirstOrDefault(p => p.user.login == login && p.user.password == password);
+            var parent = db.Parents.FirstOrDefault(a => Equals(a.user.login, login) && Equals(a.user.password, password));
             if (parent != null)
             {
                 parent.user.messages = LoadMessages(login);

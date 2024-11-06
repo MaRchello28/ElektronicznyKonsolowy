@@ -205,9 +205,7 @@ namespace ElektronicznyKonsolowy.Controller
             if (choose >= 0 && choose < messages.Count)
             {
                 var message = messages.ElementAt(choose);
-                MessageRead(message.mailId);
                 showMailView.ShowMailBody(message);
-                db.SaveChanges();
             }
             else { return; }
         }
@@ -221,41 +219,22 @@ namespace ElektronicznyKonsolowy.Controller
 
                 case 1:
                     var admin = db.Admins.FirstOrDefault(a => a.user.login == loginFrom);
-                    return admin.user.messages;
+                    return admin.user.messages.OrderByDescending(m => m.send).ToList();
 
                 case 2:
                     var student = db.Students.FirstOrDefault(s => s.user.login == loginFrom);
-                    return student.user.messages;
+                    return student.user.messages.OrderByDescending(m => m.send).ToList();
 
                 case 3:
                     var teacher = db.Teachers.FirstOrDefault(t => t.user.login == loginFrom);
-                    return teacher.user.messages;
+                    return teacher.user.messages.OrderByDescending(m => m.send).ToList();
 
                 case 4:
                     var parent = db.Parents.FirstOrDefault(p => p.user.login == loginFrom);
-                    return parent.user.messages;
+                    return parent.user.messages.OrderByDescending(m => m.send).ToList();
 
                 default:
                     throw new Exception("Invalid user type");
-            }
-        }
-        public void MessageRead(int messageId)
-        {
-            var message = db.Mails.FirstOrDefault(m => m.mailId == messageId);
-
-            if (message != null)
-            {
-                message.read = true;
-
-                db.Mails.Attach(message);
-                db.Entry(message).Property(m => m.read).IsModified = true;
-
-                db.SaveChanges();
-                Console.WriteLine($"Wiadomość {messageId} została oznaczona jako przeczytana: {message.read}");
-            }
-            else
-            {
-                Console.WriteLine("Nie znaleziono wiadomości o podanym ID.");
             }
         }
     }
