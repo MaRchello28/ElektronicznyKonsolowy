@@ -22,7 +22,8 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Zarządzanie klasami",
             "Przypisz uczniów do odpowiedniej klasy",
             "Zarządzaj przedmiotami",
-            "Przypisz przedmioty do klasy",
+            "Zardządzanie sesjami",
+            "Przypisz plan zajeć do klasy",
             "Wyloguj"
     };
             var selectedOption = AnsiConsole.Prompt(
