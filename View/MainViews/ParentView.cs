@@ -15,7 +15,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
             var options = new[]
             {
                 "Edytuj swoje dane",
-                "Przegladaj swoje oceny",
+                "Przegladaj oceny swoich dzieci",
                 "Otwórz maila",
                 "Wyloguj"
             };
