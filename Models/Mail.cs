@@ -13,6 +13,9 @@ namespace ElektronicznyKonsolowy.Models
         public string body { get; set; }
         public string from { get; set; }
         public string to { get; set; }
+        public bool read { get; set; } = false;
+        public DateTime send {  get; set; }
+        public Mail() { }
         public Mail(string subject, string body, string from, string to) 
         { 
             this.subject = subject; this.from = from; this.to = to; this.body = body;

@@ -15,8 +15,8 @@ namespace ElektronicznyKonsolowy.View.MainViews
             var options = new[]
             {
                 "Edytuj swoje dane",
-                "Zarzadzaj ocenami",
-                "Wyslij maila/ogloszenie do rodzica/ucznia",
+                "Wstaw oceny",
+                "Otwórz skrzynkę pocztową",
                 "Dodawanie plikow do poszczegolnych lekcji",
                 "Tworzenie lekcji z tresciami ksztalcenia",
                 "Tworzenie quizu",

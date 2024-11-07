@@ -22,6 +22,8 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Zarządzanie klasami",
             "Przypisz uczniów do odpowiedniej klasy",
             "Zarządzaj przedmiotami",
+            "Przypisz przedmioty do klasy",
+            "Otwórz skrzynkę pocztową",
             "Zardządzanie sesjami",
             "Przypisz plan zajeć do klasy",
             "Wyloguj"

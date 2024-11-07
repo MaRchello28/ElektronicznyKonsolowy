@@ -15,8 +15,8 @@ namespace ElektronicznyKonsolowy.View.MainViews
             var options = new[]
             {
                 "Edytuj swoje dane",
-                "Przegladaj swoje oceny",
-                "Wyslij maila do nauczyciela",
+                "Przegladaj oceny swoich dzieci",
+                "Otwórz maila",
                 "Wyloguj"
             };
             var selectedOption = AnsiConsole.Prompt(

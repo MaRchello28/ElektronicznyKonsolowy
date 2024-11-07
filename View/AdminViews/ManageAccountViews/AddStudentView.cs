@@ -64,21 +64,17 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             }
             return defaultPassword;
         }
-        public int EnterParentId()
+        public string EnterParentId()
         {
-            int parentId;
             AnsiConsole.MarkupLine("[blue] Podaj id rodzica: [/]");
             string value = Console.ReadLine();
-            parentId = int.Parse(value);
-            return parentId;
+            return value;
         }
-        public int EnterClassId()
+        public string EnterClassId()
         {
-            int classId;
             AnsiConsole.MarkupLine("[blue] Podaj id klasy ucznia, do której chcesz go przypisać: [/]");
             string value = Console.ReadLine();
-            classId = int.Parse(value);
-            return classId;
+            return value;
         }
         public void ShowCreatedStudent(string name, string surname, string login, string password, string idKlasy, string idRodzica)
         {

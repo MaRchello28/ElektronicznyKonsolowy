@@ -1,4 +1,6 @@
-﻿using ElektronicznyKonsolowy.View.MainViews;
+﻿using ElektronicznyKonsolowy.Controller.AdditionalOptionsController;
+using ElektronicznyKonsolowy.Models;
+using ElektronicznyKonsolowy.View.MainViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,38 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
     public class ParentController
     {
-        ParentView parentView = new ParentView();
-        public ParentController() { }
-        public void Run()
+        ParentView parentView = new ParentView(); 
+        EditYourDataController edit; 
+        MyDbContext db; 
+        MailController mailController;
+        public ParentController(Parent parent, MyDbContext db) { this.db = db; edit = new EditYourDataController(parent, db); 
+            mailController = new MailController(db, parent.user.login);
+        }
+        public void Run(Parent parent)
         {
             bool run = true; int choose;
             while (run)
             {
                 choose = parentView.ShowMainMenu();
+                switch(choose)
+                {
+                    case 0:
+                        {
+                            edit.EditUser(parent); break;
+                        }
+                    case 1:
+                        {
+                            break;
+                        }
+                    case 2:
+                        {
+                            mailController.ChooseOption(); break;
+                        }
+                    case 3:
+                        {
+                            run = false; break;
+                        }
+                }
             }
         }
     }
