@@ -17,7 +17,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         manageTeacherAccountsController manageTeacherAccountsController; manageClassController manageClassController;
         AddStudentToClassController addStudentToClassController; manageSubjectController manageSubjectController;
         manageSessionsController manageSessionsController;
-        public AdminController(MyDbContext db)
+        public AdminController(MyDbContext db) { }
         MailController mailController;
         public AdminController(Admin admin, MyDbContext db)
         {
