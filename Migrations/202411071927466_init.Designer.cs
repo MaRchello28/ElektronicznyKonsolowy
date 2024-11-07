@@ -7,13 +7,13 @@ namespace ElektronicznyKonsolowy.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class sessionZamiastSubjectInTeacher : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(sessionZamiastSubjectInTeacher));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "202411062053235_sessionZamiastSubjectInTeacher"; }
+            get { return "202411071927466_init"; }
         }
         
         string IMigrationMetadata.Source
