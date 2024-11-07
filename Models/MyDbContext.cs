@@ -22,6 +22,8 @@ namespace ElektronicznyKonsolowy.Models
         public DbSet<StudentClass> StudentClasses { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<ClassSchedule> ClassSchedules { get; set; }
+        public DbSet<Session> Sessions { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

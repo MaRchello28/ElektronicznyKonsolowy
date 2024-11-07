@@ -16,6 +16,8 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         manageAccountsController manageAccountsController; manageParentsController manageParentsController;
         manageTeacherAccountsController manageTeacherAccountsController; manageClassController manageClassController;
         AddStudentToClassController addStudentToClassController; manageSubjectController manageSubjectController;
+        manageSessionsController manageSessionsController;
+        public AdminController(MyDbContext db) { }
         MailController mailController;
         public AdminController(Admin admin, MyDbContext db)
         {
@@ -24,6 +26,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             manageClassController = new manageClassController(db); addStudentToClassController = new AddStudentToClassController(db);
             manageSubjectController = new manageSubjectController(db);
             mailController = new MailController(db, admin.user.login);
+            manageSubjectController = new manageSubjectController(db);manageSessionsController = new manageSessionsController(db);
         }
         public void Run()
         {
@@ -61,6 +64,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 6:
                         {
+                            manageSessionsController.ShowManageWindow();
                             break;
                         }
                     case 7:

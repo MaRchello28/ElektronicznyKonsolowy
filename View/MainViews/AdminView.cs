@@ -24,6 +24,8 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Zarządzaj przedmiotami",
             "Przypisz przedmioty do klasy",
             "Otwórz skrzynkę pocztową",
+            "Zardządzanie sesjami",
+            "Przypisz plan zajeć do klasy",
             "Wyloguj"
     };
             var selectedOption = AnsiConsole.Prompt(
