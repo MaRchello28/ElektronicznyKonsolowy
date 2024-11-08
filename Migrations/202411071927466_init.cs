@@ -87,18 +87,6 @@
                 .PrimaryKey(t => t.teacherId);
             
             CreateTable(
-                "dbo.Subjects",
-                c => new
-                    {
-                        subjectId = c.Int(nullable: false, identity: true),
-                        name = c.String(),
-                        Teacher_teacherId = c.Int(),
-                    })
-                .PrimaryKey(t => t.subjectId)
-                .ForeignKey("dbo.Teachers", t => t.Teacher_teacherId)
-                .Index(t => t.Teacher_teacherId);
-            
-            CreateTable(
                 "dbo.Grades",
                 c => new
                     {
@@ -173,6 +161,15 @@
                     })
                 .PrimaryKey(t => t.studentClassId);
             
+            CreateTable(
+                "dbo.Subjects",
+                c => new
+                    {
+                        subjectId = c.Int(nullable: false, identity: true),
+                        name = c.String(),
+                    })
+                .PrimaryKey(t => t.subjectId);
+            
         }
         
         public override void Down()
@@ -182,23 +179,21 @@
             DropForeignKey("dbo.Grades", "studentId", "dbo.Students");
             DropForeignKey("dbo.Sessions", "ClassSchedule_classScheduleId", "dbo.ClassSchedules");
             DropForeignKey("dbo.Sessions", "teacherId", "dbo.Teachers");
-            DropForeignKey("dbo.Subjects", "Teacher_teacherId", "dbo.Teachers");
             DropForeignKey("dbo.Lessons", "Session_sessionId", "dbo.Sessions");
             DropForeignKey("dbo.Attendances", "lessonId", "dbo.Lessons");
             DropIndex("dbo.Students", new[] { "parentId" });
             DropIndex("dbo.Students", new[] { "studentClassId" });
             DropIndex("dbo.Grades", new[] { "studentId" });
-            DropIndex("dbo.Subjects", new[] { "Teacher_teacherId" });
             DropIndex("dbo.Attendances", new[] { "lessonId" });
             DropIndex("dbo.Lessons", new[] { "Session_sessionId" });
             DropIndex("dbo.Sessions", new[] { "ClassSchedule_classScheduleId" });
             DropIndex("dbo.Sessions", new[] { "teacherId" });
+            DropTable("dbo.Subjects");
             DropTable("dbo.StudentClasses");
             DropTable("dbo.Students");
             DropTable("dbo.Parents");
             DropTable("dbo.Mails");
             DropTable("dbo.Grades");
-            DropTable("dbo.Subjects");
             DropTable("dbo.Teachers");
             DropTable("dbo.Attendances");
             DropTable("dbo.Lessons");

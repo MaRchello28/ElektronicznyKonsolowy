@@ -88,7 +88,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
                     }
                 default: {return;}
             }
-            Session session = new Session(subjectid,teacher,dayOfWeek,hour,hourStop);
+            Session session = new Session(subjectid, teacher, dayOfWeek, hour, hourStop);
             db.Sessions.Add(session);
             db.SaveChanges();
             view.ShowCreatedSession(subjectid, teacher, dzien, hour, hourStop);

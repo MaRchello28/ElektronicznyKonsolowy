@@ -11,7 +11,7 @@ namespace ElektronicznyKonsolowy.Models
         public int teacherId {  get; set; }
         public string email { get; set; }
         public User user { get; set; }
-        public virtual ICollection<Subject> subjects { get; set; }
+        public virtual ICollection<Session> sessions { get; set; }
         public Teacher() { }
         public Teacher(string email, User user)
         {

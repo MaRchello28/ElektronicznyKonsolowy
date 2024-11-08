@@ -13,7 +13,7 @@ namespace ElektronicznyKonsolowy.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202411071743136_init"; }
+            get { return "202411071927466_init"; }
         }
         
         string IMigrationMetadata.Source
