@@ -16,6 +16,15 @@ namespace ElektronicznyKonsolowy.Models
         public ClassSchedule(int classId)
         {
             this.studentClassId = classId;
+            this.sessions = new List<Session>();
+        }
+        public void AddSession(Session session)
+        {
+            sessions.Add(session);
+        }
+        public void RemoveSession(Session session)
+        {
+            sessions.Remove(session);
         }
     }
 }

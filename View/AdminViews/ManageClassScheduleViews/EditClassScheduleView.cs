@@ -14,16 +14,10 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
         public int ClassScheduleToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idPrzedmiotu do edycji: [/]");
+            AnsiConsole.WriteLine("[blue]Podaj idPlanu zajęć do edycji: [/]");
             string value = Console.ReadLine();
             id = int.Parse(value);
             return id;
-        }
-        public string EditOption()
-        {
-            string id;
-            AnsiConsole.MarkupLine("[blue] Podaj nową nazwę przedmiotu: [/]");
-            return Console.ReadLine();
         }
         public List<bool> ChooseOptionsToEdit()
         {
@@ -57,35 +51,16 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe nazwisko rodzica: [/]");
+                AnsiConsole.MarkupLine("[blue] Podaj id sesji do dodania do planu lekcji: [/]");
                 return Console.ReadLine();
             }
             else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy login rodzica: [/]");
+                AnsiConsole.MarkupLine("[blue] Podaj id sesji do usuniecia z planu lekcji: [/]");
                 return Console.ReadLine();
             }
             return "";
-        }
-        public void ShowDifference(ClassSchedule classScheduleBeforeChanges, ClassSchedule classScheduleAfterChanges)
-        {
-            var table = new Table();
-            table.Border(TableBorder.HeavyEdge);
-            table.AddColumn("Nazwa");
-
-            table.AddRow(
-                classScheduleBeforeChanges.studentClassId.ToString()
-            );
-
-            table.AddRow(
-                HighlightIfDifferent(classScheduleBeforeChanges.studentClassId.ToString(), classScheduleAfterChanges.studentClassId.ToString())
-            );
-            AnsiConsole.Render(table);
-        }
-        string HighlightIfDifferent(string before, string after)
-        {
-            return before != after ? $"[red]{after}[/]" : after;
         }
     }
 }

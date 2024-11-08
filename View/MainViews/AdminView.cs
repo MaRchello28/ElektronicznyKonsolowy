@@ -22,9 +22,9 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Zarządzanie klasami",
             "Przypisz uczniów do odpowiedniej klasy",
             "Zarządzaj przedmiotami",
-            "Przypisz przedmioty do klasy",
-            "Otwórz skrzynkę pocztową",
             "Zardządzanie sesjami",
+            "Otwórz skrzynkę pocztową",
+            "Przypisz przedmioty do klasy",
             "Przypisz plan zajeć do klasy",
             "Wyloguj"
     };

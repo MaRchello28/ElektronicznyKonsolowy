@@ -26,7 +26,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
             int opt = view.AddSessions();
             if (opt == 0)
             {
-
+                add.addSessionsToSchedule(opt,id);
             }
 
         }

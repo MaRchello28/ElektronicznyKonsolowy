@@ -362,3 +362,4 @@ FodyWeavers.xsd
 
 # Ignorowanie konfigu dla prywatnych danych
 App.config
+/AppData/Database1_log.ldf
