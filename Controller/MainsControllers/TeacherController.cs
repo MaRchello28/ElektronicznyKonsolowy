@@ -1,4 +1,5 @@
 ﻿using ElektronicznyKonsolowy.Controller.AdditionalOptionsController;
+using ElektronicznyKonsolowy.Controller.TeachersController;
 using ElektronicznyKonsolowy.Models;
 using ElektronicznyKonsolowy.View.MainViews;
 using System;
@@ -14,9 +15,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     {
         MyDbContext db;
         TeacherView teacherView = new TeacherView(); EditYourDataController edit;
-        MailController mailController;
+        MailController mailController; ChooseClassController chooseClassController;
         public TeacherController(Teacher teacher, MyDbContext db) { this.db = db; edit = new EditYourDataController(teacher, db);
             mailController = new MailController(db, teacher.user.login);
+            chooseClassController = new ChooseClassController(db);
         }
         public void Run(Teacher teacher) 
         {
@@ -32,7 +34,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 1:
                         {
-                            break;
+                            chooseClassController.Run(teacher.teacherId); break;
                         }
                     case 2:
                         {
