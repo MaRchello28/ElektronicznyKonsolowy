@@ -1,9 +1,11 @@
 ﻿using ElektronicznyKonsolowy.Models;
 using ElektronicznyKonsolowy.View;
 using ElektronicznyKonsolowy.View.MainViews;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ElektronicznyKonsolowy.Controller.MainsControllers
 {
@@ -30,7 +32,19 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         public void Run()
         {
             bool run = true;
+            var ses = db.Sessions.ToList();
+            var classSchedules = new List<ClassSchedule>();
+            classSchedules = db.ClassSchedules.ToList();
+            foreach (var session in ses)
+            {
+                var classSchedule = classSchedules
+                    .FirstOrDefault(cs => cs.classScheduleId == session.ClassScheduleId);
 
+                if (classSchedule != null)
+                {
+                    classSchedule.sessions.Add(session);
+                }
+            }
             while (run)
             {
                 mainView.OnProgramStart();

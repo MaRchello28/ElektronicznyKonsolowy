@@ -15,6 +15,7 @@ namespace ElektronicznyKonsolowy.Models
         public TimeSpan hourFrom {  get; set; }
         public TimeSpan hourTo { get; set; }
         public ICollection<Lesson> lessons { get; set; }
+        public int ClassScheduleId { get; set; }
         public Teacher? replacement { get; set; }
         public Session() { }
         public Session(int subjectId, int teacherId, DayOfWeek dayOfTheWeek, TimeSpan hourFrom, TimeSpan hourTo, Teacher? replacement) 
