@@ -1,6 +1,7 @@
 ﻿using ElektronicznyKonsolowy.Controller.AdditionalOptionsController;
 using ElektronicznyKonsolowy.Models;
 using ElektronicznyKonsolowy.View.MainViews;
+using ElektronicznyKonsolowy.View.ParentViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,9 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         EditYourDataController edit; 
         MyDbContext db; 
         MailController mailController;
+        ShowClassScheduleParentView show;
         public ParentController(Parent parent, MyDbContext db) { this.db = db; edit = new EditYourDataController(parent, db); 
-            mailController = new MailController(db, parent.user.login);
+            mailController = new MailController(db, parent.user.login); show = new ShowClassScheduleParentView(db);
         }
         public void Run(Parent parent)
         {
@@ -39,6 +41,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                             mailController.ChooseOption(); break;
                         }
                     case 3:
+                        {
+                            show.show(parent);break;
+                        }
+                    case 4:
                         {
                             run = false; break;
                         }
