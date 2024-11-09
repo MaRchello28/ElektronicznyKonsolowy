@@ -17,6 +17,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
                 "Edytuj swoje dane",
                 "Przegladaj swoje oceny",
                 "Otwórz skrzynkę pocztową",
+                "Zobacz plan zajęc",
                 "Wyloguj"
             };
             var selectedOption = AnsiConsole.Prompt(

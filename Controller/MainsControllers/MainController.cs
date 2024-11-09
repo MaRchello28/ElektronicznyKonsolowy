@@ -122,6 +122,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             if (parent != null)
             {
                 parent.user.messages = LoadMessages(login);
+                parent.children = LoadChildrens(parent.parentId);
                 SuccesAndErrorsView.ShowSuccesMessage("Witaj rodzicu");
                 return ParentUserType;
             }
@@ -133,6 +134,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         public ICollection<Mail> LoadMessages(string login)
         {
             return db.Mails.Where(m => m.from == login || m.to == login).ToList();
+        }
+        public ICollection<Student> LoadChildrens(int login)
+        {
+            return db.Students.Where(x=>x.parentId == login).ToList();
         }
     }
 }

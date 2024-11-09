@@ -1,6 +1,9 @@
 ﻿using ElektronicznyKonsolowy.Controller.AdditionalOptionsController;
+using ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassScheduleController;
 using ElektronicznyKonsolowy.Models;
+using ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews;
 using ElektronicznyKonsolowy.View.MainViews;
+using ElektronicznyKonsolowy.View.StudentViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +16,9 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
     {
         MyDbContext db;
         StudentView studentView = new StudentView(); EditYourDataController edit;
-        MailController mailController;
+        MailController mailController; ShowClassScheduleStudentView show;
         public StudentController(Student student, MyDbContext db) { this.db = db; edit = new EditYourDataController(student, db);
-            mailController = new MailController(db, student.user.login);
+            mailController = new MailController(db, student.user.login); show = new ShowClassScheduleStudentView(db);
         }
         public void Run(Student student)
         {
@@ -38,6 +41,11 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                             mailController.ChooseOption(); break;
                         }
                     case 3:
+                        {
+                            show.Show(student);
+                            break;
+                        }
+                    case 4:
                         {
                             run = false; break;
                         }
