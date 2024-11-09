@@ -16,10 +16,14 @@ namespace ElektronicznyKonsolowy.Models
         public ClassSchedule(int classId)
         {
             this.studentClassId = classId;
-            this.sessions = new List<Session>();
+            sessions = new List<Session>();
         }
         public void AddSession(Session session)
         {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session), "Sesja nie może być null.");
+            }
             sessions.Add(session);
         }
         public void RemoveSession(Session session)

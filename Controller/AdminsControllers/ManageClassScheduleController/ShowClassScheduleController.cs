@@ -11,6 +11,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
     public class ShowClassScheduleController
     {
         MyDbContext db; ShowClassScheduleView view;
-        ShowClassScheduleController(MyDbContext db) { this.db = db;this.view = new ShowClassScheduleView(db); }
+        public ShowClassScheduleController(MyDbContext db) { this.db = db;this.view = new ShowClassScheduleView(db); }
     }
 }

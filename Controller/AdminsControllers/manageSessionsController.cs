@@ -13,7 +13,7 @@ using ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews;
 
 namespace ElektronicznyKonsolowy.Controller.AdminsControllers
 {
-    internal class manageSessionsController
+    public class manageSessionsController
     {
         manageSessionsView manageSessionsView = new manageSessionsView(); MyDbContext db;
         ShowSessionController show; ShowSessionView view; AddSessionController addSessionController;

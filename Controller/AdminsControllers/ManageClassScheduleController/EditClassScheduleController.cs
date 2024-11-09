@@ -16,12 +16,12 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
         public EditClassScheduleController(MyDbContext db) { this.db = db; view = new EditClassScheduleView(); }
         public void Edit()
         {
-            List<bool> choices; string value;
+            List<bool> choices; int value;
             int idClassSchedule = view.ClassScheduleToEdit();
             var sTE = db.ClassSchedules.FirstOrDefault(x => x.classScheduleId == idClassSchedule);
             if (idClassSchedule == null)
             {
-                SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono studenta!");
+                SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono planu lekcji!");
                 return;
             }
             ClassSchedule editedClassSchedule = new ClassSchedule(sTE.classScheduleId);
@@ -31,12 +31,25 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
                 if (choices[i])
                 {
                     value = view.EditOption(i);
-                    if (i == 0) { sTE.studentClassId = int.Parse(value); }
-                    else if (i == 1) {
-                        var session = db.Sessions.FirstOrDefault(x => x.sessionId == int.Parse(value));
-                        sTE.AddSession(session); }
-                    else if (i == 2) {
-                        var session = db.Sessions.FirstOrDefault(x => x.sessionId == int.Parse(value));
+                    if (i == 0) { sTE.studentClassId = value; }
+                    else if (i == 1)
+                    {
+                        var session = db.Sessions.FirstOrDefault(x => x.sessionId == value);
+                        if (session == null)
+                        {
+                            SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono sesji!");
+                            return;
+                        }
+                        sTE.AddSession(session);
+                    }
+                    else if (i == 2)
+                    {
+                        var session = db.Sessions.FirstOrDefault(x => x.sessionId == value);
+                        if (session == null)
+                        {
+                            SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono sesji!");
+                            return;
+                        }
                         sTE.RemoveSession(session);
                     }
                 }

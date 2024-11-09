@@ -40,27 +40,33 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
 
             return result;
         }
-        public string EditOption(int i)
+        public int EditOption(int i)
         {
             if (i == 0)
             {
-                string name;
+                int opt;
                 AnsiConsole.MarkupLine("[blue] Podaj nowe Id Klasy: [/]");
-                return Console.ReadLine();
+                string name = Console.ReadLine();
+                opt = int.Parse(name);
+                return opt;
             }
             else if (i == 1)
             {
-                string name;
                 AnsiConsole.MarkupLine("[blue] Podaj id sesji do dodania do planu lekcji: [/]");
-                return Console.ReadLine();
+                string name = Console.ReadLine();
+                int opt;
+                opt = int.Parse(name);
+                return opt;
             }
             else if (i == 2)
             {
-                string name;
                 AnsiConsole.MarkupLine("[blue] Podaj id sesji do usuniecia z planu lekcji: [/]");
-                return Console.ReadLine();
+                string name = Console.ReadLine();
+                int opt;
+                opt = int.Parse(name);
+                return opt;
             }
-            return "";
+            return -1;
         }
     }
 }

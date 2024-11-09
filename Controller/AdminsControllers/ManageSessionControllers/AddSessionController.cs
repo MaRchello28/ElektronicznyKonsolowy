@@ -83,7 +83,13 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
                 case 9:
                     {
                         hour = new TimeSpan(16, 25, 0);
-                        hourStop = new TimeSpan(17, 20, 0);
+                        hourStop = new TimeSpan(17, 10, 0);
+                        break;
+                    }
+                case 10:
+                    {
+                        hour = new TimeSpan(17,20,0);
+                        hourStop = new TimeSpan(18,05,0);
                         break;
                     }
                 default: {return;}

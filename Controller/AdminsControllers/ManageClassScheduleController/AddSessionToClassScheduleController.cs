@@ -14,7 +14,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
     {
         MyDbContext db; AddSessionToClassScheduleView view;
         public AddSessionToClassScheduleController(MyDbContext db) { this.db = db; view = new AddSessionToClassScheduleView(); }
-        public void addSessionsToSchedule(int opt = 1,int id = 0)
+        public void addSessionsToSchedule(int opt,int id)
         {
             int sessonid;
             if(opt == 0)
@@ -30,7 +30,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
             var sTE = db.Sessions.FirstOrDefault(x => x.sessionId == sessonid);
             if (sessonid == null)
             {
-                SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono sesjo!");
+                SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono sesjI!");
                 return;
             }
             var CLA = db.ClassSchedules.FirstOrDefault(x =>x.classScheduleId == id);
