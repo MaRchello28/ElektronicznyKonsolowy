@@ -17,8 +17,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         MyDbContext db; 
         MailController mailController;
         ShowClassScheduleParentView show;
+        ShowGradesParentView view;
         public ParentController(Parent parent, MyDbContext db) { this.db = db; edit = new EditYourDataController(parent, db); 
             mailController = new MailController(db, parent.user.login); show = new ShowClassScheduleParentView(db);
+            view = new ShowGradesParentView(db);
         }
         public void Run(Parent parent)
         {
@@ -34,6 +36,7 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 1:
                         {
+                            view.Show(parent);
                             break;
                         }
                     case 2:
