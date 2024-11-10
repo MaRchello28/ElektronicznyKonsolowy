@@ -12,7 +12,7 @@ namespace ElektronicznyKonsolowy.Models
         public int nuberOfLesson { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public ICollection<Attendance> attendances { get; set; }
+        public virtual ICollection<Attendance> attendances { get; set; }
         public Lesson(string name, string description, int numberOfLesson) 
         { 
             this.name = name; this.description = description;

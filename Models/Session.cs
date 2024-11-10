@@ -14,7 +14,7 @@ namespace ElektronicznyKonsolowy.Models
         public DayOfWeek dayOfTheWeek { get; set; }
         public TimeSpan hourFrom {  get; set; }
         public TimeSpan hourTo { get; set; }
-        public ICollection<Lesson> lessons { get; set; }
+        public virtual ICollection<Lesson> lessons { get; set; }
         public int ClassScheduleId { get; set; }
         public Teacher? replacement { get; set; }
         public Session() { }

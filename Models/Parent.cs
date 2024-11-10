@@ -17,7 +17,7 @@ namespace ElektronicznyKonsolowy.Models
         public string surname => user?.surname;
         public string login => user?.login;
         public string password => user?.password;
-        public ICollection<Student> children { get; set; }
+        public virtual ICollection<Student> children { get; set; }
         public Parent() { }
         public Parent(string email, string phoneNumber, User user)
         {

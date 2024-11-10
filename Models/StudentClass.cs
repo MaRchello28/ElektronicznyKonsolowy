@@ -14,7 +14,7 @@ namespace ElektronicznyKonsolowy.Models
         public string number {  get; set; }
         [MaxLength(1)]
         public string letter { get; set; }
-        public ICollection <Student> students { get; set; }
+        public virtual ICollection <Student> students { get; set; }
         public int teacherId { get; set; }
         public int? classScheduleId { get; set; }
         public StudentClass() { }

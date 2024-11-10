@@ -29,7 +29,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                 name = FindSubjectName(teacherSessions[i]);
                 subjectNames.Add(name);
             }
-            int selectedSubjcet = chooseCorrectSubjectView.Run(subjectNames);
+            int selectedSubject = chooseCorrectSubjectView.Run(subjectNames);
             //Tu będzie się wyświetlać opcja "przejdz do lekcji", wstaw ocenę z przedmiotu
             int choose = chooseCorrectSubjectView.SelectOption();
             switch (choose)

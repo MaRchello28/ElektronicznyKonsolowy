@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElektronicznyKonsolowy.View.TeacherViews
 {
@@ -50,37 +51,60 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         }
         public void ManageGrades(int selectedClass)
         {
-            var grid = new Grid();
+            var studentClass = db.StudentClasses
+            .Include(sc => sc.students)
+            .FirstOrDefault(sc => sc.studentClassId == selectedClass);
 
-            var nameSurname = new Table();
-            nameSurname.AddColumn("Imie i nazwisko ucznia");
-
-            var grades = new Table();
-            grades.AddColumn("1");
-            grades.AddColumn("Is");
-            grades.AddColumn("IIs");
-
-            var students = db.Students.ToList().OrderBy(s => s.user.surname);
-            foreach (var student in students)
+            if (studentClass != null)
             {
-                if (selectedClass == student.studentClassId)
-                {
-                    nameSurname.AddRow(student.user.name + " " + student.surname);
-                }
+                studentClass.students = studentClass.students.OrderBy(s => s.surname).ToList();
             }
 
-            // Użycie grid do ustawienia tabel obok siebie
-            grid.AddColumn();
-            grid.AddColumn();
+            if (studentClass == null || studentClass.students == null || !studentClass.students.Any())
+            {
+                Console.WriteLine("Brak danych dla wybranej klasy.");
+                return;
+            }
 
-            // Umieszczamy tabele w grid
-            grid.AddRow(nameSurname, grades);
+            foreach (var student in studentClass.students)
+            {
+                db.Entry(student)
+                    .Collection(s => s.grades)
+                    .Load();
+            }
 
-            AnsiConsole.Render(grid);
-            //Powinno wyświetlić wszystkie oceny w tabeli z kursorem na początku
-            //Istnieje przycisk do stworzenia nowej tabeli z oceną
-            //Po kliknięciu odpowiedniej oceny wyświetla się jej opis
+            var table = new Table();
+            table.AddColumn("Nazwisko i Imię");
+
+            var descriptions = studentClass.students
+                .SelectMany(s => s.grades)
+                .Where(g => g != null)
+                .Select(g => g.description)
+                .Distinct()
+                .ToList();
+
+            int number = 1;
+            foreach (var description in descriptions)
+            {
+                table.AddColumn(number++.ToString());
+            }
+
+            foreach (var student in studentClass.students)
+            {
+                var fullName = $"{student.surname} {student.name}";
+                var row = new List<string> { fullName };
+
+                foreach (var description in descriptions)
+                {
+                    var grade = student.grades.FirstOrDefault(g => g.description == description);
+                    row.Add(grade != null ? grade.value.ToString() : "");
+                }
+
+                table.AddRow(row.ToArray());
+            }
+            AnsiConsole.Write(table);
         }
+        
         public void ManageLessons()
         {
 

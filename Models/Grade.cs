@@ -15,10 +15,16 @@ namespace ElektronicznyKonsolowy.Models
         public int studentId { get; set; }
         public int teacherId { get; set; }
         public DateTime time { get; set; }
-        public int subjectId { get; set; }
-        public Grade(double value, int wage, string description, int studentId, int teacherId, int subjectId) 
+        public int sessionId { get; set; }
+        public Grade() { }
+        public Grade(double value, int wage, string description, int studentId, int teacherId, int sessionId) 
         { 
-            time = DateTime.Now; this.value=value; this.wage=wage; this.description=description; this.studentId=studentId; this.teacherId=teacherId; this.subjectId=subjectId;
+            time = DateTime.Now; this.value=value; this.wage=wage; this.description=description; this.studentId=studentId; this.teacherId=teacherId; 
+            this.sessionId=sessionId;
+        }
+        public override string ToString()
+        {
+            return value.ToString();
         }
     }
 }

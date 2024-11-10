@@ -10,7 +10,7 @@ namespace ElektronicznyKonsolowy.Models
     public class ClassSchedule
     {
         public int classScheduleId {  get; set; }
-        public ICollection<Session> sessions { get; set; }
+        public virtual ICollection<Session> sessions { get; set; }
         public int studentClassId { get; set; }
         public ClassSchedule() { }
         public ClassSchedule(int classId)
