@@ -19,8 +19,6 @@
   <ItemGroup>
     <Folder Include="Controller\StudentControllers\" />
     <Folder Include="Controller\ParentsControllers\" />
-    <Folder Include="View\ParentViews\" />
-    <Folder Include="View\StudentViews\" />
   </ItemGroup>
 
 </Project>
