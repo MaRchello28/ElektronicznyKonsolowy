@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace ElektronicznyKonsolowy.View.TeacherViews
 {
@@ -36,8 +37,8 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         public int SelectOption()
         {
             string[] optionsInArray = new string[3];
-            optionsInArray[0] = "Wstaw oceny";
-            optionsInArray[1] = "Lekcje";
+            optionsInArray[0] = "Przejdź do ocen";
+            optionsInArray[1] = "Przejdź do obecności";
             optionsInArray[2] = "Powrót";
 
             var selectedOption = AnsiConsole.Prompt(
@@ -49,62 +50,113 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
 
             return index;
         }
-        public void ManageGrades(int selectedClass)
+        public int ManageGrades(int selectedClass, int userId, int selectedSession)
         {
-            var studentClass = db.StudentClasses
-            .Include(sc => sc.students)
-            .FirstOrDefault(sc => sc.studentClassId == selectedClass);
+            string[] optionsInArray = new string[4];
+            optionsInArray[0] = "Wyświetl oceny klasy";
+            optionsInArray[1] = "Wstaw nowe oceny";
+            optionsInArray[2] = "Edytuj istniejące oceny";
+            optionsInArray[3] = "Powrót";
 
-            if (studentClass != null)
-            {
-                studentClass.students = studentClass.students.OrderBy(s => s.surname).ToList();
-            }
+            var selectedOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Co chcesz wykonać?")
+                    .PageSize(10)
+                    .AddChoices(optionsInArray));
+            int index = Array.IndexOf(optionsInArray, selectedOption);
 
-            if (studentClass == null || studentClass.students == null || !studentClass.students.Any())
-            {
-                Console.WriteLine("Brak danych dla wybranej klasy.");
-                return;
-            }
-
-            foreach (var student in studentClass.students)
-            {
-                db.Entry(student)
-                    .Collection(s => s.grades)
-                    .Load();
-            }
-
-            var table = new Table();
-            table.AddColumn("Nazwisko i Imię");
-
-            var descriptions = studentClass.students
-                .SelectMany(s => s.grades)
-                .Where(g => g != null)
-                .Select(g => g.description)
-                .Distinct()
-                .ToList();
-
-            int number = 1;
-            foreach (var description in descriptions)
-            {
-                table.AddColumn(number++.ToString());
-            }
-
-            foreach (var student in studentClass.students)
-            {
-                var fullName = $"{student.surname} {student.name}";
-                var row = new List<string> { fullName };
-
-                foreach (var description in descriptions)
-                {
-                    var grade = student.grades.FirstOrDefault(g => g.description == description);
-                    row.Add(grade != null ? grade.value.ToString() : "");
-                }
-
-                table.AddRow(row.ToArray());
-            }
+            return index;
+        }
+        public void ShowGrades(Table table)
+        {   
             AnsiConsole.Write(table);
         }
-        
+        public void AddNewGrade(List<string> studentsWithNewGrade, int userId, int selectedSession, Dictionary<string, DateTime> descriptionData, int subjectId)
+        {
+            List<string> studentIds = studentsWithNewGrade.Select(student => student.Split(' ')[0]).ToList();
+            List<string> studentNames = studentsWithNewGrade.Select(student => student.Split(' ')[1] + " " + student.Split(' ')[2]).ToList();
+            List<Grade> grades = new List<Grade>();
+            AnsiConsole.MarkupLine("[green]Podaj za co ocena: [/]");
+            string description = Console.ReadLine();
+            foreach(var desc in descriptionData)
+            {
+                if(description.Equals(desc.Key, StringComparison.OrdinalIgnoreCase))
+                {
+                    AnsiConsole.MarkupLine("[red]Istnieje już taka ocena![/]");
+                    return;
+                }
+            }
+            AnsiConsole.MarkupLine("[green]Podaj wagę oceny: [/]");
+            string value = Console.ReadLine();
+            int wage = int.Parse(value);
+            int i = 0;
+            foreach(var student in studentsWithNewGrade)
+            {
+                AnsiConsole.MarkupLine("[green]Wstawiasz ocenę dla "+string.Join(", ", studentNames)+"[/]");
+                AnsiConsole.MarkupLine("Podaj ocene: ");
+                string markString = Console.ReadLine();
+                double mark = int.Parse(markString);
+                DateTime time = DateTime.Now;
+                grades.Add(new Grade(mark, wage, description, int.Parse(studentIds[i++]), userId, selectedSession, subjectId));
+            }
+            foreach(var grade in grades)
+            {
+                db.Grades.Add(grade);
+            }
+            db.SaveChanges();
+        }
+        public List<string> ChooseStudentsForNewGrades(StudentClass studentClass)
+        {
+            string[] options = new string[studentClass.students.Count];
+            int i = 0;
+            foreach(var student in studentClass.students)
+            {
+                options[i++] = student.studentId+" "+student.surname+" "+student.name;
+            }
+            var selectoptions = AnsiConsole.Prompt(
+            new MultiSelectionPrompt<string>()
+            .Title("[red]Wybierz uczniów, którym chcesz postawić oceny: [/]")
+            .NotRequired()
+            .PageSize(10)
+            .InstructionsText(
+            "[grey](Naciśnij [red]<space>[/], żeby zaznaczyć zmienną, a " +
+            "[green]<enter>[/], żeby zaakceptować)[/]")
+            .AddChoices("Cała klasa: ")
+            .AddChoices(options));
+
+            return selectoptions;
+        }
+        public int EditGrade(Dictionary<string, DateTime> descriptionDates)
+        {
+            string[] options = new string[descriptionDates.Count];
+            int i = 0;
+            foreach(var desc in descriptionDates)
+            {
+                options[i++] = desc.Key.ToString();
+            }
+
+            var selectedOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Co chcesz wykonać?")
+                    .PageSize(10)
+                    .AddChoices(options));
+            int index = Array.IndexOf(options, selectedOption);
+
+            return index;
+        }
+        public int ChooseGrade()
+        {
+            string[] optionsInArray = new string[2];
+            optionsInArray[0] = "Nowa ocena";
+            optionsInArray[1] = "Edytuj dostepne pole na oceny";
+            var selectedOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Wybierz opcję: ")
+                    .PageSize(10)
+                    .AddChoices(optionsInArray));
+            int index = Array.IndexOf(optionsInArray, selectedOption);
+            return index;
+        }
         public void ManageLessons()
         {
 
