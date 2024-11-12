@@ -25,7 +25,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
                 SuccesAndErrorsView.ShowErrorMessage("Nie znaleziono sesji!");
                 return;
             }
-            Session editedSession = new Session(sTE.subjectId, sTE.teacherId, sTE.dayOfTheWeek, sTE.hourFrom, sTE.hourTo);
+            Session editedSession = new Session(sTE.subjectId, sTE.teacherId, sTE.dayOfTheWeek, sTE.hourFrom, sTE.hourTo,sTE.sala);
             choices = view.ChooseOptionsToEdit();
             for (int i = 0; i < choices.Count; i++)
             {

@@ -35,19 +35,5 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
 
             AnsiConsole.Render(table);
         }
-        public int AddSessions()
-        {
-            var options = new[] {
-            "Tak",
-            "Nie",
-            };
-            var selectedOption = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-            .Title("Czy chcesz odrazu dodać lekcje do planu? : ")
-            .PageSize(10)
-            .AddChoices(options));
-
-            return Array.IndexOf(options, selectedOption);
-        }
     }
 }
