@@ -57,7 +57,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         choose = chooseCorrectSubjectView.ManageGrades(selectedClass, userId, selectedSession);
                         switch(choose)
                         {
-                            case 0:
+                            case 0: //Wyswietl oceny
                                 {
                                     if (studentClass != null)
                                     {
@@ -124,9 +124,28 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                 }
                             case 2://Edytuj dostępne
                                 {
+                                    var tableSelectedDescription = new Table();
+                                    tableSelectedDescription.AddColumn("Nazwisko i imię");
+                                    tableSelectedDescription.AddColumn("");
                                     choose = chooseCorrectSubjectView.EditGrade(descriptionDates);
                                     string description = descriptionDates.ElementAt(choose).Key.ToString();
                                     //Wyświetl uczniów w tabelce i ich ocenę za ten test
+                                    List<Student> students = db.Students.Where(s => s.studentClassId == selectedClass)
+                                        .OrderBy(s => s.user.surname).ToList();
+                                    foreach(var s in students)
+                                    {
+                                        var grade = s.grades.FirstOrDefault(g => g.sessionId == selectedSession &&
+                                            g.subjectId == selectedSubject);
+                                        if (grade != null)
+                                        {
+                                            tableSelectedDescription.AddRow(s.user.surname+" "+s.user.name, grade.ToString());
+                                        }
+                                        else
+                                        {
+                                            tableSelectedDescription.AddRow(s.user.surname + " " + s.user.name, "");
+                                        }
+                                    }
+                                    AnsiConsole.Render(tableSelectedDescription);
                                     //Wybierz uczniów, którym chcesz edytować ocenę
                                     //Wstaw nowe oceny tym uczniom
                                     break;
@@ -184,7 +203,6 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                     }
                 }
             }
-
             return descriptionDates;
         }
     }
