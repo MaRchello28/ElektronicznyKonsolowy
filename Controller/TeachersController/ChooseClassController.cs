@@ -44,7 +44,6 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                     idSelectedSubject = session.subjectId;
                 }
             }
-            int numberInDictionary = 1;
             switch (choose)
             {
                 case 0:
@@ -55,20 +54,19 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         .FirstOrDefault(sc => sc.studentClassId == selectedClass);
                         descriptionDates = GetDescriptionDates(studentClass);
                         choose = chooseCorrectSubjectView.ManageGrades(selectedClass, userId, selectedSession);
-                        switch(choose)
+                        if (studentClass != null)
+                        {
+                            studentClass.students = studentClass.students.OrderBy(s => s.surname).ToList();
+                        }
+                        if (studentClass == null || studentClass.students == null || !studentClass.students.Any())
+                        {
+                            Console.WriteLine("Brak danych dla wybranej klasy.");
+                            return;
+                        }
+                        switch (choose)
                         {
                             case 0: //Wyswietl oceny
                                 {
-                                    if (studentClass != null)
-                                    {
-                                        studentClass.students = studentClass.students.OrderBy(s => s.surname).ToList();
-                                    }
-
-                                    if (studentClass == null || studentClass.students == null || !studentClass.students.Any())
-                                    {
-                                        Console.WriteLine("Brak danych dla wybranej klasy.");
-                                        return;
-                                    }
                                     foreach (var student in studentClass.students)
                                     {
                                         db.Entry(student)
@@ -81,7 +79,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                         .Select(d => d.Key)
                                         .ToList();
                                     var table = new Table();
-                                    table.AddColumn("Nr");
+                                    table.AddColumn("IdUcznia");
                                     table.AddColumn("Nazwisko i Imię");
 
                                     int number = 1;
@@ -93,7 +91,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     foreach (var student in studentClass.students)
                                     {
                                         var fullName = $"{student.surname} {student.name}";
-                                        var row = new List<string> { numberInDictionary++.ToString(), fullName };
+                                        var row = new List<string> { student.studentId.ToString(), fullName };
 
                                         foreach (var description in sortedDescriptions)
                                         {
@@ -124,6 +122,8 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                 }
                             case 2://Edytuj dostępne
                                 {
+                                    List<int> subjectsId = db.Sessions.Select(s => s.subjectId).ToList();
+                                    bool was = false;
                                     var tableSelectedDescription = new Table();
                                     tableSelectedDescription.AddColumn("Nazwisko i imię");
                                     tableSelectedDescription.AddColumn("");
@@ -134,20 +134,30 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                         .OrderBy(s => s.user.surname).ToList();
                                     foreach(var s in students)
                                     {
-                                        var grade = s.grades.FirstOrDefault(g => g.sessionId == selectedSession &&
-                                            g.subjectId == selectedSubject);
-                                        if (grade != null)
+                                        for(int i=0; i<subjectsId.Count; i++)
                                         {
-                                            tableSelectedDescription.AddRow(s.user.surname+" "+s.user.name, grade.ToString());
+                                            if (s.grades.FirstOrDefault(g => g.sessionId == selectedSession && g.subjectId == subjectsId[i] && g.description == description) 
+                                                != null)
+                                            {
+                                                var grade = s.grades.FirstOrDefault(g => g.sessionId == selectedSession && g.subjectId == subjectsId[i] && g.description == description);
+                                                tableSelectedDescription = chooseCorrectSubjectView.AddRowWithGrade(tableSelectedDescription, s, grade);
+                                                was = true;
+                                                break;
+                                            }
                                         }
-                                        else
+                                        if(was == false)
                                         {
-                                            tableSelectedDescription.AddRow(s.user.surname + " " + s.user.name, "");
+                                            tableSelectedDescription = chooseCorrectSubjectView.AddRowWithoutGrade(tableSelectedDescription, s);
                                         }
+                                        was = false;
                                     }
                                     AnsiConsole.Render(tableSelectedDescription);
                                     //Wybierz uczniów, którym chcesz edytować ocenę
+                                    List<string> studentsForNewGrades = chooseCorrectSubjectView.SelectStudentsToEditGrade(students, description, selectedSession, subjectsId);
+
                                     //Wstaw nowe oceny tym uczniom
+                                    chooseCorrectSubjectView.EditGradesSelectedStudents(studentsForNewGrades);
+
                                     break;
                                 }
                             default:
