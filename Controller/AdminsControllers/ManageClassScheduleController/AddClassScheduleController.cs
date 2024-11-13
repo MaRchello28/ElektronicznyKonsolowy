@@ -23,12 +23,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
             db.ClassSchedules.Add(classSchedule);
             db.SaveChanges();
             view.ShowCreatedClassSchedule(id);
-            int opt = view.AddSessions();
-            if (opt == 0)
-            {
-                add.addSessionsToSchedule(opt,id);
-            }
-
         }
         
     }

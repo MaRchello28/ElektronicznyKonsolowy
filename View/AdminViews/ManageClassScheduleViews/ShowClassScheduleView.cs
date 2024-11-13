@@ -52,12 +52,13 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
 
                 var table2 = new Table();
                 table2.Border(TableBorder.Ascii);
-                table2.AddColumn("Godzina");
-                table2.AddColumn("Poniedziałek");
-                table2.AddColumn("Wtorek");
-                table2.AddColumn("Środa");
-                table2.AddColumn("Czwartek");
-                table2.AddColumn("Piątek");
+                table2.AddColumn(new TableColumn(new Markup("[blue]Godzina[/]")));
+                table2.AddColumn(new TableColumn(new Markup("[blue]Poniedziałek[/]")));
+                table2.AddColumn(new TableColumn(new Markup("[blue]Wtorek[/]")));
+                table2.AddColumn(new TableColumn(new Markup("[blue]Środa[/]")));
+                table2.AddColumn(new TableColumn(new Markup("[blue]Czwartek[/]")));
+                table2.AddColumn(new TableColumn(new Markup("[blue]Piątek[/]")));
+
                 int i = 0;
                 var lessonTimes = new List<string>
                 {
@@ -71,7 +72,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
                 {
                     if(i==0)
                     {
-                        var style = new Style(Color.Green);
+                        var style = new Style(Color.Blue);
                         table2.AddRow(
                             new Text(time, style),
                             new Text("", style),
@@ -124,9 +125,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
                             string subjectName = GetSubjectNameById(session.subjectId);
                             string teacherName = GetTeacherNameById(session.teacherId);
                             string teacherSurname = GetTeacherSurnameById(session.teacherId);
-                            var styledText = $"{subjectName} ({teacherName} {teacherSurname})";
+                            var styledText = $"{subjectName} {session.sala} ({teacherName} {teacherSurname})";
                             if(rowIndex %2 == 0)
-                                table2.UpdateCell(rowIndex, columnIndex, new Markup($"[green]{styledText}[/]"));
+                                table2.UpdateCell(rowIndex, columnIndex, new Markup($"[blue]{styledText}[/]"));
                             else
                                 table2.UpdateCell(rowIndex, columnIndex, new Markup($"[purple]{styledText}[/]"));
                         }

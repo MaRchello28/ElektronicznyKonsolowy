@@ -15,11 +15,12 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
         public AddSessionController(MyDbContext db) { this.db = db; view = new AddSessionView(db); }
         public void CreateSession()
         {
-            int subjectid; int teacher; int dzien; int godzina;
+            int subjectid; int teacher; int dzien; int godzina; int sala;
             TimeSpan hour; TimeSpan hourStop; DayOfWeek dayOfWeek;
             view.ShowCreateWindow();
             subjectid = view.EnterSubject();
             teacher = view.EnterTeacher();
+            sala = view.EnterSala();
             dzien = view.EnterDzien();
             dzien++;
             dayOfWeek = (DayOfWeek)dzien;
@@ -94,10 +95,10 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
                     }
                 default: {return;}
             }
-            Session session = new Session(subjectid, teacher, dayOfWeek, hour, hourStop);
+            Session session = new Session(subjectid, teacher, dayOfWeek, hour, hourStop, sala);
             db.Sessions.Add(session);
             db.SaveChanges();
-            view.ShowCreatedSession(subjectid, teacher, dzien, hour, hourStop);
+            view.ShowCreatedSession(subjectid, teacher, dzien, hour, hourStop, sala);
         }
     }
 }

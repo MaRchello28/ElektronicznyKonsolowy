@@ -75,15 +75,23 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
 
             return Array.IndexOf(options, selectedOption);
         }
-        public void ShowCreatedSession(int subject, int teacher, int dzien, TimeSpan hourfrom, TimeSpan hourstop)
+        public int EnterSala()
+        {
+            AnsiConsole.MarkupLine("[blue] Podaj numer sali [/]");
+            string value = Console.ReadLine();
+            int sala;
+            sala = int.Parse(value);
+            return sala;
+        }
+        public void ShowCreatedSession(int subject, int teacher, int dzien, TimeSpan hourfrom, TimeSpan hourstop,int sala)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego rodzica[/]");
             table.AddColumn("IdSesji");
-            table.AddColumn("SubjectId"); table.AddColumn("Nauczyciel"); table.AddColumn("Dzień tygodnia"); table.AddColumn("Godzina od");
+            table.AddColumn("SubjectId"); table.AddColumn("Nauczyciel");table.AddColumn("Numer sali"); table.AddColumn("Dzień tygodnia"); table.AddColumn("Godzina od");
             table.AddColumn("Godzina do");
 
-            table.AddRow("", subject.ToString(), teacher.ToString(), ((DayOfWeek)dzien).ToString(), hourfrom.ToString(), hourstop.ToString());
+            table.AddRow("", subject.ToString(), teacher.ToString(),sala.ToString(), ((DayOfWeek)dzien).ToString(), hourfrom.ToString(), hourstop.ToString());
 
             AnsiConsole.Render(table);
         }
