@@ -1,4 +1,5 @@
 ﻿using ElektronicznyKonsolowy.Models;
+using Microsoft.Extensions.Options;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -17,54 +18,82 @@ namespace ElektronicznyKonsolowy.View.ParentViews
         }
         public void Show(Parent parent)
         {
-            int id = parent.parentId;
-
-            Console.Write("Wybierz ID dziecka, aby zobaczyć plan lekcji: ");
-            if (int.TryParse(Console.ReadLine(), out int selectedChildId))
+            var children = db.Students.Where(s => s.parentId == parent.parentId).ToList();
+            if (!children.Any())
             {
-                var selectedChild = parent.children
-                    .FirstOrDefault(c => c.studentId == selectedChildId);
+                Console.WriteLine("Brak dzieci powiązanych z tym rodzicem.");
+                return;
+            }
+            string[] options = children.Select(c => $"{c.user.name} {c.user.surname} (ID: {c.studentId})").ToArray();
 
-                if (selectedChild == null)
-                {
-                    Console.WriteLine("Nie znaleziono dziecka o podanym ID.");
-                    return;
-                }
-                var grades = db.Grades.Where(g => g.studentId == selectedChild.studentId).ToList();
+            var selectedChildOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[blue]Wybierz dziecko, aby zobaczyć oceny:[/]")
+                    .PageSize(10)
+                    .AddChoices(options)
+            );
+            var selectedChildId = int.Parse(selectedChildOption.Split("ID: ").Last().Trim(')'));
+            var selectedChild = children.FirstOrDefault(c => c.studentId == selectedChildId);
+            var grades = db.Grades.Where(g => g.studentId == selectedChild.studentId).ToList();
 
-                if (!grades.Any())
-                {
-                    Console.WriteLine("Brak ocen dla tego dziecka.");
-                    return;
-                }
+            if (!grades.Any())
+            {
+                Console.WriteLine("Brak ocen dla tego dziecka.");
+                return;
+            }
+            var Grades = db.Grades.Where(g => g.studentId == selectedChild.studentId).ToList();
+            var Subjects = db.Subjects.ToList();
 
-                // Create a Spectre.Console table
-                var table = new Table();
-                table.Border(TableBorder.Ascii);
-                table.AddColumn("Wartość");
-                table.AddColumn("Waga");
-                table.AddColumn("Opis");
-                table.AddColumn("Nauczyciel ID");
-                table.AddColumn("Data");
-                table.AddColumns("Id sesji");
-                bool useFirstColor = true;
-                foreach (var grade in grades)
-                {
-                    var color = useFirstColor ? new Style(Color.Green) : new Style(Color.Purple);
+            string[] opcje = new string[Subjects.Count()];
+            int i = 0;
+            foreach (var subject in Subjects)
+            {
+                opcje[i++] = subject.name + " " + subject.subjectId;
+            }
 
-                    table.AddRow(
-                        new Markup($"[green]{grade.value}[/]", color),
-                        new Markup($"{grade.wage}", color),
-                        new Markup($"{grade.description}", color),
-                        new Markup($"{grade.teacherId}", color),
-                        new Markup($"{grade.time}", color),
-                        new Markup($"{grade.sessionId}", color)
-                    );
+            var selectedSubject = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("[blue]Wybierz Przedmiot, aby zobaczyć oceny:[/]")
+                .PageSize(10)
+                .AddChoices(opcje)
+            );
 
-                    useFirstColor = !useFirstColor;
-                }
+            int subjectId = int.Parse(selectedSubject.Split(' ').Last());
 
-                AnsiConsole.Write(table);
+            var subjectGrades = Grades.Where(g => g.subjectId == subjectId).ToList();
+
+            string[] gradeOptions = new string[subjectGrades.Count];
+            int j = 0;
+            foreach (var grade in subjectGrades)
+            {
+                gradeOptions[j++] = $"{grade.value} (data: {grade.time}) - {grade.description}";
+            }
+            if (gradeOptions.Length == 0)
+            {
+                AnsiConsole.MarkupLine("[red]Brak ocen dla wybranego przedmiotu![/]");
+                return;
+            }
+            var selectedGrade = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[blue]Wybierz ocenę, aby zobaczyć szczegóły:[/]")
+                    .PageSize(10)
+                    .AddChoices(gradeOptions)
+            );
+            var chosenGrade = subjectGrades.FirstOrDefault(g =>
+                selectedGrade.StartsWith(g.value.ToString()) && selectedGrade.Contains(g.description));
+            var teacher = db.Teachers.FirstOrDefault(t => t.teacherId == chosenGrade.teacherId);
+            string teacherFullName = teacher != null ? $"{teacher.user.name} {teacher.user.surname}" : "Nieznany nauczyciel";
+
+
+            if (chosenGrade != null)
+            {
+                AnsiConsole.MarkupLine("[bold]Szczegóły oceny:[/]");
+                AnsiConsole.MarkupLine($"[yellow]Wartość:[/] {chosenGrade.value}");
+                AnsiConsole.MarkupLine($"[yellow]Waga:[/] {chosenGrade.wage}");
+                AnsiConsole.MarkupLine($"[yellow]Nauczyciel wystawiający:[/] {teacherFullName}");
+                AnsiConsole.MarkupLine($"[yellow]Opis:[/] {chosenGrade.description}");
+                AnsiConsole.MarkupLine($"[yellow]Data wystawienia:[/] {chosenGrade.time}");
+
             }
         }
     }
