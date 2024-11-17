@@ -13,6 +13,7 @@ namespace ElektronicznyKonsolowy.Models
         {
             this.Configuration.LazyLoadingEnabled = true;
         }
+        public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Lesson> Lessons { get; set; }

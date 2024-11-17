@@ -12,11 +12,15 @@ namespace ElektronicznyKonsolowy.Models
         public int nuberOfLesson { get; set; }
         public string name { get; set; }
         public string description { get; set; }
+        public DateTime date { get; set; }
         public virtual ICollection<Attendance> attendances { get; set; }
-        public Lesson(string name, string description, int numberOfLesson) 
+        public int sessionId { get; set; }
+        public Lesson() { }
+        public Lesson(string name, string description, int numberOfLesson, int sessionId) 
         { 
             this.name = name; this.description = description;
             attendances = new List<Attendance>(); this.nuberOfLesson=numberOfLesson;
+            this.sessionId = sessionId; date = DateTime.Now;
         }
     }
 }

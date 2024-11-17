@@ -9,11 +9,12 @@ namespace ElektronicznyKonsolowy.Models
     public class Attendance
     {
         public int attendanceId {  get; set; }
-        public bool present {  get; set; }
+        public string isPresent {  get; set; }
         public int studentId { get; set; }
         public int lessonId { get; set; }
-        public Attendance(bool present, int studentId, int lessonId) { 
-            this.present = present; this.studentId = studentId; this.lessonId = lessonId;
+        public Attendance() { }
+        public Attendance(string isPresent, int studentId, int lessonId) { 
+            this.isPresent = isPresent; this.studentId = studentId; this.lessonId = lessonId;
         }
     }
 }

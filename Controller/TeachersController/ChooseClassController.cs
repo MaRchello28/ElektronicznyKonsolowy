@@ -17,10 +17,14 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
         MyDbContext db;
         ChooseClassView chooseClassView;
         ChooseCorrectSubjectView chooseCorrectSubjectView;
+        ManageLessonsView manageLessonsView;
+        ShowAttendanceWholeClassView showAttendanceWholeClassView;
         public ChooseClassController(MyDbContext db)
         {
             this.db = db; chooseClassView = new ChooseClassView(db);
             chooseCorrectSubjectView = new ChooseCorrectSubjectView(db);
+            manageLessonsView = new ManageLessonsView(db);
+            showAttendanceWholeClassView = new ShowAttendanceWholeClassView(db);
         }
         public void Run(int userId)
         {
@@ -46,7 +50,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             }
             switch (choose)
             {
-                case 0:
+                case 0://Zarzadzaj ocenami
                     {
                         var descriptionDates = new Dictionary<string, DateTime>();
                         var studentClass = db.StudentClasses
@@ -152,11 +156,8 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                         was = false;
                                     }
                                     AnsiConsole.Render(tableSelectedDescription);
-                                    //Wybierz uczniów, którym chcesz edytować ocenę
                                     List<string> studentsForNewGrades = chooseCorrectSubjectView.SelectStudentsToEditGrade(students, description, selectedSession, subjectsId);
-
-                                    //Wstaw nowe oceny tym uczniom
-                                    chooseCorrectSubjectView.EditGradesSelectedStudents(studentsForNewGrades);
+                                    chooseCorrectSubjectView.EditGradesSelectedStudents(studentsForNewGrades, selectedSession, description, subjectsId, userId);
 
                                     break;
                                 }
@@ -167,9 +168,44 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         }
                         break;
                     }
-                case 1:
+                
+                case 1://Zarzadzaj obecnoscia
                     {
-                        chooseCorrectSubjectView.ManageLessons();
+                        choose = chooseCorrectSubjectView.ManageLessons();
+                        switch (choose)
+                        {
+                            case 0://tworzy lekcje
+                                {
+                                    name = manageLessonsView.GetLessonName();
+                                    string desc = manageLessonsView.AddLessonDescription();
+                                    int number = manageLessonsView.GenerateLessonNumber(selectedSession);
+                                    Lesson lesson = new Lesson(name, desc, number, selectedSession);
+                                    db.Lessons.Add(lesson);
+                                    db.SaveChanges();
+                                    var getLesson = db.Lessons.FirstOrDefault(l => l.nuberOfLesson == lesson.nuberOfLesson && l.sessionId == lesson.sessionId);
+                                    if(manageLessonsView.CheckAttendenceNow())
+                                    {
+                                        manageLessonsView.CheckAttendence(selectedClass, getLesson);
+                                    }
+                                    break;
+                                }
+                            case 1://wybiera istniejaca lekcje
+                                {
+                                    int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession);
+                                    manageLessonsView.ShowAttendanceOfThisLesson(lessonNumber, selectedSession);
+                                    manageLessonsView.EditAttendance(lessonNumber, selectedSession);
+                                    break;
+                                }
+                            case 2://wyświetl wszystkie obecności z lekcji
+                                {
+                                    showAttendanceWholeClassView.Run(selectedSession);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    break;
+                                }
+                        }
                         break;
                     }
                 default:
