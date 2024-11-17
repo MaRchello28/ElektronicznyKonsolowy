@@ -201,7 +201,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     showAttendanceWholeClassView.Run(selectedSession);
                                     break;
                                 }
-                            case 3:
+                            case 3://Powrót
                                 {
                                     break;
                                 }

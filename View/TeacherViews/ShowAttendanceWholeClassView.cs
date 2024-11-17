@@ -45,7 +45,7 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
 
             foreach (var lesson in lessons)
             {
-                table.AddColumn($"Lekcja {lesson.nuberOfLesson}");
+                table.AddColumn($"{lesson.nuberOfLesson}");
             }
 
             foreach (var student in students)
