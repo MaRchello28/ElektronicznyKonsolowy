@@ -15,29 +15,56 @@ namespace ElektronicznyKonsolowy.View.ParentViews
 
         public void show(Parent parent)
         {
-            int id = parent.parentId;
-
-            Console.Write("Wybierz ID dziecka, aby zobaczyć plan lekcji: ");
-            if (int.TryParse(Console.ReadLine(), out int selectedChildId))
+            while (true)
             {
-                var selectedChild = parent.children
-                    .FirstOrDefault(c => c.studentId == selectedChildId);
-
-                if (selectedChild == null)
+                // Fetch children of the parent
+                var children = db.Students.Where(s => s.parentId == parent.parentId).ToList();
+                if (!children.Any())
                 {
-                    Console.WriteLine("Nie znaleziono dziecka o podanym ID.");
+                    AnsiConsole.MarkupLine("[red]Brak dzieci powiązanych z tym rodzicem.[/]");
                     return;
                 }
 
-                // Step 4: Get the class schedule for the selected child
+                // List children for selection
+                var childOptions = children.Select(c => $"{c.studentId}. {c.name} {c.surname}").ToArray();
+                var selectedChildOption = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[blue]Wybierz dziecko, aby zobaczyć plan lekcji:[/]")
+                        .PageSize(10)
+                        .AddChoices(childOptions.Append("Cofnij"))
+                );
+
+                if (selectedChildOption == "Cofnij")
+                {
+                    Console.Clear();
+                    return;
+                }
+
+                // Parse selected child ID
+                int childId;
+                try
+                {
+                    childId = int.Parse(selectedChildOption.Split(". ").First());
+                }
+                catch (FormatException)
+                {
+                    AnsiConsole.MarkupLine("[red]Nieprawidłowy format ID dziecka![/]");
+                    continue;
+                }
+
+                var selectedChild = children.FirstOrDefault(c => c.studentId == childId);
+                if (selectedChild == null) continue;
+
+                // Get the class schedule for the selected child
                 var classSchedule = db.ClassSchedules
                     .FirstOrDefault(cs => cs.studentClassId == selectedChild.studentClassId);
 
                 if (classSchedule == null)
                 {
-                    Console.WriteLine("Nie znaleziono planu zajęć dla klasy dziecka.");
+                    AnsiConsole.MarkupLine("[red]Nie znaleziono planu zajęć dla klasy dziecka.[/]");
                     return;
                 }
+
                 var table2 = new Table();
                 table2.Border(TableBorder.Ascii);
                 table2.AddColumn(new TableColumn(new Markup("[blue]Godzina[/]")));
@@ -80,10 +107,9 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                             new Text("", style),
                             new Text("", style),
                             new Text("", style)
-                            );
+                        );
                         i--;
                     }
-
                 }
 
                 foreach (var session in classSchedule.sessions)
@@ -119,9 +145,10 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                                 table2.UpdateCell(rowIndex, columnIndex, new Markup($"[purple]{styledText}[/]"));
                         }
                     }
-
                 }
+
                 AnsiConsole.Write(table2);
+
                 string GetSubjectNameById(int subjectId)
                 {
                     var subject = db.Subjects.FirstOrDefault(s => s.subjectId == subjectId);
@@ -133,11 +160,17 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                     var teacher = db.Teachers.FirstOrDefault(t => t.teacherId == teacherId);
                     return teacher != null ? teacher.user.name : "Nieznany nauczyciel";
                 }
+
                 string GetTeacherSurnameById(int teacherId)
                 {
                     var teacher = db.Teachers.FirstOrDefault(t => t.teacherId == teacherId);
                     return teacher != null ? teacher.user.surname : "Nieznany nauczyciel";
                 }
+
+                // Ask to continue or return
+                AnsiConsole.MarkupLine("[grey]Naciśnij klawisz, aby wrócić...[/]");
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }

@@ -18,6 +18,7 @@ namespace ElektronicznyKonsolowy.View.MainViews
                 "Przegladaj oceny swoich dzieci",
                 "Otwórz maila",
                 "Przeglądaj plany zajęć dzieci",
+                "Przeglądaj obecności dzieci",
                 "Wyloguj"
             };
             var selectedOption = AnsiConsole.Prompt(

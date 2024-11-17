@@ -17,10 +17,10 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
         MyDbContext db;
         StudentView studentView = new StudentView(); EditYourDataController edit;
         MailController mailController; ShowClassScheduleStudentView show;
-        ShowGradesStudentView view;
+        ShowGradesStudentView view; ShowAttendanceStudentView attendance;
         public StudentController(Student student, MyDbContext db) { this.db = db; edit = new EditYourDataController(student, db);
             mailController = new MailController(db, student.user.login); show = new ShowClassScheduleStudentView(db);
-            view = new ShowGradesStudentView(db);
+            view = new ShowGradesStudentView(db); attendance = new ShowAttendanceStudentView(db);
         }
         public void Run(Student student)
         {
@@ -50,7 +50,11 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 4:
                         {
-                            run = false; break;
+                            attendance.Show(student); break;
+                        }
+                    case 5:
+                        {
+                            run = false;break;
                         }
                 }
             }
