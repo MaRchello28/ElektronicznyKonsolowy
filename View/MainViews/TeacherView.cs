@@ -17,7 +17,6 @@ namespace ElektronicznyKonsolowy.View.MainViews
                 "Edytuj swoje dane",
                 "Wybierz klasę",
                 "Otwórz skrzynkę pocztową",
-                "Tworzenie quizu",
                 "Wyloguj"
             };
             var selectedOption = AnsiConsole.Prompt(

@@ -19,12 +19,14 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
         ChooseCorrectSubjectView chooseCorrectSubjectView;
         ManageLessonsView manageLessonsView;
         ShowAttendanceWholeClassView showAttendanceWholeClassView;
+        ChangeGradeOnCorrectMark ChangeGradeOnCorrectMark;
         public ChooseClassController(MyDbContext db)
         {
             this.db = db; chooseClassView = new ChooseClassView(db);
             chooseCorrectSubjectView = new ChooseCorrectSubjectView(db);
             manageLessonsView = new ManageLessonsView(db);
             showAttendanceWholeClassView = new ShowAttendanceWholeClassView(db);
+            ChangeGradeOnCorrectMark = new ChangeGradeOnCorrectMark();
         }
         public void Run(int userId)
         {
@@ -77,11 +79,13 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                             .Collection(s => s.grades)
                                             .Load();
                                     }
+
                                     descriptionDates = GetDescriptionDates(studentClass);
                                     var sortedDescriptions = descriptionDates
                                         .OrderBy(d => d.Value)
                                         .Select(d => d.Key)
                                         .ToList();
+
                                     var table = new Table();
                                     table.AddColumn("IdUcznia");
                                     table.AddColumn("Nazwisko i Imię");
@@ -99,17 +103,25 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
 
                                         foreach (var description in sortedDescriptions)
                                         {
-                                            // Filtrujemy oceny dla danej sesji
                                             var grade = student.grades
                                                 .FirstOrDefault(g => g.description == description && g.sessionId == selectedSession);
 
-                                            row.Add(grade != null ? grade.value.ToString() : "");
+                                            row.Add(grade != null ? ChangeGradeOnCorrectMark.ChangeNumberOnChar(grade.value) : "");
                                         }
 
                                         table.AddRow(row.ToArray());
                                     }
 
+                                    // Wyświetlenie tabeli
                                     chooseCorrectSubjectView.ShowGrades(table);
+
+                                    // Wyświetlenie opisów ocen pod tabelą
+                                    AnsiConsole.MarkupLine("[green]Opis ocen:[/]");
+                                    int descNumber = 1;
+                                    foreach (var description in sortedDescriptions)
+                                    {
+                                        AnsiConsole.MarkupLine($"{descNumber++} - {description}");
+                                    }
                                     break;
                                 }
                             case 1://Wstaw nową
@@ -132,6 +144,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     tableSelectedDescription.AddColumn("Nazwisko i imię");
                                     tableSelectedDescription.AddColumn("");
                                     choose = chooseCorrectSubjectView.EditGrade(descriptionDates);
+                                    if(choose == descriptionDates.Count) { break; }
                                     string description = descriptionDates.ElementAt(choose).Key.ToString();
                                     //Wyświetl uczniów w tabelce i ich ocenę za ten test
                                     List<Student> students = db.Students.Where(s => s.studentClassId == selectedClass)
@@ -161,7 +174,23 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
 
                                     break;
                                 }
-                            default:
+                            case 3://Usun wszystkie oceny dla klasy z danym opisem
+                                {
+                                    choose = chooseCorrectSubjectView.EditGrade(descriptionDates);
+                                    if (choose == descriptionDates.Count) { break; }
+
+                                    string description = descriptionDates.ElementAt(choose).Key.ToString();
+                                    var grades = db.Grades.Where(g => g.description == description && g.sessionId == selectedSession).ToList();
+
+                                    foreach (var g in grades)
+                                    {
+                                        db.Grades.Remove(g);
+                                    }
+
+                                    db.SaveChanges();
+                                    break;
+                                }
+                            default://Powrót
                                 {
                                     break;
                                 }

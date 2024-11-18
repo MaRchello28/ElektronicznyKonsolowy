@@ -50,8 +50,14 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    name = Console.ReadLine();
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
+                    if (name.Length < 3) { AnsiConsole.MarkupLine("[red]Login nie może być krótszy niż 4 znaki[/]"); }
+                }
+                while (name.Length < 4);
+                return name;
             }
             else if (i == 1)
             {

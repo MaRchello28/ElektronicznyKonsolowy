@@ -9,15 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Data.Entity;
+using ElektronicznyKonsolowy.Controller.TeachersController;
 
 namespace ElektronicznyKonsolowy.View.TeacherViews
 {
     public class ChooseCorrectSubjectView
     {
-        MyDbContext db;
+        MyDbContext db; ExistingGradeController egc;
         public ChooseCorrectSubjectView(MyDbContext db) 
         { 
-            this.db = db;
+            this.db = db; egc = new ExistingGradeController(db);
         }
         //Metody do wstawiania ocen
         public int Run(List<string> subjectNames)
@@ -55,11 +56,12 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         }
         public int ManageGrades(int selectedClass, int userId, int selectedSession)
         {
-            string[] optionsInArray = new string[4];
+            string[] optionsInArray = new string[5];
             optionsInArray[0] = "Wyświetl oceny klasy";
             optionsInArray[1] = "Wstaw nowe oceny";
             optionsInArray[2] = "Edytuj istniejące oceny";
-            optionsInArray[3] = "Powrót";
+            optionsInArray[3] = "Usuń wszystkie oceny dla danego opisu";
+            optionsInArray[4] = "Powrót";
 
             var selectedOption = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -78,11 +80,10 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         {
             List<string> studentIds = studentsWithNewGrade.Select(student => student.Split(' ')[0]).ToList();
             string[] studentNames = studentsWithNewGrade
-            .Where(student => !student.Trim().StartsWith("0 Cala klasa"))  // Pomijamy "Cała klasa"
             .Select(student =>
             {
                 var parts = student.Trim().Split(' ');
-                return parts[1] + " " + parts[2];  // Łączymy nazwisko i imię
+                return parts[1] + " " + parts[2];
             })
             .ToArray();
             List<Grade> grades = new List<Grade>();
@@ -100,24 +101,58 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             string value = Console.ReadLine();
             int wage = int.Parse(value);
             int i = 0;
-            foreach(var student in studentsWithNewGrade)
+            foreach (var student in studentsWithNewGrade)
             {
-                if(Equals(student,"0 Cala klasa: "))
+                if (Equals(student, "0 Cala klasa: "))
                 {
-
+                    i++;
                 }
                 else
                 {
                     AnsiConsole.MarkupLine("[green]Wstawiasz ocenę dla " + string.Join(", ", studentNames[i]) + "[/]");
-                    AnsiConsole.MarkupLine("Podaj ocene: ");
-                    string markString = Console.ReadLine();
-                    double mark = int.Parse(markString);
+
+                    double mark = 0;
+                    bool validGrade = false;
+
+                    do
+                    {
+                        AnsiConsole.MarkupLine("Podaj ocenę (naciśnij Esc, aby przerwać): ");
+
+                        if (Console.KeyAvailable)
+                        {
+                            var key = Console.ReadKey(intercept: true);
+                            if (key.Key == ConsoleKey.Escape)
+                            {
+                                AnsiConsole.MarkupLine("[yellow]Proces wprowadzania ocen został przerwany.[/]");
+                                return;
+                            }
+                        }
+
+                        string markString = Console.ReadLine();
+
+                        if (double.TryParse(markString, out mark))
+                        {
+                            if (egc.CheckGrade(mark))
+                            {
+                                validGrade = true;
+                            }
+                            else
+                            {
+                                AnsiConsole.MarkupLine("[red]Podana ocena nie istnieje![/]");
+                            }
+                        }
+                        else
+                        {
+                            AnsiConsole.MarkupLine("[red]Podana wartość nie jest liczbą![/]");
+                        }
+                    } while (!validGrade);
+
                     DateTime time = DateTime.Now;
-                    int IdStudent = int.Parse(studentIds[++i]);
+                    int IdStudent = int.Parse(studentIds[i++]);
                     grades.Add(new Grade(mark, wage, description, IdStudent, userId, selectedSession, subjectId));
                 }
             }
-            foreach(var grade in grades)
+            foreach (var grade in grades)
             {
                 db.Grades.Add(grade);
             }
