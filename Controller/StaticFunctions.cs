@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ElektronicznyKonsolowy.Models;
 using ElektronicznyKonsolowy.View;
+using Spectre.Console;
 
 namespace ElektronicznyKonsolowy.Controller
 {

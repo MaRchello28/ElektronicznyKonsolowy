@@ -40,6 +40,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                 subjectNames.Add(name);
             }
             int selectedSubject = chooseCorrectSubjectView.Run(subjectNames);
+            if (selectedSubject == subjectNames.Count) { return; }
             int selectedSession = teacherSessions[selectedSubject];
             int choose = chooseCorrectSubjectView.SelectOption();
             int idSelectedSubject = -1;
@@ -66,7 +67,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         }
                         if (studentClass == null || studentClass.students == null || !studentClass.students.Any())
                         {
-                            Console.WriteLine("Brak danych dla wybranej klasy.");
+                            SuccesAndErrorsView.ShowErrorMessage("Brak danych dla wybranej klasy.");
                             return;
                         }
                         switch (choose)
@@ -122,12 +123,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     chooseCorrectSubjectView.ShowGrades(table);
 
                                     // Wyświetlenie opisów ocen pod tabelą
-                                    AnsiConsole.MarkupLine("[green]Opis ocen:[/]");
-                                    int descNumber = 1;
-                                    foreach (var description in sortedDescriptions)
-                                    {
-                                        AnsiConsole.MarkupLine($"{descNumber++} - {description}");
-                                    }
+                                    chooseCorrectSubjectView.ShowGradesDescription(sortedDescriptions);
                                     break;
                                 }
                             case 1://Wstaw nową
@@ -149,7 +145,8 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     var tableSelectedDescription = new Table();
                                     tableSelectedDescription.AddColumn("Nazwisko i imię");
                                     tableSelectedDescription.AddColumn("");
-                                    choose = chooseCorrectSubjectView.EditGrade(descriptionDates);
+                                    List<string> descriptions = FindDescGradesForSession(selectedSession, descriptionDates);
+                                    choose = chooseCorrectSubjectView.EditGrade(descriptions);
                                     if(choose == descriptionDates.Count) { break; }
                                     string description = descriptionDates.ElementAt(choose).Key.ToString();
                                     //Wyświetl uczniów w tabelce i ich ocenę za ten test
@@ -176,13 +173,18 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     }
                                     AnsiConsole.Render(tableSelectedDescription);
                                     List<string> studentsForNewGrades = chooseCorrectSubjectView.SelectStudentsToEditGrade(students, description, selectedSession, subjectsId);
+                                    if (studentsForNewGrades.Contains("Powrót"))
+                                    {
+                                        return;
+                                    }
                                     chooseCorrectSubjectView.EditGradesSelectedStudents(studentsForNewGrades, selectedSession, description, subjectsId, userId);
 
                                     break;
                                 }
                             case 3://Usun wszystkie oceny dla klasy z danym opisem
                                 {
-                                    choose = chooseCorrectSubjectView.EditGrade(descriptionDates);
+                                    List<string> descriptions = FindDescGradesForSession(selectedSession, descriptionDates);
+                                    choose = chooseCorrectSubjectView.EditGrade(descriptions);
                                     if (choose == descriptionDates.Count) { break; }
 
                                     string description = descriptionDates.ElementAt(choose).Key.ToString();
@@ -212,7 +214,8 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                             case 0://tworzy lekcje
                                 {
                                     name = manageLessonsView.GetLessonName();
-                                    string desc = manageLessonsView.AddLessonDescription();
+                                    if (name == null || name == "") { return; }
+                                    string desc = manageLessonsView.AddLessonDescription(); //Może być puste
                                     int number = manageLessonsView.GenerateLessonNumber(selectedSession);
                                     Lesson lesson = new Lesson(name, desc, number, selectedSession);
                                     db.Lessons.Add(lesson);
@@ -224,7 +227,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     }
                                     break;
                                 }
-                            case 1://wybiera istniejaca lekcje
+                            case 1://wybiera istniejaca lekcje  //Tu skończyłem edycje błędów
                                 {
                                     int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession);
                                     manageLessonsView.ShowAttendanceOfThisLesson(lessonNumber, selectedSession);
@@ -248,6 +251,21 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         return;
                     }
             }
+        }
+        public List<string> FindDescGradesForSession(int selectedSession, Dictionary<string, DateTime> descriptionDates)
+        {
+            List<string> descriptions = new List<string>();
+            foreach (var desc in descriptionDates)
+            {
+                foreach (var g in db.Grades)
+                {
+                    if (g.sessionId == selectedSession && g.description == desc.Key.ToString())
+                    {
+                        if(!descriptions.Contains(g.description)) { descriptions.Add(g.description); }
+                    }
+                }
+            }
+            return descriptions;
         }
         public List<int> FindSubjectsForThisTeacher(int selectedClass, int userId)
         {
