@@ -17,6 +17,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
         }
         public void Show(Student student)
         {
+            Console.Clear();
             while (true)
             {
                 var subjects = db.Subjects.ToList();
