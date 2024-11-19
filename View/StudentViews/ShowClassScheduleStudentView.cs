@@ -15,6 +15,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
         public ShowClassScheduleStudentView(MyDbContext db) { this.db = db; }
         public void Show(Student student)
         {
+            Console.Clear();
             int id = (int)student.studentClassId;
             var CLA = db.ClassSchedules.FirstOrDefault(x => x.studentClassId == id);
             if (CLA == null)
@@ -113,6 +114,9 @@ namespace ElektronicznyKonsolowy.View.StudentViews
 
             }
             AnsiConsole.Write(table2);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
             string GetSubjectNameById(int subjectId)
             {
                 var subject = db.Subjects.FirstOrDefault(s => s.subjectId == subjectId);

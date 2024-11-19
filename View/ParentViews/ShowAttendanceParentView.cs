@@ -17,6 +17,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
         }
         public void Show(Parent parent)
         {
+            Console.Clear();
             while (true)
             {
                 // Fetch children of the parent

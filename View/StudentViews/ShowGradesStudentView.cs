@@ -18,6 +18,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
         public ShowGradesStudentView(MyDbContext db) { this.db = db; }
         public void show(Student student)
         {
+            Console.Clear();
             var changeGrade = new ChangeGradeOnCorrectMark();
             while(true)
             {
