@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Data;
+using ElektronicznyKonsolowy.Controller.TeachersController;
 
 namespace ElektronicznyKonsolowy.View.StudentViews
 {
@@ -17,6 +18,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
         public ShowGradesStudentView(MyDbContext db) { this.db = db; }
         public void show(Student student)
         {
+            var changeGrade = new ChangeGradeOnCorrectMark();
             while(true)
             {
                 var Grades = db.Grades.Where(g => g.studentId == student.studentId).ToList();
@@ -30,7 +32,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
                 {
                     var subgrade = Grades.Where(g => g.subjectId == subject.subjectId).ToList();
                     string gradesString = subgrade.Any()
-                        ? string.Join(", ", subgrade.Select(g => g.value.ToString()))
+                        ? string.Join(", ", subgrade.Select(g => changeGrade.ChangeNumberOnChar(g.value)))
                         : "";
                     if (i == 0)
                     {
@@ -86,7 +88,8 @@ namespace ElektronicznyKonsolowy.View.StudentViews
                 int j = 0;
                 foreach (var grade in subjectGrades)
                 {
-                    gradeOptions[j++] = $"{grade.value} (data: {grade.time}) - {grade.description}";
+                    string gradeChar = changeGrade.ChangeNumberOnChar(grade.value);
+                    gradeOptions[j++] = $"{gradeChar} (data: {grade.time}) - {grade.description}";
                 }
                 if (gradeOptions.Length == 0)
                 {
@@ -102,7 +105,8 @@ namespace ElektronicznyKonsolowy.View.StudentViews
                         .AddChoices(gradeOptions)
                     );
                     var chosenGrade = subjectGrades.FirstOrDefault(g =>
-                        selectedGrade.StartsWith(g.value.ToString()) && selectedGrade.Contains(g.description));
+                    selectedGrade.StartsWith(changeGrade.ChangeNumberOnChar(g.value)) &&
+                    selectedGrade.Contains(g.description));
                     var teacher = db.Teachers.FirstOrDefault(t => t.teacherId == chosenGrade.teacherId);
                     string teacherFullName = teacher != null ? $"{teacher.user.name} {teacher.user.surname}" : "Nieznany nauczyciel";
 
@@ -110,7 +114,7 @@ namespace ElektronicznyKonsolowy.View.StudentViews
                     if (chosenGrade != null)
                     {
                         AnsiConsole.MarkupLine("[bold]Szczegóły oceny:[/]");
-                        AnsiConsole.MarkupLine($"[yellow]Wartość:[/] {chosenGrade.value}");
+                        AnsiConsole.MarkupLine($"[yellow]Wartość:[/] {changeGrade.ChangeNumberOnChar(chosenGrade.value)}");
                         AnsiConsole.MarkupLine($"[yellow]Waga:[/] {chosenGrade.wage}");
                         AnsiConsole.MarkupLine($"[yellow]Nauczyciel wystawiający:[/] {teacherFullName}");
                         AnsiConsole.MarkupLine($"[yellow]Opis:[/] {chosenGrade.description}");
