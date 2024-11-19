@@ -106,7 +106,13 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                             var grade = student.grades
                                                 .FirstOrDefault(g => g.description == description && g.sessionId == selectedSession);
 
-                                            row.Add(grade != null ? ChangeGradeOnCorrectMark.ChangeNumberOnChar(grade.value) : "");
+                                            string color;
+                                            if (grade != null) { color = ChangeGradeOnCorrectMark.CorrectColorForGrade(grade.value); }
+                                            else { color = ""; }
+
+                                            row.Add(grade != null
+                                            ? $"[{color}]{ChangeGradeOnCorrectMark.ChangeNumberOnChar(grade.value)}[/]"
+                                            : "");
                                         }
 
                                         table.AddRow(row.ToArray());

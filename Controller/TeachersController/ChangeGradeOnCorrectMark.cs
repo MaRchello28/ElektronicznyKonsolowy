@@ -27,6 +27,15 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             "5", "5+", "6-",
             "6"
         };
+        List<string> correctColor = new List<string>
+        {
+            "red3", "red", "red3_1",
+            "orange4_1", "darkorange3", "orange3",
+            "yellow", "darkolivegreen1_1", "greenyellow",
+            "palegreen1_1", "greenyellow", "chartreuse1",
+            "skyblue2", "slateblue1", "purple_1",
+            "darkmagenta"
+        };
         public ChangeGradeOnCorrectMark()
         {
 
@@ -36,6 +45,15 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             for(int i=0; i<gradeNumber.Count; i++)
             {
                 if(gradeNumber[i] == value) { return gradeChar[i]; }
+            }
+            SuccesAndErrorsView.ShowErrorMessage("Nieprawidlowa wartosc");
+            return "";
+        }
+        public string CorrectColorForGrade(double value)
+        {
+            for (int i = 0; i < gradeNumber.Count; i++)
+            {
+                if (gradeNumber[i] == value) { return correctColor[i]; }
             }
             SuccesAndErrorsView.ShowErrorMessage("Nieprawidlowa wartosc");
             return "";
