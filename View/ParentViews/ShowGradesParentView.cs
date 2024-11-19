@@ -1,4 +1,5 @@
-﻿using ElektronicznyKonsolowy.Models;
+﻿using ElektronicznyKonsolowy.Controller.TeachersController;
+using ElektronicznyKonsolowy.Models;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
 
         public void Show(Parent parent)
         {
+            var changeGrade = new ChangeGradeOnCorrectMark();
             while (true)
             {
                 // Pobieranie dzieci powiązanych z rodzicem
@@ -77,7 +79,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                 {
                     var subjectGrades = grades.Where(g => g.subjectId == subject.subjectId).ToList();
                     string gradesString = subjectGrades.Any()
-                        ? string.Join(", ", subjectGrades.Select(g => g.value.ToString()))
+                        ? string.Join(", ", subjectGrades.Select(g => changeGrade.ChangeNumberOnChar(g.value)))
                         : "";
 
                     // Zmiana kolorów wierszy (naprzemiennie niebieski i fioletowy)
@@ -131,7 +133,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                 }
 
                 // Wyświetlanie ocen dla wybranego przedmiotu
-                var gradeOptions = selectedSubjectGrades.Select(g => $"{g.value} - {g.time}").ToArray();
+                var gradeOptions = selectedSubjectGrades.Select(g => $"{changeGrade.ChangeNumberOnChar(g.value)} - {g.time}").ToArray();
                 gradeOptions = gradeOptions.Append("Wróć").ToArray(); // Dodanie opcji "Wróć"
 
                 var selectedGradeOption = AnsiConsole.Prompt(
@@ -149,7 +151,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
 
                 // Parsowanie wybranej oceny i wyświetlanie szczegółów
                 var selectedGrade = selectedSubjectGrades
-                    .FirstOrDefault(g => $"{g.value} - {g.time}" == selectedGradeOption);
+                    .FirstOrDefault(g => $"{changeGrade.ChangeNumberOnChar(g.value)} - {g.time}" == selectedGradeOption);
 
                 if (selectedGrade != null)
                 {
@@ -158,7 +160,7 @@ namespace ElektronicznyKonsolowy.View.ParentViews
 
                     // Wyświetlanie szczegółów oceny
                     AnsiConsole.MarkupLine("[bold]Szczegóły oceny:[/]");
-                    AnsiConsole.MarkupLine($"[yellow]Wartość:[/] {selectedGrade.value}");
+                    AnsiConsole.MarkupLine($"[yellow]Wartość:[/] {changeGrade.ChangeNumberOnChar(selectedGrade.value)}");
                     AnsiConsole.MarkupLine($"[yellow]Waga:[/] {selectedGrade.wage}");
                     AnsiConsole.MarkupLine($"[yellow]Nauczyciel wystawiający:[/] {teacherName}");
                     AnsiConsole.MarkupLine($"[yellow]Opis:[/] {selectedGrade.description}");
