@@ -229,7 +229,9 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                 }
                             case 1://wybiera istniejaca lekcje  //Tu skończyłem edycje błędów
                                 {
-                                    int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession);
+                                    var lessons = db.Lessons.Where(l => l.sessionId == selectedSession).OrderBy(l => l.nuberOfLesson).ToList();
+                                    int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession, lessons);
+                                    if (lessonNumber==lessons.Count) { return; }
                                     manageLessonsView.ShowAttendanceOfThisLesson(lessonNumber, selectedSession);
                                     manageLessonsView.EditAttendance(lessonNumber, selectedSession);
                                     break;

@@ -102,11 +102,11 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             }
             db.SaveChanges();
         }
-        public int ShowExistingLessons(int sessionId)
+        public int ShowExistingLessons(int sessionId, List<Lesson> lessons)
         {
             AnsiConsole.MarkupLine("[aqua]Wybierz lekcję: [/]");
-            var lessons = db.Lessons.Where(l => l.sessionId == sessionId).OrderBy(l => l.nuberOfLesson).ToList();
-            string[] options = new string[lessons.Count];
+            string[] options = new string[lessons.Count+1];
+            options[lessons.Count] = "Powrót";
             int i = 0;
             foreach(var lesson in lessons)
             {
