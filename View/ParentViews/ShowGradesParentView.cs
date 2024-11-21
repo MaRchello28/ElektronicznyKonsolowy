@@ -67,6 +67,9 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                     if (!grades.Any())
                     {
                         AnsiConsole.MarkupLine("[red]Brak ocen dla tego dziecka.[/]");
+                        AnsiConsole.MarkupLine("[grey]Naciśnij klawisz, aby wrócić...[/]");
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
                     }
 
@@ -127,8 +130,11 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                     var selectedSubjectGrades = grades.Where(g => g.subjectId == subjectId).ToList();
                     if (!selectedSubjectGrades.Any())
                     {
-                        Console.Clear();
+                        
                         AnsiConsole.MarkupLine("[red]Brak ocen dla wybranego przedmiotu![/]");
+                        AnsiConsole.MarkupLine("[grey]Naciśnij klawisz, aby wrócić...[/]");
+                        Console.ReadKey();
+                        Console.Clear();
                         continue;
                     }
 

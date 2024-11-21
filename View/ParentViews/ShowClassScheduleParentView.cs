@@ -63,7 +63,10 @@ namespace ElektronicznyKonsolowy.View.ParentViews
                 if (classSchedule == null)
                 {
                     AnsiConsole.MarkupLine("[red]Nie znaleziono planu zajęć dla klasy dziecka.[/]");
-                    return;
+                    AnsiConsole.MarkupLine("[grey]Naciśnij klawisz, aby wrócić...[/]");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
                 }
 
                 var table2 = new Table();

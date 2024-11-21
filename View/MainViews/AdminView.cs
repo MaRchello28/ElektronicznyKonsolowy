@@ -24,7 +24,6 @@ namespace ElektronicznyKonsolowy.View.MainViews
             "Zarządzaj przedmiotami",
             "Zardządzanie sesjami",
             "Otwórz skrzynkę pocztową",
-            "Przypisz przedmioty do klasy",
             "Zarządzanie planami zajęć",
             "Wyloguj"
     };

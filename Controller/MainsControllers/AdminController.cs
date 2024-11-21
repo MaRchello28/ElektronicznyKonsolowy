@@ -74,15 +74,12 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
                         }
                     case 8:
                         {
-                            run = false; break;
+                            manageClassScheduleController.ShowManageWindow(); break;
                         }
                     case 9:
                         {
-                            manageClassScheduleController.ShowManageWindow();break;
-                        }
-                    case 10:
-                        {
                             run = false; break;
+
                         }
                 }
             }
