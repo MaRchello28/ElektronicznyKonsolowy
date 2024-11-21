@@ -16,18 +16,21 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
     public class ChooseCorrectSubjectView
     {
         MyDbContext db; ExistingGradeController egc;
+        ChangeGradeOnCorrectMark cgocm;
         public ChooseCorrectSubjectView(MyDbContext db) 
         { 
             this.db = db; egc = new ExistingGradeController(db);
+            cgocm = new ChangeGradeOnCorrectMark();
         }
         //Metody do wstawiania ocen
         public int Run(List<string> subjectNames)
         {
-            string[] optionsInArray = new string[subjectNames.Count];
+            string[] optionsInArray = new string[subjectNames.Count+1];
             for(int i=0; i< subjectNames.Count; i++)
             {
                 optionsInArray[i] = subjectNames[i];
             }
+            optionsInArray[subjectNames.Count] = "Powrót";
 
             var selectedOption = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -87,19 +90,73 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             })
             .ToArray();
             List<Grade> grades = new List<Grade>();
-            AnsiConsole.MarkupLine("[green]Podaj za co ocena: [/]");
-            string description = Console.ReadLine();
-            foreach(var desc in descriptionData)
+
+            AnsiConsole.MarkupLine("[green]Podaj za co ocena (naciśnij Enter bez wprowadzonych wartości, aby przerwać): [/]");
+
+            string description;
+
+            do
             {
-                if(description.Equals(desc.Key, StringComparison.OrdinalIgnoreCase))
+                int c = 0;
+
+                description = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(description))
                 {
-                    AnsiConsole.MarkupLine("[red]Istnieje już taka ocena![/]");
+                    AnsiConsole.MarkupLine("[yellow]Proces został przerwany przez użytkownika.[/]");
                     return;
                 }
+
+                foreach (var desc in descriptionData)
+                {
+                    if (description.Equals(desc.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        AnsiConsole.MarkupLine("[red]Istnieje już taka ocena![/]");
+                        c++;
+                    }
+                }
+                if (c == 0)
+                {
+                    break;
+                }
+                c = 0;
+            } while (true);
+
+            AnsiConsole.MarkupLine("[green]Podaj wagę oceny (naciśnij Enter bez wprowadzonych wartości, aby przerwać): [/]");
+
+            int wage = 1;
+            try
+            {
+                do
+                {
+                    string value = Console.ReadLine();
+                    if(string.IsNullOrEmpty(value))
+                    {
+                        AnsiConsole.MarkupLine("[yellow]Proces został przerwany przez użytkownika.[/]");
+                        return;
+                    }
+                    if (int.TryParse(value, out wage) && wage > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (!int.TryParse(value, out wage))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podano błędną wagę oceny! Waga musi być liczbą całkowitą.[/]");
+                        }
+                        else if (wage <= 0)
+                        {
+                            AnsiConsole.MarkupLine("[red]Waga musi być dodatnią liczbą całkowitą![/]");
+                        }
+                    }
+                } while (true);
             }
-            AnsiConsole.MarkupLine("[green]Podaj wagę oceny: [/]");
-            string value = Console.ReadLine();
-            int wage = int.Parse(value);
+            catch (Exception ex)
+            {
+                AnsiConsole.MarkupLine("[red]Wystąpił nieoczekiwany błąd: {0}[/]", ex.Message);
+            }
+
             int i = 0;
             foreach (var student in studentsWithNewGrade)
             {
@@ -114,22 +171,26 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
                     double mark = 0;
                     bool validGrade = false;
 
+                    AnsiConsole.MarkupLine("Podaj ocenę (naciśnij Enter bez wprowadzonych wartości, aby przerwać): ");
                     do
                     {
-                        AnsiConsole.MarkupLine("Podaj ocenę (naciśnij Esc, aby przerwać): ");
-
-                        if (Console.KeyAvailable)
-                        {
-                            var key = Console.ReadKey(intercept: true);
-                            if (key.Key == ConsoleKey.Escape)
-                            {
-                                AnsiConsole.MarkupLine("[yellow]Proces wprowadzania ocen został przerwany.[/]");
-                                return;
-                            }
-                        }
-
                         string markString = Console.ReadLine();
 
+                        if(string.IsNullOrEmpty(markString))
+                        {
+                            if(!Equals(student, studentsWithNewGrade[1]))
+                            {
+                                int choose = SaveChangesChoose();
+                                if (choose == 0)
+                                {
+                                    db.SaveChanges();
+                                    AnsiConsole.MarkupLine("[yellow]Oceny zostały zapisane.[/]");
+                                }
+                            }
+                            
+                            AnsiConsole.MarkupLine("[yellow]Proces wprowadzania ocen został przerwany.[/]");
+                            return;
+                        }
                         if (double.TryParse(markString, out mark))
                         {
                             if (egc.CheckGrade(mark))
@@ -158,6 +219,21 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             }
             db.SaveChanges();
         }
+        public int SaveChangesChoose()
+        {
+            string[] optionsInArray = new string[3];
+            optionsInArray[0] = "Tak";
+            optionsInArray[1] = "Nie";
+
+            var selectedOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Czy chcesz zapisać wystawione oceny?")
+                    .PageSize(10)
+                    .AddChoices(optionsInArray));
+            int index = Array.IndexOf(optionsInArray, selectedOption);
+
+            return index;
+        }
         public List<string> ChooseStudentsForNewGrades(StudentClass studentClass)
         {
             string[] options = new string[studentClass.students.Count];
@@ -185,15 +261,16 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
 
             return selectoptions;
         }
-        public int EditGrade(Dictionary<string, DateTime> descriptionDates)
+        public int EditGrade(List<string> descriptions)
         {
-            string[] options = new string[descriptionDates.Count+1];
+            string[] options = new string[descriptions.Count+1];
             int i = 0;
-            foreach(var desc in descriptionDates)
+            foreach(var desc in descriptions)
             {
-                options[i++] = desc.Key.ToString();
+                options[i] = descriptions[i];
+                i++;
             }
-            options[descriptionDates.Count] = "Powrót";
+            options[descriptions.Count] = "Powrót";
             var selectedOption = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Co chcesz wykonać?")
@@ -218,7 +295,21 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         }
         public Table AddRowWithGrade(Table tableSelectedDescription, Student s, Grade grade)
         {
-            tableSelectedDescription.AddRow(s.user.surname + " " + s.user.name, grade.ToString());
+            string color = cgocm.CorrectColorForGrade(grade.value);
+            string gradeChar = cgocm.ChangeNumberOnChar(grade.value);
+
+            if (string.IsNullOrWhiteSpace(color) || string.IsNullOrWhiteSpace(gradeChar))
+            {
+                SuccesAndErrorsView.ShowErrorMessage("Nieprawidłowe dane");
+                return new Table();
+            }
+
+            // Dodaj wiersz do tabeli z kolorowym formatowaniem
+            tableSelectedDescription.AddRow(
+                $"{s.user.surname} {s.user.name}",
+                $"[{color}]{gradeChar}[/]"
+            );
+
             return tableSelectedDescription;
         }
         public Table AddRowWithoutGrade(Table tableSelectedDescription, Student s)
@@ -250,6 +341,7 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
                 was = false;
                 
             }
+
             var selectoptions = AnsiConsole.Prompt(
             new MultiSelectionPrompt<string>()
             .Title("[red]Wybierz uczniów, którym chcesz postawić oceny: [/]")
@@ -319,37 +411,66 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             }
             for (int i = 0; i < grades.Count; i++)
             {
+                var color = cgocm.CorrectColorForGrade(double.Parse(grades[i]));
                 AnsiConsole.MarkupLine("[aqua]Zmieniasz ocenę dla: " + nameAndSurname[i] + " o id: " + ids[i] + "[/]");
-                AnsiConsole.MarkupLine("[red]Poprzednia ocena: " + grades[i] + "[/]");
-                AnsiConsole.Markup("[green]Nowa ocena: [/]");
-                string newValueString = Console.ReadLine();
+                AnsiConsole.MarkupLine($"[red]Poprzednia ocena: [/][{color}]{cgocm.ChangeNumberOnChar(double.Parse(grades[i]))}[/]");
+                AnsiConsole.MarkupLine("[green]Nowa ocena: (Naciśnij Enter, żeby anulować edytowanie ocen)[/]");
 
-                if (double.TryParse(newValueString, out double newValue))
+                do
                 {
-                    int studentId = int.Parse(ids[i]);
+                    string newValueString = Console.ReadLine();
 
-                    var gradeToUpdate = db.Set<Grade>().FirstOrDefault(g => g.sessionId == selectedSession 
-                        && g.description == description && g.studentId == studentId);
-
-                    if (gradeToUpdate != null)
+                    if (string.IsNullOrEmpty(newValueString))
                     {
-                        gradeToUpdate.value = newValue;
-                        gradeToUpdate.time = DateTime.Now;
+                        if (i != 0)
+                        {
+                            var choose = SaveChangesChoose();
+                            if (choose == 0)
+                            {
+                                db.SaveChanges();
+                                AnsiConsole.MarkupLine("[yellow]Dane zostały zapisane.[/]");
+                            }
+                        }
+                        AnsiConsole.MarkupLine("[yellow]Przerwano edytowanie ocen[/]");
+                        return;
+                    }
 
-                        db.SaveChanges();
-                        AnsiConsole.MarkupLine("[green]Ocena została zaktualizowana pomyślnie![/]");
+                    if (double.TryParse(newValueString, out double newValue))
+                    {
+
+                        if(egc.CheckGrade(newValue))
+                        {
+                            int studentId = int.Parse(ids[i]);
+
+                            var gradeToUpdate = db.Set<Grade>().FirstOrDefault(g => g.sessionId == selectedSession
+                                && g.description == description && g.studentId == studentId);
+
+                            gradeToUpdate.value = newValue;
+                            gradeToUpdate.time = DateTime.Now;
+                            AnsiConsole.MarkupLine("[green]Ocena została zaktualizowana pomyślnie![/]");
+
+                            break;
+                        }
+                        else
+                        {
+                            AnsiConsole.Markup("[red]Wybrana ocena nie istnieje![/]");
+                        }
                     }
                     else
                     {
-                        Grade grade = new Grade(newValue, wage, description, studentId, teacherId, selectedSession, subjectId);
-                        db.Grades.Add(grade);
-                        db.SaveChanges();
+                        AnsiConsole.MarkupLine("[red]Wprowadzona wartość nie jest prawidłową liczbą![/]");
                     }
-                }
-                else
-                {
-                    AnsiConsole.MarkupLine("[red]Wprowadzona wartość nie jest prawidłową liczbą![/]");
-                }
+                } while (true);
+            }
+            db.SaveChanges();
+        }
+        public void ShowGradesDescription(List<string> sortedDescriptions)
+        {
+            int descNumber = 1;
+            AnsiConsole.MarkupLine("[green]Opis ocen:[/]");
+            foreach (var description in sortedDescriptions)
+            {
+                AnsiConsole.MarkupLine($"{descNumber++} - {description}");
             }
         }
         //Zarządzanie do sprawdzania obecności
