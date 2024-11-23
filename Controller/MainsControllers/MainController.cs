@@ -98,7 +98,8 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             if (admin != null)
             {
                 admin.user.messages = LoadMessages(login);
-                SuccesAndErrorsView.ShowSuccesMessage("Witaj adminie");
+                Console.Clear();
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj Adminie");
                 return AdminUserType;
             }
 
@@ -106,7 +107,8 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             if (student != null)
             {
                 student.user.messages = LoadMessages(login);
-                SuccesAndErrorsView.ShowSuccesMessage("Witaj uczniu");
+                Console.Clear();
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj Uczniu");
                 return StudentUserType;
             }
 
@@ -114,7 +116,8 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             if (teacher != null)
             {
                 teacher.user.messages = LoadMessages(login);
-                SuccesAndErrorsView.ShowSuccesMessage("Witaj nauczycielu");
+                Console.Clear();
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj Nauczycielu");
                 return TeacherUserType;
             }
 
@@ -123,10 +126,11 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             {
                 parent.user.messages = LoadMessages(login);
                 parent.children = LoadChildrens(parent.parentId);
-                SuccesAndErrorsView.ShowSuccesMessage("Witaj rodzicu");
+                Console.Clear();
+                SuccesAndErrorsView.ShowSuccesMessage("Witaj Rodzicu");
                 return ParentUserType;
             }
-
+            Console.Clear();
             SuccesAndErrorsView.ShowErrorMessage("Coś poszło nie tak :(");
             return 0;
         }
