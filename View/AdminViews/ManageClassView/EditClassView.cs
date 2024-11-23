@@ -14,9 +14,14 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
         public int ClassToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idKlasy do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            do
+            {
+                AnsiConsole.WriteLine("[blue]Podaj idKlasy do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if(id >= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne idKlasy[/]"); }
+            }
+            while(id >=0);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -45,20 +50,44 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy numer klasy: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy numer klasy: [/]");
+                    name=(Console.ReadLine());
+                    id= int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny numer[/]"); }
+                }
+                while (id <= 0);
+                return name;
             }
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nową literę klasy: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nową literę klasy: [/]");
+                    name = (Console.ReadLine());
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawną literę[/]"); }
+                }
+                while (id <= 0);
+                return name;
             }
             else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj id nowego wychowawcy: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe id wychowawcy: [/]");
+                    name = (Console.ReadLine());
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                }
+                while (id <= 0);
+                return name;
             }
             return "";
         }

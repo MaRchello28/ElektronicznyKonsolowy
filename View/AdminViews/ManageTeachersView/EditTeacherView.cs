@@ -14,9 +14,15 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
         public int StudentToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idNauczyciela do Edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            do
+            {
+                AnsiConsole.WriteLine("[blue]Podaj idNauczyciela do Edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+            }
+            while(id <= 0);
+
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -45,32 +51,64 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe imię: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe imię: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawne imie[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe nazwisko: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe nazwisko: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawne nazwisko[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 3) { AnsiConsole.MarkupLine("[red]Login nie może być krótszy niż 4 znaki[/]"); }
+                }
+                while (name.Length <= 3);
+                return name;
             }
             else if (i == 3)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótsze niż 6 znaków[/]"); }
+                }
+                while (name.Length <= 6);
+                return name;
             }
             else if (i == 4)
             {
-                string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy email: [/]");
-                return Console.ReadLine();
+                string name; bool run = true;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy email: [/]");
+                    name = Console.ReadLine();
+                    if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                    else if (!(name.Contains('@') && name.Contains('.'))) { AnsiConsole.MarkupLine("[red]To nie jest adres email![/]"); }
+                    else { run = false; }
+                }
+                while (run);
+                return name;
             }
             return "";
         }

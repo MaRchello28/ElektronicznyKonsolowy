@@ -45,39 +45,79 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe imię ucznia: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe imię ucznia: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawne imie[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
-            else if (i==1)
+            else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe nazwisko ucznia: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe nazwisko ucznia: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawne nazwisko[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
-            else if(i==2)
+            else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy login ucznia: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 3) { AnsiConsole.MarkupLine("[red]Login nie może być krótszy niż 4 znaki[/]"); }
+                }
+                while (name.Length <= 3);
+                return name;
             }
-            else if(i==3)
+            else if (i == 3)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe hasło ucznia: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótsze niż 6 znaków[/]"); }
+                }
+                while (name.Length <= 6);
+                return name;
             }
-            else if(i==4)
+            else if (i == 4)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe IdKlasy ucznia: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe IdKlasy ucznia: [/]");
+                    name = Console.ReadLine();
+                    id=int.Parse(name);
+                    if (id<=0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+
+                } while (id<=0);
+                return name;
             }
-            else if(i==5)
+            else if (i == 5)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe IdRodzica ucznia: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe IdRodzica ucznia: [/]");
+                    name = Console.ReadLine();
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                } while (id<=0);
+                return name;
             }
+
             return "";
         }
         public void ShowDifference(Student studentBeforChanges, Student studentAfterChanges)

@@ -14,9 +14,17 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
         public DeleteSessionView(MyDbContext db) { this.db = db; }
         public int PutIndex()
         {
-            AnsiConsole.Write("[red]Podaj index, który chcesz usunąć: [/]");
-            string value = Console.ReadLine();
-            int.TryParse(value, out int id); return id;
+            string value;
+            int id;
+            do
+            {
+                AnsiConsole.Write("[red]Podaj index, który chcesz usunąć: [/]");
+                value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+            }
+            while (id <= 0);
+            return id;
         }
         public int Agree()
         {

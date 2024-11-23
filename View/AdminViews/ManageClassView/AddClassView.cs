@@ -18,21 +18,38 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
         public string EnterNumber()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj numer klasy: [/]");
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj numer klasy: [/]");
+                name = Console.ReadLine();
+                if (name.Length<1) { AnsiConsole.MarkupLine("[red]Musisz podać numer klasy[/]"); }
+            }
+            while(name.Length<1);
             return Console.ReadLine();
         }
         public string EnterLetter()
         {
-            string surname;
-            AnsiConsole.MarkupLine("[blue] Podaj literę klasy: [/]");
+            string name;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj literę klasy: [/]");
+                name = Console.ReadLine();
+                if (name.Length > 1) { AnsiConsole.MarkupLine("[red]Musisz podać litere klasy[/]"); }
+            }
+            while(name.Length<1);
             return Console.ReadLine();
         }
         public int EnterTeacherId()
         {
             int parentId;
-            AnsiConsole.MarkupLine("[blue] Podaj id nauczyciela, który będzie wychowawcą: [/]");
-            string value = Console.ReadLine();
-            parentId = int.Parse(value);
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj id nauczyciela, który będzie wychowawcą: [/]");
+                string value = Console.ReadLine();
+                parentId = int.Parse(value);
+                if(parentId==null) { AnsiConsole.MarkupLine("[red]Musisz podać id naczuczyciela[/]"); }
+            }
+            while(parentId==null);
             return parentId;
         }
         public void ShowCreatedStudent(string number, string letter, int teacherId)

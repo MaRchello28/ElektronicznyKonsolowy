@@ -14,9 +14,14 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
         public int LessonToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj IdLekcji do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            do
+            {
+                AnsiConsole.WriteLine("[blue]Podaj IdLekcji do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+            }
+            while (id <= 0);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -45,21 +50,41 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy temat lekcji: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowy temat lekcji: [/]");
+                    name = Console.ReadLine();
+                    if(name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawny temat[/]"); }
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy opis lekcji: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowy opis lekcji: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawny opis[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy numer lekcji: [/]");
-                return Console.ReadLine();
+                int id;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowy numer lekcji: [/]");
+                    name = Console.ReadLine();
+                    id = int.Parse(name);
+                    if (id <=0) { AnsiConsole.MarkupLine("[red]Podaj poprawny numer[/]"); }
+
+                } while (id<=0);
+                return name;
             }
+
             return "";
         }
         public void ShowDifference(Lesson lessonBeforeChanges, Lesson lessonAfterChanges)

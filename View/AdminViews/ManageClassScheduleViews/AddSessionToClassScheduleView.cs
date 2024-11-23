@@ -20,17 +20,27 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassScheduleViews
         public int EnterID()
         {
             int id;
-            AnsiConsole.MarkupLine("[blue] Podaj ID planu lekcji : [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj ID planu lekcji : [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id"); }
+            }
+            while(id <= 0);
             return id;
         }
         public int EnterSessionId()
         {
             int sessionsid;
-            AnsiConsole.MarkupLine("[blue] Podaj ID sesji: [/]");
-            string value = Console.ReadLine();
-            sessionsid = int.Parse(value);
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj ID sesji: [/]");
+                string value = Console.ReadLine();
+                sessionsid = int.Parse(value);
+                if(sessionsid <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id"); }
+            }
+            while (sessionsid <= 0);
             return sessionsid;
         }
 

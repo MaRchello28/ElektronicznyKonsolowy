@@ -14,9 +14,16 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
         public DeleteClassScheduleView(MyDbContext db) { this.db = db; }
         public int PutIndex()
         {
-            AnsiConsole.Markup("[red]Podaj index, który chcesz usunąć: [/]");
-            string value = Console.ReadLine();
-            int.TryParse(value, out int id); return id;
+            int id;
+            do
+            {
+                AnsiConsole.Markup("[red]Podaj index, który chcesz usunąć: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index"); }
+            }
+            while (id <= 0);
+            return id;
         }
         public int Agree()
         {

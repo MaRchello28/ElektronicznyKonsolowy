@@ -21,13 +21,25 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         public string EnterName()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj imię rodzica: [/]");
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj imię rodzica: [/]");
+                name = Console.ReadLine();
+                if (name == null) { AnsiConsole.MarkupLine("[red]Wprowadź imie[/]"); }
+            }
+            while (name == null);
             return Console.ReadLine();
         }
         public string EnterSurname()
         {
             string surname;
-            AnsiConsole.MarkupLine("[blue] Podaj nazwisko rodzica: [/]");
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nazwisko rodzica: [/]");
+                surname = Console.ReadLine();
+                if (surname == null) { AnsiConsole.MarkupLine("[red]Wprowadź nazwisko"); }
+            }
+            while (surname == null);
             return Console.ReadLine();
         }
         public string CreateDefaultLogin(string name, string surname)
@@ -66,15 +78,31 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         }
         public string EnterEmail()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj email rodzica: [/]");
-            string email = Console.ReadLine();
-            return email;
+            string name; bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nowy email: [/]");
+                name = Console.ReadLine();
+                if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                else if (!(name.Contains('@') && name.Contains('.'))) { AnsiConsole.MarkupLine("[red]To nie jest adres email![/]"); }
+                else { run = false; }
+            }
+            while (run);
+            return name;
         }
         public string EnterPhoneNumber()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj numer telefonu rodzica: [/]");
-            string phonenumber = Console.ReadLine();
-            return phonenumber;
+            string name; bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nowy Nr Telefonu: [/]");
+                name = Console.ReadLine();
+                if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                else if (name.Length != 9) { AnsiConsole.MarkupLine("[red]To nie jest numer telefonu![/]"); }
+                else { run = false; }
+            }
+            while (run);
+            return name;
         }
         public void ShowCreatedParent(string name, string surname, string login, string password, string email, string phonenumber)
         {

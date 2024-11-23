@@ -111,7 +111,7 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
                     name = Console.ReadLine();
-                    if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótszy niż 6 znaków[/]"); }
+                    if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótsze niż 6 znaków[/]"); }
                 }
                 while (name.Length <= 6);
                 return name;

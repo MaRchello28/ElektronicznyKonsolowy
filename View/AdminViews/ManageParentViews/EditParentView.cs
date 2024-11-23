@@ -14,9 +14,14 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         public int ParentToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idRodzica do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            do
+            {
+                AnsiConsole.WriteLine("[blue]Podaj idRodzica do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+            }
+            while(id <= 0);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -45,39 +50,79 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe imię rodzica: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe imię rodzica: [/]");
+                    name = Console.ReadLine();
+                    if(name == null) { AnsiConsole.MarkupLine("[red]Podaj Imie[/]"); }
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe nazwisko rodzica: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue]Podaj nowe nazwisko rodzica: [/]");
+                    name = Console.ReadLine();
+                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj Nazwisko[/]"); }
+
+                } while (string.IsNullOrWhiteSpace(name));
+                return name;
             }
             else if (i == 2)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy login rodzica: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 3) { AnsiConsole.MarkupLine("[red]Login nie może być krótszy niż 4 znaki[/]"); }
+                }
+                while (name.Length <= 3);
+                return name;
             }
             else if (i == 3)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe hasło rodzica: [/]");
-                return Console.ReadLine();
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
+                    name = Console.ReadLine();
+                    if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótsze niż 6 znaków[/]"); }
+                }
+                while (name.Length <= 6);
+                return name;
             }
             else if (i == 4)
             {
-                string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy Email rodzica: [/]");
-                return Console.ReadLine();
+                string name; bool run = true;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy email: [/]");
+                    name = Console.ReadLine();
+                    if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                    else if (!(name.Contains('@') && name.Contains('.'))) { AnsiConsole.MarkupLine("[red]To nie jest adres email![/]"); }
+                    else { run = false; }
+                }
+                while (run);
+                return name;
             }
             else if (i == 5)
             {
-                string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe Numer Telefonu rodzica: [/]");
-                return Console.ReadLine();
+                string name; bool run = true;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowy Nr Telefonu: [/]");
+                    name = Console.ReadLine();
+                    if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                    else if (name.Length != 9) { AnsiConsole.MarkupLine("[red]To nie jest numer telefonu![/]"); }
+                    else { run = false; }
+                }
+                while (run);
+                return name;
             }
+
             return "";
         }
         public void ShowDifference(Parent parentBeforChanges, Parent parentAfterChanges)
