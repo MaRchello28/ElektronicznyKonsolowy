@@ -46,6 +46,7 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
 
         public void EditUser(Student student)
         {
+            view.ShowUser(student);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
@@ -64,6 +65,7 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
         }
         public void EditUser(Parent parent)
         {
+            view.ShowUser(parent);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
@@ -80,6 +82,7 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
         }
         public void EditUser(Teacher teacher)
         {
+            view.ShowUser(teacher);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
