@@ -30,8 +30,11 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
         }
         public void Run(int userId)
         {
-            string name;
-            int selectedClass = chooseClassView.selectClass();//zwraca idKlasy
+            string name; int selectedClass;
+            var options = db.StudentClasses.ToList();
+            string[] optionsInArray = FindTeacherClasses(userId, options);
+            selectedClass = chooseClassView.SelectClass(userId, optionsInArray, options);//zwraca idKlasy
+            if (selectedClass == -1) { return; }
             List<int> teacherSessions = FindSubjectsForThisTeacher(selectedClass, userId);
             List<string> subjectNames = new List<string>();
             for(int i=0; i< teacherSessions.Count; i++)
@@ -305,6 +308,37 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                 }
             }
             return descriptionDates;
+        }
+        public string[] FindTeacherClasses(int teacherId, List<StudentClass> options)
+        {
+            List<int> studentClasses = new List<int>();
+            var sessions = db.Sessions.ToList();
+            var classSchedules = db.ClassSchedules.ToList();
+            foreach (var classSchedule in classSchedules)
+            {
+                foreach (var session in classSchedule.sessions)
+                {
+                    if (session.teacherId == teacherId)
+                    {
+                        // Znaleziono sesję przypisaną do nauczyciela
+                        int classId = classSchedule.studentClassId;
+                        if (!studentClasses.Contains(classId)) { studentClasses.Add(classId); }
+                    }
+                }
+            }
+            string[] optionsInArray = new string[studentClasses.Count + 1];
+            int i = 0;
+            i = 0;
+            foreach (var option in options)
+            {
+                if (studentClasses.Contains(option.studentClassId))
+                {
+                    optionsInArray[i] = option.number + option.letter;
+                    i++;
+                }
+            }
+            optionsInArray[studentClasses.Count] = "Powrót";
+            return optionsInArray;
         }
     }
 }
