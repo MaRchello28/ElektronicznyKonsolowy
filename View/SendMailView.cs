@@ -21,7 +21,7 @@ namespace ElektronicznyKonsolowy.View
         {
             AnsiConsole.Clear();
 
-            AnsiConsole.MarkupLine("[bold blue]Tworzenie nowej wiadomości[/]");
+            AnsiConsole.MarkupLine("[bold blue]Tworzenie nowej wiadomości. Naciśnij Spacje, żeby wysłać[/]");
             for (int i = 0; i < labels.Length; i++)
             {
                 if (i == selectedIndex)

@@ -62,7 +62,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         var studentClass = db.StudentClasses
                         .Include(sc => sc.students)
                         .FirstOrDefault(sc => sc.studentClassId == selectedClass);
-                        descriptionDates = GetDescriptionDates(studentClass);
+                        descriptionDates = GetDescriptionDates(studentClass, selectedSession);
                         choose = chooseCorrectSubjectView.ManageGrades(selectedClass, userId, selectedSession);
                         if (studentClass != null)
                         {
@@ -84,7 +84,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                             .Load();
                                     }
 
-                                    descriptionDates = GetDescriptionDates(studentClass);
+                                    descriptionDates = GetDescriptionDates(studentClass, selectedSession);
                                     var sortedDescriptions = descriptionDates
                                         .OrderBy(d => d.Value)
                                         .Select(d => d.Key)
@@ -230,7 +230,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     }
                                     break;
                                 }
-                            case 1://wybiera istniejaca lekcje  //Tu skończyłem edycje błędów
+                            case 1://wybiera istniejaca lekcje
                                 {
                                     var lessons = db.Lessons.Where(l => l.sessionId == selectedSession).OrderBy(l => l.nuberOfLesson).ToList();
                                     int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession, lessons);
@@ -290,7 +290,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             var subject = db.Subjects.FirstOrDefault(sub => sub.subjectId == session.subjectId);
             return subject?.name;
         }
-        public Dictionary<string, DateTime> GetDescriptionDates(StudentClass studentClass)
+        public Dictionary<string, DateTime> GetDescriptionDates(StudentClass studentClass, int selectedSession)
         {
             var descriptionDates = new Dictionary<string, DateTime>();
 
@@ -298,7 +298,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             {
                 foreach (var grade in student.grades)
                 {
-                    if (grade != null)
+                    if (grade != null && grade.sessionId == selectedSession)
                     {
                         if (!descriptionDates.ContainsKey(grade.description) || grade.time < descriptionDates[grade.description])
                         {
