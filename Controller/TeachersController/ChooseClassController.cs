@@ -30,8 +30,11 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
         }
         public void Run(int userId)
         {
-            string name;
-            int selectedClass = chooseClassView.selectClass();//zwraca idKlasy
+            string name; int selectedClass;
+            var options = db.StudentClasses.ToList();
+            string[] optionsInArray = FindTeacherClasses(userId, options);
+            selectedClass = chooseClassView.SelectClass(userId, optionsInArray, options);//zwraca idKlasy
+            if (selectedClass == -1) { return; }
             List<int> teacherSessions = FindSubjectsForThisTeacher(selectedClass, userId);
             List<string> subjectNames = new List<string>();
             for(int i=0; i< teacherSessions.Count; i++)
@@ -59,7 +62,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                         var studentClass = db.StudentClasses
                         .Include(sc => sc.students)
                         .FirstOrDefault(sc => sc.studentClassId == selectedClass);
-                        descriptionDates = GetDescriptionDates(studentClass);
+                        descriptionDates = GetDescriptionDates(studentClass, selectedSession);
                         choose = chooseCorrectSubjectView.ManageGrades(selectedClass, userId, selectedSession);
                         if (studentClass != null)
                         {
@@ -81,7 +84,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                             .Load();
                                     }
 
-                                    descriptionDates = GetDescriptionDates(studentClass);
+                                    descriptionDates = GetDescriptionDates(studentClass, selectedSession);
                                     var sortedDescriptions = descriptionDates
                                         .OrderBy(d => d.Value)
                                         .Select(d => d.Key)
@@ -227,7 +230,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     }
                                     break;
                                 }
-                            case 1://wybiera istniejaca lekcje  //Tu skończyłem edycje błędów
+                            case 1://wybiera istniejaca lekcje
                                 {
                                     var lessons = db.Lessons.Where(l => l.sessionId == selectedSession).OrderBy(l => l.nuberOfLesson).ToList();
                                     int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession, lessons);
@@ -287,7 +290,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             var subject = db.Subjects.FirstOrDefault(sub => sub.subjectId == session.subjectId);
             return subject?.name;
         }
-        public Dictionary<string, DateTime> GetDescriptionDates(StudentClass studentClass)
+        public Dictionary<string, DateTime> GetDescriptionDates(StudentClass studentClass, int selectedSession)
         {
             var descriptionDates = new Dictionary<string, DateTime>();
 
@@ -295,7 +298,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             {
                 foreach (var grade in student.grades)
                 {
-                    if (grade != null)
+                    if (grade != null && grade.sessionId == selectedSession)
                     {
                         if (!descriptionDates.ContainsKey(grade.description) || grade.time < descriptionDates[grade.description])
                         {
@@ -305,6 +308,37 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                 }
             }
             return descriptionDates;
+        }
+        public string[] FindTeacherClasses(int teacherId, List<StudentClass> options)
+        {
+            List<int> studentClasses = new List<int>();
+            var sessions = db.Sessions.ToList();
+            var classSchedules = db.ClassSchedules.ToList();
+            foreach (var classSchedule in classSchedules)
+            {
+                foreach (var session in classSchedule.sessions)
+                {
+                    if (session.teacherId == teacherId)
+                    {
+                        // Znaleziono sesję przypisaną do nauczyciela
+                        int classId = classSchedule.studentClassId;
+                        if (!studentClasses.Contains(classId)) { studentClasses.Add(classId); }
+                    }
+                }
+            }
+            string[] optionsInArray = new string[studentClasses.Count + 1];
+            int i = 0;
+            i = 0;
+            foreach (var option in options)
+            {
+                if (studentClasses.Contains(option.studentClassId))
+                {
+                    optionsInArray[i] = option.number + option.letter;
+                    i++;
+                }
+            }
+            optionsInArray[studentClasses.Count] = "Powrót";
+            return optionsInArray;
         }
     }
 }

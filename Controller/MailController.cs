@@ -81,7 +81,8 @@ namespace ElektronicznyKonsolowy.Controller
             switch (userType)
             {
                 case 0:
-                    throw new Exception("Error 404 - User not found");
+                    SuccesAndErrorsView.ShowErrorMessage("Użytkownik nie został znaleziony. Czy jesteś pewien wpisania poprawnego loginu?");
+                    break;
 
                 case 1:
                     var admin = db.Admins.FirstOrDefault(a => a.user.login == loginFrom);
@@ -124,14 +125,16 @@ namespace ElektronicznyKonsolowy.Controller
                     break;
 
                 default:
-                    throw new Exception("Invalid user type");
+                    SuccesAndErrorsView.ShowErrorMessage("Użytkownik nie został znaleziony. Czy jesteś pewien wpisania poprawnego loginu?");
+                    break;
             }
 
             int recipientType = FindCorrectUser(recipientLogin);
             switch (recipientType)
             {
                 case 0:
-                    throw new Exception("Error 404 - Recipient not found");
+                    SuccesAndErrorsView.ShowErrorMessage("Użytkownik nie został znaleziony. Czy jesteś pewien wpisania poprawnego loginu?");
+                    break;
 
                 case 1:
                     var recipientAdmin = db.Admins.FirstOrDefault(a => a.user.login == recipientLogin);
@@ -174,7 +177,8 @@ namespace ElektronicznyKonsolowy.Controller
                     break;
 
                 default:
-                    throw new Exception("Invalid recipient type");
+                    SuccesAndErrorsView.ShowErrorMessage("Użytkownik nie został znaleziony. Czy jesteś pewien wpisania poprawnego loginu?");
+                    break;
             }
             db.SaveChanges();
         }

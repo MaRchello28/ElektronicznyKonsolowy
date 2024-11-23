@@ -468,9 +468,16 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         {
             int descNumber = 1;
             AnsiConsole.MarkupLine("[green]Opis ocen:[/]");
-            foreach (var description in sortedDescriptions)
+            if(sortedDescriptions.Count == 0)
             {
-                AnsiConsole.MarkupLine($"{descNumber++} - {description}");
+                AnsiConsole.MarkupLine("[red]Ta klasa nie ma żadnych ocen[/]");
+            }
+            else
+            {
+                foreach (var description in sortedDescriptions)
+                {
+                    AnsiConsole.MarkupLine($"{descNumber++} - {description}");
+                }
             }
         }
         //Zarządzanie do sprawdzania obecności

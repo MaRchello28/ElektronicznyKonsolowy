@@ -104,7 +104,6 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
         }
         public int ShowExistingLessons(int sessionId, List<Lesson> lessons)
         {
-            AnsiConsole.MarkupLine("[aqua]Wybierz lekcję: [/]");
             string[] options = new string[lessons.Count+1];
             options[lessons.Count] = "Powrót";
             int i = 0;
@@ -169,7 +168,7 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
 
             string isPresent;
 
-            AnsiConsole.MarkupLine("[darkcyan]Poprawiasz obecność: O-obecny, N-nieobecny, U-usprawiedliwiona nieobecność[/]");
+            AnsiConsole.MarkupLine("[darkcyan]Poprawiasz obecność: O-obecny, N-nieobecny, U-usprawiedliwiona nieobecność Enter, żeby zostawić jak było[/]");
 
             foreach (var student in students)
             {
