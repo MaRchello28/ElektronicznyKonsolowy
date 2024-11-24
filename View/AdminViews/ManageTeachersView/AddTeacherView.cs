@@ -10,11 +10,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
     public class AddTeacherView
     {
         public AddTeacherView() { }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia nauczyciela").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterName()
         {
             string name;

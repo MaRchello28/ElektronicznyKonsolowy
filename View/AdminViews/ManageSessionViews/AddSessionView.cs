@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
     {
         MyDbContext db;
         public AddSessionView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia Sesji").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public int EnterSubject()
         {
             int id;

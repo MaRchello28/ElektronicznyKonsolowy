@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
     {
         MyDbContext db;
         public AddSubjectView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia przedmiotu").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterName()
         {
             string name;

@@ -17,7 +17,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
         public void CreateClassSchedule()
         {
             int id;
-            view.ShowCreateWindow();
             id = view.EnterClassId();
             ClassSchedule classSchedule = new ClassSchedule(id);
             db.ClassSchedules.Add(classSchedule);

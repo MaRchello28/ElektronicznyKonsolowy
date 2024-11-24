@@ -11,11 +11,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
     public class AddClassView
     {
         public AddClassView() { }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia klasy").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterNumber()
         {
             string name;

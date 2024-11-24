@@ -16,7 +16,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
         {
             string name; string surname; string password; string login;
             string phoneNumber; string email;
-            view.ShowCreateWindow();
             name = view.EnterName();
             surname = view.EnterSurname();
             login = view.CreateDefaultLogin(name, surname);

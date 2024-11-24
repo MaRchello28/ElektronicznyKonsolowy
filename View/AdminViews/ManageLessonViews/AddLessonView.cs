@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
     {
         MyDbContext db;
         public AddLessonView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia Lekcji").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterName()
         {
             string name;

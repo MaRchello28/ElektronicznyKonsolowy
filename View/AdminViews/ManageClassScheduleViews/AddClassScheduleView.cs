@@ -12,11 +12,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
     {
         MyDbContext db;
         public AddClassScheduleView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia klasy").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
+
         public int EnterClassId()
         {
             int classId;
