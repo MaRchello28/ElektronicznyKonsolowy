@@ -35,6 +35,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
             table.AddRow("", name);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

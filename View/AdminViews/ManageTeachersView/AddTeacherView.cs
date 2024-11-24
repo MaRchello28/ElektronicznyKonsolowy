@@ -95,6 +95,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
             table.AddRow("", name, surname, login, password, email);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

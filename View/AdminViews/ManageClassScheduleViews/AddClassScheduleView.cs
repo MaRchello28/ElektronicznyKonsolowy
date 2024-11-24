@@ -50,6 +50,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
             table.AddRow("",classId.ToString());
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

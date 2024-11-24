@@ -142,6 +142,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
             table.AddRow("", subject.ToString(), teacher.ToString(),sala.ToString(), ((DayOfWeek)dzien).ToString(), hourfrom.ToString(), hourstop.ToString());
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

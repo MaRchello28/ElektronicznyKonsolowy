@@ -26,6 +26,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
             }
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

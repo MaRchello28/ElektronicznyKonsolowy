@@ -74,6 +74,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
             table.AddRow("", value, teacherId.ToString());
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

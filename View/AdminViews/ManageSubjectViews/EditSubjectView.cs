@@ -67,6 +67,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
                 HighlightIfDifferent(subjectBeforChanges.name, subjectAfterChanges.name)
             );
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         string HighlightIfDifferent(string before, string after)
         {

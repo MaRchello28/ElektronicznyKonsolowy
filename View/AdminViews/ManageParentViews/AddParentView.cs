@@ -109,6 +109,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             table.AddRow("", name, surname, login, password, email, phonenumber);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

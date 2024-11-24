@@ -66,6 +66,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
             table.AddRow("", number.ToString(), name, description);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

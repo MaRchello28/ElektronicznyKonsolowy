@@ -121,6 +121,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
                 HighlightIfDifferent(lessonBeforeChanges.description, lessonAfterChanges.description)
             );
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         string HighlightIfDifferent(string before, string after)
         {

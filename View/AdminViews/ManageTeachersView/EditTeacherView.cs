@@ -149,6 +149,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
                 HighlightIfDifferent(teacherBeforChanges.email, teacherAfterChanges.email)
             );
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         string HighlightIfDifferent(string before, string after)
         {
