@@ -118,6 +118,11 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
                     .AddChoices(options));
             int index = Array.IndexOf(options, selectedOption);
 
+            if(index == options.Count()-1)
+            {
+                return -1;
+            }
+
             return lessons[index].nuberOfLesson;
         }
         public void ShowAttendanceOfThisLesson(int lessonNumber, int sessionId)

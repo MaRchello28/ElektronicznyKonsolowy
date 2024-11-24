@@ -23,7 +23,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                 3, 3.5, 3.75,
                 4, 4.5, 4.75,
                 5, 5.5, 5.75,
-                6
+                6, 0
             };
             if(grades.Contains(value))
             {

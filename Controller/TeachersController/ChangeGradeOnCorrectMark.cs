@@ -16,7 +16,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             3, 3.5, 3.75,
             4, 4.5, 4.75,
             5, 5.5, 5.75,
-            6
+            6, 0
         };
         List<string> gradeChar = new List<string>
         {
@@ -25,7 +25,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             "3", "3+", "4-",
             "4", "4+", "5-",
             "5", "5+", "6-",
-            "6"
+            "6", ""
         };
         List<string> correctColor = new List<string>
         {
@@ -34,7 +34,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
             "yellow", "darkolivegreen1_1", "greenyellow",
             "palegreen1_1", "greenyellow", "chartreuse1",
             "skyblue2", "slateblue1", "purple_1",
-            "darkmagenta"
+            "darkmagenta", "black"
         };
         public ChangeGradeOnCorrectMark()
         {

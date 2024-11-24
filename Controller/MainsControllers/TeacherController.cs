@@ -25,23 +25,28 @@ namespace ElektronicznyKonsolowy.Controller.MainsControllers
             bool run = true; int choose;
             while(run)
             {
+                Console.Clear();
                 choose = teacherView.ShowMainMenu();
-                switch(choose)
+                switch (choose)
                 {
                     case 0:
                         {
+                            Console.Clear();
                             edit.EditUser(teacher); break;
                         }
                     case 1:
                         {
+                            Console.Clear();
                             chooseClassController.Run(teacher.teacherId); break;
                         }
                     case 2:
                         {
+                            Console.Clear();
                             mailController.ChooseOption(); break;
                         }
                     default:
                         {
+                            Console.Clear();
                             run = false; break;
                         }
                 }

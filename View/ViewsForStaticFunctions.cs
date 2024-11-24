@@ -12,6 +12,7 @@ namespace ElektronicznyKonsolowy.View
         public static void LoginExists()
         {
             AnsiConsole.MarkupLine("[maroon]Istnieje już taki login[/]");
+            AnsiConsole.MarkupLine("[maroon]Naciśnij dowolny przycisk, żeby przejść dalej[/]");
         }
         public static void ValueIsNull()
         {

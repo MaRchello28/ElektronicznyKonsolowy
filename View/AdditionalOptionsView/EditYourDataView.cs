@@ -99,6 +99,7 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowy login: [/]");
                     name = Console.ReadLine();
+                    Console.Clear();
                     if (name.Length <= 3) { AnsiConsole.MarkupLine("[red]Login nie może być krótszy niż 4 znaki[/]"); }
                 }
                 while (name.Length <= 3);
@@ -111,6 +112,7 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowe hasło: [/]");
                     name = Console.ReadLine();
+                    Console.Clear();
                     if (name.Length <= 6) { AnsiConsole.MarkupLine("[red]Hasło nie może być krótsze niż 6 znaków[/]"); }
                 }
                 while (name.Length <= 6);
@@ -123,7 +125,8 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowy email: [/]");
                     name = Console.ReadLine();
-                    if(name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                    Console.Clear();
+                    if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
                     else if (!(name.Contains('@') && name.Contains('.'))) { AnsiConsole.MarkupLine("[red]To nie jest adres email![/]"); }
                     else { run = false; }
                 }
@@ -137,6 +140,7 @@ namespace ElektronicznyKonsolowy.View.AdditionalOptionsView
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowy Nr Telefonu: [/]");
                     name = Console.ReadLine();
+                    Console.Clear();
                     if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
                     else if (name.Length != 9) { AnsiConsole.MarkupLine("[red]To nie jest numer telefonu![/]"); }
                     else { run = false; }

@@ -1,5 +1,6 @@
 ﻿using ElektronicznyKonsolowy.Models;
 using ElektronicznyKonsolowy.View.AdditionalOptionsView;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,10 +47,12 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
 
         public void EditUser(Student student)
         {
+            Console.Clear();
             view.ShowUser(student);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
+                Console.Clear();
                 if (choices[i])
                 {
                     value = view.EditOption(i);
@@ -65,10 +68,12 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
         }
         public void EditUser(Parent parent)
         {
+            Console.Clear();
             view.ShowUser(parent);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
+                Console.Clear();
                 if (choices[i])
                 {
                     value = view.EditOption(i);
@@ -82,19 +87,24 @@ namespace ElektronicznyKonsolowy.Controller.AdditionalOptionsController
         }
         public void EditUser(Teacher teacher)
         {
+            Console.Clear();
             view.ShowUser(teacher);
             List<bool> choices = view.ChooseWhatToEdit(userType);
             for (int i = 0; i < choices.Count; i++)
             {
+                Console.Clear();
                 if (choices[i])
                 {
                     value = view.EditOption(i);
-                    if (i == 0) { if (StaticFunctions.LoginExists(value, db)) { return; } teacher.user.login = value; }
+                    if (i == 0) 
+                    { 
+                        if (StaticFunctions.LoginExists(value, db)) { Console.ReadLine(); Console.Clear(); return; } teacher.user.login = value; }
                     else if (i == 1) { teacher.user.password = value; }
                     else if (i == 2) { teacher.email = value; }
                 }
             }
             db.SaveChanges();
+            Console.Clear();
         }
     }
 }

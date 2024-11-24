@@ -89,7 +89,10 @@ namespace ElektronicznyKonsolowy.View
             AnsiConsole.Render(Data);
             AnsiConsole.Render(Subject);
             AnsiConsole.Render(Body);
-            //ElżbietaElżbietaElżbietaElżbieta
+
+            AnsiConsole.MarkupLine("[purple]Naciśnij dowolny przycisk, żeby wyjść[/]");
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 }

@@ -127,6 +127,8 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
 
                                     // Wyświetlenie opisów ocen pod tabelą
                                     chooseCorrectSubjectView.ShowGradesDescription(sortedDescriptions);
+
+                                    Console.Clear();
                                     break;
                                 }
                             case 1://Wstaw nową
@@ -189,6 +191,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                     List<string> descriptions = FindDescGradesForSession(selectedSession, descriptionDates);
                                     choose = chooseCorrectSubjectView.EditGrade(descriptions);
                                     if (choose == descriptionDates.Count) { break; }
+                                    //if ()
 
                                     string description = descriptionDates.ElementAt(choose).Key.ToString();
                                     var grades = db.Grades.Where(g => g.description == description && g.sessionId == selectedSession).ToList();
@@ -234,7 +237,7 @@ namespace ElektronicznyKonsolowy.Controller.TeachersController
                                 {
                                     var lessons = db.Lessons.Where(l => l.sessionId == selectedSession).OrderBy(l => l.nuberOfLesson).ToList();
                                     int lessonNumber = manageLessonsView.ShowExistingLessons(selectedSession, lessons);
-                                    if (lessonNumber==lessons.Count) { return; }
+                                    if (lessonNumber==-1) { return; }
                                     manageLessonsView.ShowAttendanceOfThisLesson(lessonNumber, selectedSession);
                                     manageLessonsView.EditAttendance(lessonNumber, selectedSession);
                                     break;
