@@ -503,8 +503,9 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
                 }
             }
 
-            AnsiConsole.MarkupLine("[purple]Naciśnij dowolny przycisk, żeby przejść dalej[/]");
-            Console.ReadLine();
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         public void AgreeDeleteGrade()
         {

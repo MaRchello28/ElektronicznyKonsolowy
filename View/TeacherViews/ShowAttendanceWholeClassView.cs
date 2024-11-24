@@ -27,7 +27,7 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
                 AnsiConsole.MarkupLine("[red]Nie znaleziono lekcji dla wybranej sesji![/]");
 
                 AnsiConsole.MarkupLine("[purple]Naciśnij dowolny przycisk, żeby wyjść[/]");
-                Console.ReadLine();
+                Console.ReadKey();
                 Console.Clear();
 
                 return;
@@ -89,7 +89,7 @@ namespace ElektronicznyKonsolowy.View.TeacherViews
             AnsiConsole.Write(table);
 
             AnsiConsole.MarkupLine("[purple]Naciśnij dowolny przycisk, żeby wyjść[/]");
-            Console.ReadLine();
+            Console.ReadKey();
             Console.Clear();
         }
     }
