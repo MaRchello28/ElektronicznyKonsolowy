@@ -15,7 +15,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
         public void CreateStudent()
         {
             string name;
-            view.ShowCreateWindow();
             name = view.EnterName();
             Subject subject = new Subject(name);
             db.Subjects.Add(subject);

@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
     {
         MyDbContext db;
         public AddLessonView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia Lekcji").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterName()
         {
             string name;
@@ -71,6 +66,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
             table.AddRow("", number.ToString(), name, description);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

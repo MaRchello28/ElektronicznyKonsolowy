@@ -19,7 +19,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageTeachersCont
         public void CreateTeacher()
         {
             string name; string surname; string password; string login; string email;
-            ATV.ShowCreateWindow();
             name = ATV.EnterName();
             surname = ATV.EnterSurname();
             login = ATV.CreateDefaultLogin(name, surname);

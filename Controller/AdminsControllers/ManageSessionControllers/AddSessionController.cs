@@ -17,7 +17,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
         {
             int subjectid; int teacher; int dzien; int godzina; int sala;
             TimeSpan hour; TimeSpan hourStop; DayOfWeek dayOfWeek;
-            view.ShowCreateWindow();
             subjectid = view.EnterSubject();
             teacher = view.EnterTeacher();
             sala = view.EnterSala();

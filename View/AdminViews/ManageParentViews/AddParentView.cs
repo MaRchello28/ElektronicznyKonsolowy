@@ -14,11 +14,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
     {
         MyDbContext db;
         public AddParentView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia uzytkownika").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public string EnterName()
         {
             string name;
@@ -114,6 +109,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             table.AddRow("", name, surname, login, password, email, phonenumber);
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

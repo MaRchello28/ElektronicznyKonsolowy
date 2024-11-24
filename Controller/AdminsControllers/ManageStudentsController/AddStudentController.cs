@@ -17,7 +17,6 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
         {
             string name; string surname; string password; string login;
             int classId; int parentId; string value;
-            view.ShowCreateWindow();
             name = view.EnterName();
             if (name == "") { ViewsForStaticFunctions.ValueIsNull(); return; }
             if (name.Length < 3) { ViewsForStaticFunctions.ErrorLength(); return; };

@@ -159,6 +159,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
                 HighlightIfDifferent(sessionBeforeChanges.hourTo.ToString(), sessionAfterChanges.hourTo.ToString())
             );
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         string HighlightIfDifferent(string before, string after)
         {

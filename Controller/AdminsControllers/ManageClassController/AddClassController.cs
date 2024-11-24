@@ -14,9 +14,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassControl
         public AddClassController(MyDbContext db) { this.db = db; view = new AddClassView(); }
         public void CreateClass()
         {
-            string letter; string number; int teacherId;
-            view.ShowCreateWindow();
-            number = view.EnterNumber();
+            string letter; string number; int teacherId;            number = view.EnterNumber();
             letter = view.EnterLetter();
             teacherId = view.EnterTeacherId();
             StudentClass sc = new StudentClass(number, letter, teacherId);

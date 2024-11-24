@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassScheduleViews
     {
         
         public AddSessionToClassScheduleView() { }
-        public void addSessionsToSchedule()
-        {
-            var header = new FigletText("Okno dodawania lekcji").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public int EnterID()
         {
             int id;

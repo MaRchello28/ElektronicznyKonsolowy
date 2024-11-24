@@ -12,11 +12,6 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
     {
         MyDbContext db;
         public AddSessionView(MyDbContext db) { this.db = db; }
-        public void ShowCreateWindow()
-        {
-            var header = new FigletText("Okno tworzenia Sesji").Centered().Color(Color.Green3);
-            AnsiConsole.Render(header);
-        }
         public int EnterSubject()
         {
             int id;
@@ -147,6 +142,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
             table.AddRow("", subject.ToString(), teacher.ToString(),sala.ToString(), ((DayOfWeek)dzien).ToString(), hourfrom.ToString(), hourstop.ToString());
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

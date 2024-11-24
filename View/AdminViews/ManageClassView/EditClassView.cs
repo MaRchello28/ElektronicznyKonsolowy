@@ -139,6 +139,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
                 HighlightIfDifferent(classBeforChanges.teacherId.ToString(), classAfterChanges.teacherId.ToString())
             );
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
         string HighlightIfDifferent(string before, string after)
         {

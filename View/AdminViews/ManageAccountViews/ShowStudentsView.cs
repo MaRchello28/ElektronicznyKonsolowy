@@ -28,6 +28,9 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             }
 
             AnsiConsole.Render(table);
+            AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }
