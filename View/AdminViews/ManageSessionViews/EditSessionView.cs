@@ -15,9 +15,30 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
         public int SessionToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idSesji do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Sessions.Any(c => c.sessionId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -46,14 +67,60 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
             if (i == 0)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe SubjectId: [/]");
-                return Console.ReadLine();
+                int id;
+                bool run = true;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe id subject: [/]");
+                    name = (Console.ReadLine());
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Subjects.Any(c => c.subjectId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }
+                while (run);
+                return name;
             }
             else if (i == 1)
             {
                 string name;
-                AnsiConsole.MarkupLine("[blue] Podaj nowy TeacherId: [/]");
-                return Console.ReadLine();
+                int id;
+                bool run = true;
+                do
+                {
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe id nauczyciela: [/]");
+                    name = (Console.ReadLine());
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Teachers.Any(c => c.teacherId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }
+                while (run);
+                return name;
             }
             else if (i == 2)
             {

@@ -21,14 +21,24 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         public string EnterName()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj imię ucznia: [/]");
-            return Console.ReadLine();
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj imie ucznia: [/]");
+                name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne imie[/]"); }
+            } while (string.IsNullOrWhiteSpace(name));
+            return name;
         }
         public string EnterSurname()
         {
-            string surname;
-            AnsiConsole.MarkupLine("[blue] Podaj nazwisko ucznia: [/]");
-            return Console.ReadLine();
+            string name;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj nazwisko ucznia: [/]");
+                name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne nazwisko[/]"); }
+            } while (string.IsNullOrWhiteSpace(name));
+            return name;
         }
         public string CreateDefaultLogin(string name, string surname)
         {
@@ -66,14 +76,60 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         }
         public string EnterParentId()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj id rodzica: [/]");
-            string value = Console.ReadLine();
+            string value;
+            bool run=true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj Id rodzica: [/]");
+                value = Console.ReadLine();
+                int id = int.Parse(value);
+                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using(var context = new MyDbContext())
+                    {
+                        if (!context.Parents.Any(c => c.parentId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while(run);
             return value;
         }
         public string EnterClassId()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj id klasy ucznia, do której chcesz go przypisać: [/]");
-            string value = Console.ReadLine();
+            string value;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj Id Klasy: [/]");
+                value = Console.ReadLine();
+                int id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.StudentClasses.Any(c => c.studentClassId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
             return value;
         }
         public void ShowCreatedStudent(string name, string surname, string login, string password, string idKlasy, string idRodzica)

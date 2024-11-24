@@ -14,9 +14,32 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
         public DeleteLessonView(MyDbContext db) { this.db = db; }
         public int PutIndex()
         {
-            AnsiConsole.Write("[red]Podaj index, który chcesz usunąć: [/]");
-            string value = Console.ReadLine();
-            int.TryParse(value, out int id); return id;
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id do usunięcia: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Lessons.Any(c => c.lessonId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
+            return id;
         }
         public int Agree()
         {

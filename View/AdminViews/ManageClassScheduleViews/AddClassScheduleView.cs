@@ -20,14 +20,29 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
         public int EnterClassId()
         {
             int classId;
+            bool run=true;
             do
             {
                 AnsiConsole.MarkupLine("[blue] Podaj id klasy, która będzie posiadała plan zajęć: [/]");
                 string value = Console.ReadLine();
                 classId = int.Parse(value);
-                if(classId <= 0) { AnsiConsole.MarkupLine("[red] Podaj porawne id klasy"); }
+                if(classId <= 0) { AnsiConsole.MarkupLine("[red] Podaj porawne id klasy[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.StudentClasses.Any(c => c.studentClassId == classId))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
             }
-            while(classId <=0);
+            while(true);
             return classId;
         }
         public void ShowCreatedClassSchedule(int classId)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
 {
@@ -25,21 +26,19 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             {
                 AnsiConsole.MarkupLine("[blue] Podaj imię rodzica: [/]");
                 name = Console.ReadLine();
-                if (name == null) { AnsiConsole.MarkupLine("[red]Wprowadź imie[/]"); }
-            }
-            while (name == null);
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne imie[/]"); }
+            } while (string.IsNullOrWhiteSpace(name));
             return Console.ReadLine();
         }
         public string EnterSurname()
         {
-            string surname;
+            string name;
             do
             {
                 AnsiConsole.MarkupLine("[blue] Podaj nazwisko rodzica: [/]");
-                surname = Console.ReadLine();
-                if (surname == null) { AnsiConsole.MarkupLine("[red]Wprowadź nazwisko"); }
-            }
-            while (surname == null);
+                name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne nazwisko[/]"); }
+            } while (string.IsNullOrWhiteSpace(name));
             return Console.ReadLine();
         }
         public string CreateDefaultLogin(string name, string surname)

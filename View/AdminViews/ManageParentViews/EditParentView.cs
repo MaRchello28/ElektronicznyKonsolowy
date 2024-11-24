@@ -14,14 +14,30 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         public int ParentToEdit()
         {
             int id;
+            bool run = true;
             do
             {
-                AnsiConsole.WriteLine("[blue]Podaj idRodzica do edycji: [/]");
+                AnsiConsole.MarkupLine("[blue]Podaj id do edycji: [/]");
                 string value = Console.ReadLine();
                 id = int.Parse(value);
-                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Parents.Any(c => c.parentId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
             }
-            while(id <= 0);
+            while (run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -54,7 +70,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
                 {
                     AnsiConsole.MarkupLine("[blue]Podaj nowe imię rodzica: [/]");
                     name = Console.ReadLine();
-                    if(name == null) { AnsiConsole.MarkupLine("[red]Podaj Imie[/]"); }
+                    if(string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj Imie[/]"); }
                 } while (string.IsNullOrWhiteSpace(name));
                 return name;
             }
@@ -65,7 +81,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
                 {
                     AnsiConsole.MarkupLine("[blue]Podaj nowe nazwisko rodzica: [/]");
                     name = Console.ReadLine();
-                    if (name == null) { AnsiConsole.MarkupLine("[red]Podaj Nazwisko[/]"); }
+                    if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj Nazwisko[/]"); }
 
                 } while (string.IsNullOrWhiteSpace(name));
                 return name;

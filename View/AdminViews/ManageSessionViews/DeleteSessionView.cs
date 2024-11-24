@@ -14,16 +14,31 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
         public DeleteSessionView(MyDbContext db) { this.db = db; }
         public int PutIndex()
         {
-            string value;
             int id;
+            bool run = true;
             do
             {
-                AnsiConsole.Write("[red]Podaj index, który chcesz usunąć: [/]");
-                value = Console.ReadLine();
+                AnsiConsole.MarkupLine("[blue]Podaj id do usunięcia: [/]");
+                string value = Console.ReadLine();
                 id = int.Parse(value);
-                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Sessions.Any(c => c.sessionId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
             }
-            while (id <= 0);
+            while (run);
             return id;
         }
         public int Agree()

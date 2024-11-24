@@ -20,22 +20,47 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
         public string EnterName()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj nazwę lekcji: [/]");
-            return Console.ReadLine();
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nazwę lekcji: [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Nie zostawiaj pustego pola[/]"); }
+            }
+            while (run);
+            return name;
         }
         public string EnterDescription()
         {
-            string description;
-            AnsiConsole.MarkupLine("[blue] Podaj opis lekcji: [/]");
-            return Console.ReadLine();
+            string name;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj opis lekcji: [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Nie zostawiaj pustego pola[/]"); }
+            }
+            while (run);
+            return name;
         }
         public int EnterNumberOfLesson()
         {
-            int number;
-            AnsiConsole.MarkupLine("[blue] Podaj numer lekcji: [/]");
-            string value = Console.ReadLine();
-            number = int.Parse(value);
-            return number;
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj numer lekcji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny numer[/]"); }
+                else
+                {
+                    run = false;
+                }
+
+            }
+            while (run);
+            return id;
         }
         public void ShowCreatedLesson(string name, string description, int number)
         {

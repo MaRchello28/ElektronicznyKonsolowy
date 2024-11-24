@@ -14,16 +14,44 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
         public int SubjectToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idPrzedmiotu do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne idKlasy[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Subjects.Any(c => c.subjectId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
             return id;
         }
         public string EditOption()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj nową nazwę przedmiotu: [/]");
-            return Console.ReadLine();
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nową nazwę przedmiotu: [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawną nazwe[/]"); }
+            }
+            while (run);
+            return name;
         }
         public void ShowDifference(Subject subjectBeforChanges, Subject subjectAfterChanges)
         {

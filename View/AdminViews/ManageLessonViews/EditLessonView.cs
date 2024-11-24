@@ -14,14 +14,30 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
         public int LessonToEdit()
         {
             int id;
+            bool run = true;
             do
             {
-                AnsiConsole.WriteLine("[blue]Podaj IdLekcji do edycji: [/]");
+                AnsiConsole.MarkupLine("[blue]Podaj id do edycji: [/]");
                 string value = Console.ReadLine();
                 id = int.Parse(value);
-                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne idKlasy[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Lessons.Any(c => c.lessonId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
             }
-            while (id <= 0);
+            while (run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -54,7 +70,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageLessonViews
                 {
                     AnsiConsole.MarkupLine("[blue]Podaj nowy temat lekcji: [/]");
                     name = Console.ReadLine();
-                    if(name == null) { AnsiConsole.MarkupLine("[red]Podaj poprawny temat[/]"); }
+                    if(string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawny temat[/]"); }
                 } while (string.IsNullOrWhiteSpace(name));
                 return name;
             }

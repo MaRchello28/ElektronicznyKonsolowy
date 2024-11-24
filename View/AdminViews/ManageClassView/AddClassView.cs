@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ElektronicznyKonsolowy.Models;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,14 +43,30 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
         public int EnterTeacherId()
         {
             int parentId;
+            bool run=true;
             do
             {
                 AnsiConsole.MarkupLine("[blue] Podaj id nauczyciela, który będzie wychowawcą: [/]");
                 string value = Console.ReadLine();
                 parentId = int.Parse(value);
-                if(parentId==null) { AnsiConsole.MarkupLine("[red]Musisz podać id naczuczyciela[/]"); }
-            }
-            while(parentId==null);
+                if (parentId == null) { AnsiConsole.MarkupLine("[red]Musisz podać id naczuczyciela[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Parents.Any(c => c.parentId == parentId))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+
+                    }
+                }
+            }   
+            while(run);
             return parentId;
         }
         public void ShowCreatedStudent(string number, string letter, int teacherId)

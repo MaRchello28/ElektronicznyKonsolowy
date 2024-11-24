@@ -13,10 +13,31 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
         public EditStudentView() { }
         public int StudentToEdit()
         {
-            int id; 
-            AnsiConsole.WriteLine("[blue]Podaj idUcznia do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id ucznia do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Students.Any(c => c.studentId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -94,27 +115,59 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             {
                 string name;
                 int id;
+                bool run = true;
                 do
                 {
-                    AnsiConsole.MarkupLine("[blue]Podaj nowe IdKlasy ucznia: [/]");
-                    name = Console.ReadLine();
-                    id=int.Parse(name);
-                    if (id<=0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe id klasy: [/]");
+                    name = (Console.ReadLine());
+                    id = int.Parse(name);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.StudentClasses.Any(c => c.studentClassId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
 
-                } while (id<=0);
+                    }
+                }
+                while (run);
                 return name;
             }
             else if (i == 5)
             {
                 string name;
                 int id;
+                bool run=true;
                 do
                 {
-                    AnsiConsole.MarkupLine("[blue]Podaj nowe IdRodzica ucznia: [/]");
-                    name = Console.ReadLine();
+                    AnsiConsole.MarkupLine("[blue] Podaj nowe id rodzica: [/]");
+                    name = (Console.ReadLine());
                     id = int.Parse(name);
                     if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
-                } while (id<=0);
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Parents.Any(c => c.parentId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+
+                }    }
+                while (run);
                 return name;
             }
 

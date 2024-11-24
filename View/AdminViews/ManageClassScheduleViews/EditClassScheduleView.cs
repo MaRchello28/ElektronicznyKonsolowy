@@ -14,9 +14,29 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
         public int ClassScheduleToEdit()
         {
             int id;
-            AnsiConsole.WriteLine("[blue]Podaj idPlanu zajęć do edycji: [/]");
-            string value = Console.ReadLine();
-            id = int.Parse(value);
+            bool run = true;
+            do
+            {
+                AnsiConsole.Markup("[red]Podaj id do edycji: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.ClassSchedules.Any(c => c.classScheduleId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+            }
+            while (run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -44,27 +64,87 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
         {
             if (i == 0)
             {
-                int opt;
-                AnsiConsole.MarkupLine("[blue] Podaj nowe Id Klasy: [/]");
-                string name = Console.ReadLine();
-                opt = int.Parse(name);
-                return opt;
+                int id;
+                bool run = true;
+                do
+                {
+                    AnsiConsole.Markup("[red]Podaj nowe id Klasy [/]");
+                    string value = Console.ReadLine();
+                    id = int.Parse(value);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.StudentClasses.Any(c => c.studentClassId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }
+                while (run);
+                return id;
             }
             else if (i == 1)
             {
-                AnsiConsole.MarkupLine("[blue] Podaj id sesji do dodania do planu lekcji: [/]");
-                string name = Console.ReadLine();
-                int opt;
-                opt = int.Parse(name);
-                return opt;
+                int id;
+                bool run = true;
+                do
+                {
+                    AnsiConsole.Markup("[red]Podaj id sesji do dodania [/]");
+                    string value = Console.ReadLine();
+                    id = int.Parse(value);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Sessions.Any(c => c.sessionId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }
+                while (run);
+                return id;
             }
             else if (i == 2)
             {
-                AnsiConsole.MarkupLine("[blue] Podaj id sesji do usuniecia z planu lekcji: [/]");
-                string name = Console.ReadLine();
-                int opt;
-                opt = int.Parse(name);
-                return opt;
+                int id;
+                bool run = true;
+                do
+                {
+                    AnsiConsole.Markup("[red]Podaj sesji do usunięcia z planu lekcji [/]");
+                    string value = Console.ReadLine();
+                    id = int.Parse(value);
+                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny index[/]"); }
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Sessions.Any(c => c.sessionId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }
+                while (run);
+                return id;
             }
             return -1;
         }

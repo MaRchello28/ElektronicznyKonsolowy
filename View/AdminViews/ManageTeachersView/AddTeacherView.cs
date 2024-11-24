@@ -18,14 +18,28 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
         public string EnterName()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj imię nauczyciela: [/]");
-            return Console.ReadLine();
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj imie nauczyciela: [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne imię[/]"); }
+            }
+            while (run);
+            return name;
         }
         public string EnterSurname()
         {
-            string surname;
-            AnsiConsole.MarkupLine("[blue] Podaj nazwisko nauczyciela: [/]");
-            return Console.ReadLine();
+            string name;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nazwisko nauczyciela [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawne nazwisko[/]"); }
+            }
+            while (run);
+            return name;
         }
         public string CreateDefaultLogin(string name, string surname)
         {
@@ -63,9 +77,17 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
         }
         public string EnterEmail()
         {
-            string name;
-            AnsiConsole.MarkupLine("[blue] Podaj email nauczyciela [/]");
-            return Console.ReadLine();
+            string name; bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj email: [/]");
+                name = Console.ReadLine();
+                if (name == null || name == "") { AnsiConsole.MarkupLine("[red]Nie podano wartości![/]"); }
+                else if (!(name.Contains('@') && name.Contains('.'))) { AnsiConsole.MarkupLine("[red]To nie jest adres email![/]"); }
+                else { run = false; }
+            }
+            while (run);
+            return name;
         }
         public void ShowCreatedStudent(string name, string surname, string login, string password, string email)
         {

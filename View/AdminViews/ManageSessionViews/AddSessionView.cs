@@ -19,20 +19,62 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
         }
         public int EnterSubject()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj Id Subject: [/]");
-            string value = Console.ReadLine();
-            int subject;
-            subject = int.Parse(value);
-            return subject;
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id subject: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Subjects.Any(c => c.subjectId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
+            return id;
         }
         
         public int EnterTeacher()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj Id nauczyciela: [/]");
-            string value = Console.ReadLine();
-            int teacherId;
-            teacherId = int.Parse(value);
-            return teacherId;
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj id nauczyciela: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
+                else
+                {
+                    using (var context = new MyDbContext())
+                    {
+                        if (!context.Teachers.Any(c => c.teacherId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
+            }
+            while (run);
+            return id;
         }
         public int EnterDzien()
         {
@@ -77,11 +119,22 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
         }
         public int EnterSala()
         {
-            AnsiConsole.MarkupLine("[blue] Podaj numer sali [/]");
-            string value = Console.ReadLine();
-            int sala;
-            sala = int.Parse(value);
-            return sala;
+            int id;
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue]Podaj sale do zajęć: [/]");
+                string value = Console.ReadLine();
+                id = int.Parse(value);
+                if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawny numer[/]"); }
+                else
+                {
+                    run = false;
+                }
+
+            }
+            while (run);
+            return id;
         }
         public void ShowCreatedSession(int subject, int teacher, int dzien, TimeSpan hourfrom, TimeSpan hourstop,int sala)
         {

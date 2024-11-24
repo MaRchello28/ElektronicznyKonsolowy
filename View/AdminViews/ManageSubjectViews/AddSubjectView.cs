@@ -20,8 +20,15 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
         public string EnterName()
         {
             string name;
-            AnsiConsole.MarkupLine("[blue] Podaj nazwe przedmiotu: [/]");
-            return Console.ReadLine();
+            bool run = true;
+            do
+            {
+                AnsiConsole.MarkupLine("[blue] Podaj nazwę przedmiotu: [/]");
+                name = (Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawną nazwę[/]"); }
+            }
+            while (run);
+            return name;
         }
         public void ShowCreatedSubject(string name)
         {

@@ -14,14 +14,30 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
         public int ClassToEdit()
         {
             int id;
+            bool run=true;
             do
             {
-                AnsiConsole.WriteLine("[blue]Podaj idKlasy do edycji: [/]");
+                AnsiConsole.MarkupLine("[blue]Podaj idKlasy do edycji: [/]");
                 string value = Console.ReadLine();
                 id = int.Parse(value);
-                if(id >= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne idKlasy[/]"); }
+                if(id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne idKlasy[/]"); }
+                else
+                {
+                    using(var context = new MyDbContext())
+                    {
+                        if (!context.StudentClasses.Any(c => c.studentClassId == id))
+                        {
+                            AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                        }
+                        else
+                        {
+                            run = false;
+                        }
+                    }
+                }
+
             }
-            while(id >=0);
+            while(run);
             return id;
         }
         public List<bool> ChooseOptionsToEdit()
@@ -64,29 +80,43 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
             else if (i == 1)
             {
                 string name;
-                int id;
+                bool run=true;
                 do
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nową literę klasy: [/]");
                     name = (Console.ReadLine());
-                    id = int.Parse(name);
-                    if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawną literę[/]"); }
+                    if (string.IsNullOrWhiteSpace(name)) { AnsiConsole.MarkupLine("[red]Podaj poprawną literę[/]"); }
                 }
-                while (id <= 0);
+                while (run);
                 return name;
             }
             else if (i == 2)
             {
                 string name;
                 int id;
+                bool run=true;
                 do
                 {
                     AnsiConsole.MarkupLine("[blue] Podaj nowe id wychowawcy: [/]");
                     name = (Console.ReadLine());
                     id = int.Parse(name);
                     if (id <= 0) { AnsiConsole.MarkupLine("[red]Podaj poprawne id[/]"); }
-                }
-                while (id <= 0);
+                    else
+                    {
+                        using (var context = new MyDbContext())
+                        {
+                            if (!context.Teachers.Any(c => c.teacherId == id))
+                            {
+                                AnsiConsole.MarkupLine("[red]Podane id nie jest w bazie[/]");
+                            }
+                            else
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                }   
+                while (run);
                 return name;
             }
             return "";
