@@ -127,7 +127,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             while (run);
             return value;
         }
-        public void ShowCreatedStudent(string name, string surname, string login, string password, string idKlasy, string idRodzica)
+        public void ShowCreatedStudent(Student student)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego ucznia[/]");
@@ -135,7 +135,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             table.AddColumn("Imie"); table.AddColumn("Nazwisko"); table.AddColumn("Login"); table.AddColumn("Haslo");
             table.AddColumn("IdKlasy"); table.AddColumn("IdRodzica");
 
-            table.AddRow("", name, surname, login, password, idKlasy, idRodzica);
+            table.AddRow(student.studentId.ToString(), student.name, student.surname, student.login, student.password, student.studentClassId.ToString(), student.parentId.ToString());
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

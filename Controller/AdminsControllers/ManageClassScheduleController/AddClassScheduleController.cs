@@ -21,7 +21,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassSchedul
             ClassSchedule classSchedule = new ClassSchedule(id);
             db.ClassSchedules.Add(classSchedule);
             db.SaveChanges();
-            view.ShowCreatedClassSchedule(id);
+            view.ShowCreatedClassSchedule(classSchedule);
         }
         
     }

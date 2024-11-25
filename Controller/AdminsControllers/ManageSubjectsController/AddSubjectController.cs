@@ -19,7 +19,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
             Subject subject = new Subject(name);
             db.Subjects.Add(subject);
             db.SaveChanges();
-            view.ShowCreatedSubject(name);
+            view.ShowCreatedSubject(subject);
         }
     }
 }

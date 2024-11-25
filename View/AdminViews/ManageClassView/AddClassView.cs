@@ -64,14 +64,14 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageClassView
             while(run);
             return parentId;
         }
-        public void ShowCreatedStudent(string number, string letter, int teacherId)
+        public void ShowCreatedStudent(StudentClass sc)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonej klasy[/]");
             table.AddColumn("IdKlasy");
             table.AddColumn("Numer i Litera"); table.AddColumn("Wychowawca");
-            string value = number + letter;
-            table.AddRow("", value, teacherId.ToString());
+            string value = sc.number + sc.letter;
+            table.AddRow(sc.studentClassId.ToString(), value, sc.teacherId.ToString());
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

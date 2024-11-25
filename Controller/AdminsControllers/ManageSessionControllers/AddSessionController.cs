@@ -97,7 +97,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageSessionContr
             Session session = new Session(subjectid, teacher, dayOfWeek, hour, hourStop, sala);
             db.Sessions.Add(session);
             db.SaveChanges();
-            view.ShowCreatedSession(subjectid, teacher, dzien, hour, hourStop, sala);
+            view.ShowCreatedSession(session);
         }
     }
 }

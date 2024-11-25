@@ -25,14 +25,14 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSubjectViews
             while (run);
             return name;
         }
-        public void ShowCreatedSubject(string name)
+        public void ShowCreatedSubject(Subject sus)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego przedmiotu[/]");
             table.AddColumn("IdPrzedmiotu");
             table.AddColumn("Nazwa");
 
-            table.AddRow("", name);
+            table.AddRow(sus.subjectId.ToString(), sus.name);
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

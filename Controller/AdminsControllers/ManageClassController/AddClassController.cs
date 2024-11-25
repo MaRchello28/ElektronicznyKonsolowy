@@ -20,7 +20,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageClassControl
             StudentClass sc = new StudentClass(number, letter, teacherId);
             db.StudentClasses.Add(sc);
             db.SaveChanges();
-            view.ShowCreatedStudent(number, letter, teacherId);
+            view.ShowCreatedStudent(sc);
         }
     }
 

@@ -41,13 +41,13 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageCalendarViews
             while(true);
             return classId;
         }
-        public void ShowCreatedClassSchedule(int classId)
+        public void ShowCreatedClassSchedule(ClassSchedule cs)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonej klasy[/]");
             table.AddColumn("IdPanuZajęć");
             table.AddColumn("IdKlasy");
-            table.AddRow("",classId.ToString());
+            table.AddRow(cs.classScheduleId.ToString(),cs.studentClassId.ToString());
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

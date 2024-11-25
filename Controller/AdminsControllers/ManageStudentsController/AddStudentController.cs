@@ -33,7 +33,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
             Student student = new Student(user, classId, parentId);
             db.Students.Add(student);
             db.SaveChanges();
-            view.ShowCreatedStudent(name,surname,login,password,classId.ToString(),parentId.ToString());
+            view.ShowCreatedStudent(student);
         }
     }
 }

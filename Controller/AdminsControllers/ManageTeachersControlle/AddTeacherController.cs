@@ -28,7 +28,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageTeachersCont
             Teacher teacher = new Teacher(email, user);
             db.Teachers.Add(teacher);
             db.SaveChanges();
-            ATV.ShowCreatedStudent(name, surname, login, password, email);
+            ATV.ShowCreatedStudent(teacher);
         }
     }
 }

@@ -131,7 +131,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
             while (run);
             return id;
         }
-        public void ShowCreatedSession(int subject, int teacher, int dzien, TimeSpan hourfrom, TimeSpan hourstop,int sala)
+        public void ShowCreatedSession(Session ses)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego rodzica[/]");
@@ -139,7 +139,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageSessionViews
             table.AddColumn("SubjectId"); table.AddColumn("Nauczyciel");table.AddColumn("Numer sali"); table.AddColumn("Dzień tygodnia"); table.AddColumn("Godzina od");
             table.AddColumn("Godzina do");
 
-            table.AddRow("", subject.ToString(), teacher.ToString(),sala.ToString(), ((DayOfWeek)dzien).ToString(), hourfrom.ToString(), hourstop.ToString());
+            table.AddRow(ses.sessionId.ToString(), ses.subjectId.ToString(), ses.teacherId.ToString(),ses.sala.ToString(), ((DayOfWeek)ses.dayOfTheWeek).ToString(), ses.hourFrom.ToString(), ses.hourTo.ToString());
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

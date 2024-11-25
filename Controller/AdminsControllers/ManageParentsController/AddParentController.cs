@@ -26,7 +26,7 @@ namespace ElektronicznyKonsolowy.Controller.AdminsControllers.ManageStudentsCont
             Parent parent = new Parent(email, phoneNumber, user);
             db.Parents.Add(parent);
             db.SaveChanges();
-            view.ShowCreatedParent(name, surname, login, password, email, phoneNumber);
+            view.ShowCreatedParent(parent);
         }
     }
 }

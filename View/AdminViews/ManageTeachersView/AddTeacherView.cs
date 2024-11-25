@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ElektronicznyKonsolowy.Models;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
             while (run);
             return name;
         }
-        public void ShowCreatedStudent(string name, string surname, string login, string password, string email)
+        public void ShowCreatedStudent(Teacher teacher)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego nauczyciela[/]");
@@ -92,7 +93,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageTeachersView
             table.AddColumn("Imie"); table.AddColumn("Nazwisko"); table.AddColumn("Login"); table.AddColumn("Haslo");
             table.AddColumn("email");
 
-            table.AddRow("", name, surname, login, password, email);
+            table.AddRow(teacher.teacherId.ToString(), teacher.user.name, teacher.user.surname, teacher.user.login, teacher.user.password, teacher.email);
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");

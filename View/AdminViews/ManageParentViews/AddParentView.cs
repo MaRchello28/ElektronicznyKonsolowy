@@ -98,7 +98,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             while (run);
             return name;
         }
-        public void ShowCreatedParent(string name, string surname, string login, string password, string email, string phonenumber)
+        public void ShowCreatedParent(Parent parent)
         {
             var table = new Table();
             table.Caption("[red]Dane utworzonego rodzica[/]");
@@ -106,7 +106,7 @@ namespace ElektronicznyKonsolowy.View.AdminViews.ManageAccountViews
             table.AddColumn("Imie"); table.AddColumn("Nazwisko"); table.AddColumn("Login"); table.AddColumn("Haslo");
             table.AddColumn("Email"); table.AddColumn("PhoneNumber");
 
-            table.AddRow("", name, surname, login, password, email, phonenumber);
+            table.AddRow(parent.parentId.ToString(), parent.name, parent.surname, parent.login, parent.password, parent.email, parent.phoneNumber);
 
             AnsiConsole.Render(table);
             AnsiConsole.MarkupLine("[grey]Naciśnij klawisz aby kontynuować...[/]");
