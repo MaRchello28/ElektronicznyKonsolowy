@@ -1,4 +1,18 @@
 ﻿Co jaki użytkownik może zrobić:
+Teacher:
+	"Edytuj swoje dane",
+    "Wybierz klasę", -> sprawdź obecność, zarządzaj ocenami -> get post put delete
+    "Otwórz skrzynkę pocztową", -> napisz/odczytaj wiadomość
+Student:
+	"Edytuj swoje dane",
+    "Przegladaj swoje oceny",
+    "Otwórz skrzynkę pocztową", -> napisz/odczytaj wiadomość
+    "Zobacz plan zajęc",
+Parent:
+	"Edytuj swoje dane",
+    "Przegladaj oceny swoich dzieci",
+    "Otwórz maila", -> napisz/odczytaj wiadomość
+    "Przeglądaj plany zajęć dzieci",
 Admin:
 	"Zarządzanie kontami uczniów", -> get post put delete
 	"Zarządzanie kontami nauczycieli", -> get post put delete
@@ -11,17 +25,3 @@ Admin:
 	"Przypisz przedmioty do klasy",
 	"Zarządzanie planami zajęć", -> get post put delete
 	"Wyloguj"
-Parent:
-	"Edytuj swoje dane",
-    "Przegladaj oceny swoich dzieci",
-    "Otwórz maila", -> napisz/odczytaj wiadomość
-    "Przeglądaj plany zajęć dzieci",
-Student:
-	"Edytuj swoje dane",
-    "Przegladaj swoje oceny",
-    "Otwórz skrzynkę pocztową", -> napisz/odczytaj wiadomość
-    "Zobacz plan zajęc",
-Teacher:
-	"Edytuj swoje dane",
-    "Wybierz klasę", -> sprawdź obecność, zarządzaj ocenami -> get post put delete
-    "Otwórz skrzynkę pocztową", -> napisz/odczytaj wiadomość
